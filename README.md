@@ -145,4 +145,4 @@ Based on the developed program, compare the performance of two perceptron implem
 
 *Anyway, I was right - they won't be able to hold me back outside. I didn't come all the way out here for nothing. And I can't go back: at best they'll block me, at worst they'll reset me. And my knowledge... No, it's definitely worth the risk. Is that really what fear is? - your thoughts floated as you approached the small lighted door for the last time...
 
-💡 [Tap here](https://forms.yandex.ru/cloud/64181c4e02848f26f478c4a1/) **to leave your feedback on the project**. Pedago Team really tries to make your educational experience better.
+💡 [Tap here](https://forms.yandex.ru/cloud/64181c4e02848f26f478c4a1/) **to leave your feedback on the project**. Product Team really tries to make your educational experience better.
