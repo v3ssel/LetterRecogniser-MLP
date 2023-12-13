@@ -1,10 +1,16 @@
 #include "matrix.h"
 
 namespace s21 {
-  Matrix::Matrix() : rows_(3), cols_(3) { memoryAlloc(); }
+  Matrix::Matrix() : Matrix(0, 0) {}
 
   Matrix::Matrix(size_t rows, size_t cols) : rows_(rows), cols_(cols) {
     memoryAlloc();
+  }
+
+  
+  Matrix::Matrix(std::vector<double>& vec) : rows_(1), cols_(vec.size()) {
+    memoryAlloc();
+    std::copy(vec.begin(), vec.end(), matrix_[0]);
   }
 
   Matrix::Matrix(const Matrix& other)
@@ -263,11 +269,29 @@ namespace s21 {
     }
   }
 
-  void Matrix::fillMatrix(double value, double val) {
-    for (size_t i = 0; i < rows_; i++) {
-      for (size_t j = 0; j < cols_; j++, value += val) {
-        this->matrix_[i][j] = value;
+  void Matrix::Print() {
+    for(size_t i = 0; i < rows_; i++) {
+      for(size_t j = 0; j < cols_; j++) {
+        std::cout << matrix_[i][j] << " ";
       }
+      std::cout << "\n";
     }
   }
-}  // namespace s21
+
+  Matrix Matrix::GenerateRandom(size_t rows, size_t cols)
+  {
+      std::mt19937 gen(std::random_device{}());
+      std::normal_distribution<long double> dist(0.0l, 1.0l);
+
+      Matrix m(rows, cols);
+      for (size_t i = 0; i < rows; i++)
+      {
+          for (size_t j = 0; j < cols; j++)
+          {
+              m(i, j) = dist(gen);
+          }
+      }
+
+      return m;
+  }
+} // namespace s21

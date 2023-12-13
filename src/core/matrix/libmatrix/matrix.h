@@ -3,6 +3,7 @@
 
 #include <array>
 #include <cmath>
+#include <random>
 #include <iostream>
 
 namespace s21 {
@@ -10,7 +11,8 @@ namespace s21 {
    public:
     Matrix();
     Matrix(size_t, size_t);
-    Matrix(const Matrix& other);
+    Matrix(std::vector<double>& vec);
+    Matrix(const Matrix &other);
     Matrix(Matrix&& other);
     ~Matrix();
 
@@ -46,7 +48,8 @@ namespace s21 {
     void setRows(size_t);
     void setCols(size_t);
 
-    void fillMatrix(double, double);
+    void Print();
+    static Matrix GenerateRandom(size_t rows, size_t cols);
 
    private:
     void memoryAlloc();
