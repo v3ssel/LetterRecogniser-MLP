@@ -20,12 +20,14 @@ int main(int argc, char const *argv[]) {
 
     std::vector<double> v2 = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
     s21::MatrixModel model(10, 3, 2, 5);
-    s21::Matrix m(v2);
+    // s21::Matrix m(v2);
     std::cout << "-------------------------------INPUT MATRIX---------------------------------\n";
     // m.Print();
-    s21::Matrix out = model.feedForward(m);
+    std::vector<double> out = model.feedForward(v2);
     std::cout << "-------------------------------OUTPUT MATRIX---------------------------------\n";
-    out.Print();
+    for (auto i : out) {
+        std::cout << i << " ";
+    }
 
 
     

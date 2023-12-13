@@ -2,28 +2,27 @@
 
 namespace s21 {
     MatrixModel::MatrixModel(size_t input_layer, size_t output_layer, size_t hidden_layers, size_t neurons_in_hidden_layers) {
-        _input_layer = input_layer;
-        _output_layer = output_layer;
-
-        _layers.emplace_back(Matrix::GenerateRandom(_input_layer, neurons_in_hidden_layers),
+        _layers.emplace_back(Matrix::GenerateRandom(input_layer, neurons_in_hidden_layers),
                              Matrix::GenerateRandom(1, neurons_in_hidden_layers),
-                             _input_layer);
+                             input_layer);
 
-        for (auto i = 0; i < hidden_layers; ++i) {
-            _layers.emplace_back(Matrix::GenerateRandom(neurons_in_hidden_layers, neurons_in_hidden_layers),
-                                 Matrix::GenerateRandom(1, neurons_in_hidden_layers),
+        for (size_t i = 0; i < hidden_layers; ++i) {
+            size_t output = (i == hidden_layers - 1) ? output_layer : neurons_in_hidden_layers;
+            _layers.emplace_back(Matrix::GenerateRandom(neurons_in_hidden_layers, output),
+                                 Matrix::GenerateRandom(1, output),
                                  neurons_in_hidden_layers);
         }
 
-        _layers.push_back(MatrixLayer(_output_layer));
+        _layers.push_back(MatrixLayer(output_layer));
     }
 
-    Matrix MatrixModel::feedForward(Matrix &input_layer) {
-        _layers[0].values = input_layer;
-        for (auto i = 0; i < _layers.size() - 1; ++i) {
+    std::vector<double> MatrixModel::feedForward(std::vector<double>& input_layer) {
+        _layers[0].values = Matrix(input_layer);
+
+        for (size_t i = 0; i < _layers.size() - 1; ++i) {
             _layers[i + 1].values = ((_layers[i].values * _layers[i].weights) + _layers[i].bias);
             activationFunction(_layers[i + 1].values);
-            std::cout << "-------------------------------LAYER " << i + 1 << " OF " << _layers.size() - 1 << " OF NEURAL NETWORK---------------------------------";
+            std::cout << "-------------------------------LAYER " << i + 1 << " OF " << _layers.size() << " OF NEURAL NETWORK---------------------------------";
             std::cout << "\nValues:\n";
             _layers[i].values.Print();
             std::cout << "\nWeights:\n";
@@ -32,10 +31,10 @@ namespace s21 {
             _layers[i].bias.Print();
         }
 
-        return _layers.back().values;
+        return _layers.back().values.ToVector();
     }
 
-    void MatrixModel::backPropagation(Matrix &output_layer) {
+    void MatrixModel::backPropagation() {
         
     }
 
@@ -49,4 +48,65 @@ namespace s21 {
     double MatrixModel::sigmoidFunction(double n) {
         return 1.0l / (1.0l + std::exp(-n));
     }
+
+    void MatrixModel::setWeights(std::vector<double> weights) {
+        int need_weights = std::accumulate(_layers.begin(), _layers.end(), 0, 
+                            [](int i, MatrixLayer l) { return i + l.weights.getCols() * l.weights.getRows(); });
+        if (weights.size() != need_weights) {
+            throw std::out_of_range("Number of weights is not equal to the number of weights in the model");
+        }
+        
+        int w = 0;
+        for (size_t layer = 0; layer < _layers.size() - 1; layer++) {
+            for (size_t i = 0; i < _layers[layer].size; i++) {
+                for (size_t j = 0; j < _layers[layer + 1].size; j++) {
+                    _layers[layer].weights(i, j) = weights[w];
+                    w++;
+                }
+            }
+        }
+    }
+
+    std::vector<double> MatrixModel::getWeights() {
+        std::vector<double> weights;
+
+        for (auto &layer : _layers) {
+            for (size_t i = 0; i < layer.weights.getRows(); i++) {
+                for (size_t j = 0; j < layer.weights.getCols(); j++) {
+                    weights.push_back(layer.weights(i, j));
+                }
+            }
+        }
+
+        return weights;
+    }
+
+    void MatrixModel::setBiases(std::vector<double> biases) {
+        if (biases.size() != std::accumulate(_layers.begin(), _layers.end(), 0, [](int i, MatrixLayer l) { return i + l.bias.getCols(); })) {
+            throw std::out_of_range("Number of biases is not equal to the number of biases in the model");
+        }
+
+        int b = 0;
+        for (size_t layer = 0; layer < _layers.size() - 1; layer++) {
+            for (size_t j = 0; j < _layers[layer + 1].size; j++) {
+                _layers[layer].bias(0, j) = biases[b];
+                b++;
+            }
+        }
+    }
+
+    std::vector<double> MatrixModel::getBiases() {
+        std::vector<double> biases;
+
+        for (auto &layer : _layers) {
+            for (size_t i = 0; i < layer.bias.getRows(); i++) {
+                for (size_t j = 0; j < layer.bias.getCols(); j++) {
+                    biases.push_back(layer.bias(i, j));
+                }
+            }
+        }
+
+        return biases;
+    }
+
 } // namespace s21

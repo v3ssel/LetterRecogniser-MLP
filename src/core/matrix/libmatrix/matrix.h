@@ -48,6 +48,8 @@ namespace s21 {
     void setRows(size_t);
     void setCols(size_t);
 
+    std::vector<double> ToVector();
+
     void Print();
     static Matrix GenerateRandom(size_t rows, size_t cols);
 

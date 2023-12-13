@@ -20,11 +20,6 @@ int s21::MultilayerPerceptron::getHiddenLayers() {
     return hidden_layers;
 }
 
-void s21::MultilayerPerceptron::setHiddenLayers(int n) {
-    if (n > 1 && n < 6)
-        hidden_layers = n;
-}
-
 char s21::MultilayerPerceptron::prediction() {
     // auto output_layer = model.feedForward(input_layer);
 

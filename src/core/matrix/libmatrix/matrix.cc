@@ -261,6 +261,14 @@ namespace s21 {
     *this = upd;
   }
 
+  std::vector<double> Matrix::ToVector() {
+    std::vector<double> res;
+    res.reserve(cols_);
+    std::copy(matrix_[0], matrix_[0] + cols_, std::back_inserter(res));
+
+    return res;
+  }
+
   void Matrix::memoryAlloc() {
     matrix_ = new double*[rows_];
     for (size_t i = 0; i < rows_; i++) {

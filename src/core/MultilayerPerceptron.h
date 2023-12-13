@@ -1,8 +1,9 @@
 #ifndef _MULTILAYERPERCEPTRON_H
 #define _MULTILAYERPERCEPTRON_H
 
-#include "MatrixModel.h"
 #include <vector>
+#include <memory>
+#include "MLPModel.h"
 
 namespace s21 {
 
@@ -10,15 +11,10 @@ class MultilayerPerceptron {
 private:
     int hidden_layers = 2;
     std::vector<std::vector<double>> input_layer;
-    MatrixModel model;
+    std::unique_ptr<MLPModel> model;
 //    GraphModel g_model;
 
 public:
-    MultilayerPerceptron() = default;
-    MultilayerPerceptron(const MatrixModel& other) = delete;
-    MultilayerPerceptron(MatrixModel&& other) = delete;
-    ~MultilayerPerceptron() = default;
-
     int getHiddenLayers();
     void setHiddenLayers(int n);
     std::vector<std::vector<double>> inputData();
