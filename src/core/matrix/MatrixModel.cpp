@@ -2,18 +2,25 @@
 
 namespace s21 {
     MatrixModel::MatrixModel(size_t input_layer, size_t output_layer, size_t hidden_layers, size_t neurons_in_hidden_layers) {
-        _layers.emplace_back(Matrix::GenerateRandom(input_layer, neurons_in_hidden_layers),
-                             Matrix::GenerateRandom(1, neurons_in_hidden_layers),
+        _layers.emplace_back(Matrix(input_layer, neurons_in_hidden_layers),
+                             Matrix(1, neurons_in_hidden_layers),
                              input_layer);
 
         for (size_t i = 0; i < hidden_layers; ++i) {
             size_t output = (i == hidden_layers - 1) ? output_layer : neurons_in_hidden_layers;
-            _layers.emplace_back(Matrix::GenerateRandom(neurons_in_hidden_layers, output),
-                                 Matrix::GenerateRandom(1, output),
+            _layers.emplace_back(Matrix(neurons_in_hidden_layers, output),
+                                 Matrix(1, output),
                                  neurons_in_hidden_layers);
         }
 
         _layers.push_back(MatrixLayer(output_layer));
+    }
+
+    void MatrixModel::randomFill() {
+        for (size_t i = 0; i < _layers.size(); ++i) {
+            _layers[i].weights = Matrix::GenerateRandom(_layers[i].weights.getRows(), _layers[i].weights.getCols());
+            _layers[i].bias = Matrix::GenerateRandom(_layers[i].bias.getRows(), _layers[i].bias.getCols());
+        }
     }
 
     std::vector<double> MatrixModel::feedForward(std::vector<double>& input_layer) {
@@ -36,6 +43,15 @@ namespace s21 {
 
     void MatrixModel::backPropagation() {
         
+    }
+
+    std::vector<size_t> MatrixModel::getLayersSize() {
+        std::vector<size_t> vec;
+
+        for (auto& layer : _layers)
+            vec.push_back(layer.size);
+
+        return vec;
     }
 
     void MatrixModel::activationFunction(Matrix &layer) {
@@ -82,7 +98,8 @@ namespace s21 {
     }
 
     void MatrixModel::setBiases(std::vector<double> biases) {
-        if (biases.size() != std::accumulate(_layers.begin(), _layers.end(), 0, [](int i, MatrixLayer l) { return i + l.bias.getCols(); })) {
+        size_t need_biases = std::accumulate(_layers.begin(), _layers.end(), 0, [](int i, MatrixLayer l) { return i + l.bias.getCols(); });
+        if (biases.size() != need_biases) {
             throw std::out_of_range("Number of biases is not equal to the number of biases in the model");
         }
 

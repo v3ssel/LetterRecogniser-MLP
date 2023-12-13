@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 
+#include "core/MultilayerPerceptron.h"
 #include "core/matrix/MatrixModel.h"
 
 int main(int argc, char const *argv[]) {
@@ -19,19 +20,19 @@ int main(int argc, char const *argv[]) {
     // }
 
     std::vector<double> v2 = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
-    s21::MatrixModel model(10, 3, 2, 5);
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5);
+    model->randomFill();
     // s21::Matrix m(v2);
     std::cout << "-------------------------------INPUT MATRIX---------------------------------\n";
     // m.Print();
-    std::vector<double> out = model.feedForward(v2);
+    std::vector<double> out = model->feedForward(v2);
     std::cout << "-------------------------------OUTPUT MATRIX---------------------------------\n";
     for (auto i : out) {
         std::cout << i << " ";
     }
 
+    s21::MultilayerPerceptron mlp(model);
+    mlp.exportModel("model.txt");
 
-    
 
-
-    // s21::Matrix m()
 }

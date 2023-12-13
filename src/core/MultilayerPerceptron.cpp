@@ -1,27 +1,45 @@
 #include "MultilayerPerceptron.h"
 
-std::vector<std::vector<double>> s21::MultilayerPerceptron::inputData() {
+namespace s21 {
+    MultilayerPerceptron::MultilayerPerceptron(std::unique_ptr<MLPModel> &m) {
+        model = std::move(m);
+    }
 
-    return std::vector<std::vector<double>>();
-}
+    void MultilayerPerceptron::importModel(std::string filepath) {
 
-std::vector<std::vector<double>> s21::MultilayerPerceptron::importWeights() {
-    // model.setWeights();
-    return std::vector<std::vector<double>>();
-}
+    }
 
-std::vector<std::vector<double>> s21::MultilayerPerceptron::learning() {
-    // auto output_layer = model.feedForward(input_layer);
-    // model.backPropagation(output_layer);
-    return std::vector<std::vector<double>>();
-}
+    void MultilayerPerceptron::exportModel(std::string filepath)
+    {
+        std::ofstream of(filepath, std::ios_base::out);
 
-int s21::MultilayerPerceptron::getHiddenLayers() {
-    return hidden_layers;
-}
+        auto layers_info = model->getLayersSize();
+        for (auto i : layers_info) {
+            of << i << " ";
+        }
+        of << "\n";
+        
+        auto weights = model->getWeights();
+        for (auto w : weights) {
+            of << w << "\n";
+        }
 
-char s21::MultilayerPerceptron::prediction() {
-    // auto output_layer = model.feedForward(input_layer);
+        auto bias = model->getBiases();
+        for (auto b : bias) {
+            of << b << "\n";
+        }
+    }
 
-    return 0;
-}
+    std::vector<std::vector<double>> MultilayerPerceptron::learning() {
+        // auto output_layer = model.feedForward(input_layer);
+        // model.backPropagation(output_layer);
+        return std::vector<std::vector<double>>();
+    }
+
+
+    char MultilayerPerceptron::prediction() {
+        // auto output_layer = model.feedForward(input_layer);
+
+        return 0;
+    }
+} // namespace s21

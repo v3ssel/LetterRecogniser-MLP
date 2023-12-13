@@ -3,27 +3,25 @@
 
 #include <vector>
 #include <memory>
+#include <string>
+#include <fstream>
 #include "MLPModel.h"
 
 namespace s21 {
+    class MultilayerPerceptron {
+       public:
+        // можно сделать билдера модели, через него собираем модель и подаем сюда
+        MultilayerPerceptron(std::unique_ptr<MLPModel>& model);
 
-class MultilayerPerceptron {
-private:
-    int hidden_layers = 2;
-    std::vector<std::vector<double>> input_layer;
-    std::unique_ptr<MLPModel> model;
-//    GraphModel g_model;
+        void importModel(std::string filepath);
+        void exportModel(std::string filepath);
 
-public:
-    int getHiddenLayers();
-    void setHiddenLayers(int n);
-    std::vector<std::vector<double>> inputData();
-    std::vector<std::vector<double>> importWeights();
-    std::vector<std::vector<double>> learning();
-    char prediction();
-//    std::vector<std::vector<double>> learning(Graph& model);
-};
-
+        std::vector<std::vector<double>> learning();
+        char prediction();
+       
+       private:
+        std::unique_ptr<MLPModel> model;
+    };
 }  // namespace s21
 
 #endif //_MULTILAYERPERCEPTRON_H

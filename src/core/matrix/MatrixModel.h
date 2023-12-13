@@ -14,20 +14,28 @@ namespace s21 {
        public:
         MatrixModel(size_t input_layer, size_t output_layer, size_t hidden_layers, size_t neurons_in_hidden_layers);
 
-        std::vector<double> feedForward(std::vector<double>& input_layer) override;
-        void backPropagation() override;
-
         void activationFunction(Matrix &layer);
         double sigmoidFunction(double n);
 
-        void setWeights(std::vector<double> weights);
-        std::vector<double> getWeights();
+        std::vector<double> feedForward(std::vector<double>& input_layer) override;
+        void backPropagation() override;
+        void randomFill() override;
 
-        void setBiases(std::vector<double> biases);
-        std::vector<double> getBiases();
+        std::vector<size_t> getLayersSize() override;
+
+        void setWeights(std::vector<double> weights) override;
+        std::vector<double> getWeights() override;
+
+        void setBiases(std::vector<double> biases) override;
+        std::vector<double> getBiases() override;
 
     // private:
         std::vector<MatrixLayer> _layers;
+
+        size_t _input_layer_size;
+        size_t _output_layer_size;
+        size_t _hidden_layers;
+        size_t _hidden_layers_size;
     };
 }
 
