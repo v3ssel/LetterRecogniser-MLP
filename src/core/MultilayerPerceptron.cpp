@@ -1,4 +1,5 @@
 #include "MultilayerPerceptron.h"
+#include <iostream>
 
 namespace s21 {
     MultilayerPerceptron::MultilayerPerceptron(std::unique_ptr<MLPModel> &m) {
@@ -49,10 +50,16 @@ namespace s21 {
     }
 
 
-    char MultilayerPerceptron::prediction() {
-        // auto output_layer = model.feedForward(input_layer);
+    char MultilayerPerceptron::prediction(std::vector<double>& input_layer) {
+        auto output_layer = model->feedForward(input_layer);
 
-        return 0;
+        std::cout << "\n-------------------------------OUTPUT MATRIX---------------------------------\n";
+        for (auto i : output_layer) {
+            std::cout << i << " ";
+        }
+        std::cout << "\n";
+
+        return static_cast<char>(std::distance(output_layer.begin(), std::max_element(output_layer.begin(), output_layer.end())));
     }
     
     std::vector<double> MultilayerPerceptron::fillImportVector(std::ifstream &s, std::string type, size_t elements) {

@@ -1,6 +1,7 @@
 #ifndef _MULTILAYERPERCEPTRON_H
 #define _MULTILAYERPERCEPTRON_H
 
+#include <algorithm>
 #include <vector>
 #include <memory>
 #include <string>
@@ -18,7 +19,7 @@ namespace s21 {
         void exportModel(std::string filepath);
 
         std::vector<std::vector<double>> learning();
-        char prediction();
+        char prediction(std::vector<double>& input_layer);
        
     //    private:
         std::unique_ptr<MLPModel> model;
