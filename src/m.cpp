@@ -19,12 +19,10 @@ int main(int argc, char const *argv[]) {
     //     }
     // }
 
-    std::vector<double> v2 = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5);
     model->randomFill();
-    // s21::Matrix m(v2);
     std::cout << "-------------------------------INPUT MATRIX---------------------------------\n";
-    // m.Print();
+    std::vector<double> v2 = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
     std::vector<double> out = model->feedForward(v2);
     std::cout << "-------------------------------OUTPUT MATRIX---------------------------------\n";
     for (auto i : out) {
@@ -34,5 +32,14 @@ int main(int argc, char const *argv[]) {
     s21::MultilayerPerceptron mlp(model);
     mlp.exportModel("model.txt");
 
+    std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5);
+    s21::MultilayerPerceptron mlp2(model2);
 
+    mlp2.importModel("model.txt");
+    std::cout << "\n-------------------------------LOADED MATRIX---------------------------------\n";
+    out = mlp2.model->feedForward(v2);
+    std::cout << "\n-------------------------------OUT LOADED MATRIX---------------------------------\n";
+    for (auto i : out) {
+        std::cout << i << " ";
+    }
 }

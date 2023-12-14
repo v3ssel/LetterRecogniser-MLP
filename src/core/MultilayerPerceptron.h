@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include "MLPModel.h"
 
 namespace s21 {
@@ -19,8 +20,11 @@ namespace s21 {
         std::vector<std::vector<double>> learning();
         char prediction();
        
-       private:
+    //    private:
         std::unique_ptr<MLPModel> model;
+
+        std::vector<double> fillImportVector(std::ifstream &s, std::string type, size_t elements);
+        std::pair<size_t, size_t> getImportSize(std::string &line);
     };
 }  // namespace s21
 
