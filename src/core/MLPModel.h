@@ -7,7 +7,7 @@ namespace s21 {
     class MLPModel {
        public:
         virtual std::vector<double> feedForward(std::vector<double>&) = 0;
-        virtual void backPropagation() = 0;
+        virtual void backPropagation(std::vector<double>& target) = 0;
         virtual void randomFill() = 0;
 
         virtual std::vector<size_t> getLayersSize() = 0;

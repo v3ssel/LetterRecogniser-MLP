@@ -18,8 +18,11 @@ namespace s21 {
         double sigmoidFunction(double n);
 
         std::vector<double> feedForward(std::vector<double>& input_layer) override;
-        void backPropagation() override;
+        void backPropagation(std::vector<double>& target) override;
         void randomFill() override;
+
+        Matrix makeErrX(const Matrix &err_y, const Matrix &out_layer);
+        Matrix makeErrW(const Matrix &err_x, const Matrix &in_layer);
 
         std::vector<size_t> getLayersSize() override;
 
@@ -31,11 +34,7 @@ namespace s21 {
 
     // private:
         std::vector<MatrixLayer> _layers;
-
-        size_t _input_layer_size;
-        size_t _output_layer_size;
-        size_t _hidden_layers;
-        size_t _hidden_layers_size;
+        double _learning_rate = 0.4;
     };
 }
 

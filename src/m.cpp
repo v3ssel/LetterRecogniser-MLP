@@ -21,13 +21,13 @@ int main(int argc, char const *argv[]) {
     //     }
     // }
     std::vector<double> v2 = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
-
+    std::vector<double> ans = { 0.0l, 1.0l, 0.0l };
 
     // std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5);
     // model->randomFill();
     // s21::MultilayerPerceptron mlp(model);
     // std::cout << "-------------------------------INPUT MATRIX---------------------------------\n";
-    // mlp.prediction(v2);
+    // char a = mlp.prediction(v2);
 
     // mlp.exportModel("model.txt");
 
@@ -35,8 +35,16 @@ int main(int argc, char const *argv[]) {
     std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5);
     s21::MultilayerPerceptron mlp2(model2);
     mlp2.importModel("model.txt");
-    std::cout << "\n-------------------------------LOADED MATRIX---------------------------------\n";
-    char a = mlp2.prediction(v2);
 
-    std::cout << "\nнагадали: " << (char)(a + 65) << "\n";
+    for (int i = 0; i < 10; i++) {
+        std::cout << "\n-------------------------------EPOCH" << i + 1 << "---------------------------------";
+        std::cout << "\n-------------------------------LOADED MATRIX---------------------------------\n";
+        char a = mlp2.prediction(v2);
+        std::cout << "\nнагадали: " << "|" << (int)a << "\n";
+
+        mlp2.model->backPropagation(ans);
+    }
+    std::cout << "\n-------------------------------FINAL MATRIX---------------------------------\n";
+    char a = mlp2.prediction(v2);
+    std::cout << "\nнагадали: " << (char)(a + 65) << "|" << (int)a << "\n";
 }

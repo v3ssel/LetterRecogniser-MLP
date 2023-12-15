@@ -41,8 +41,62 @@ namespace s21 {
         return _layers.back().values.ToVector();
     }
 
-    void MatrixModel::backPropagation() {
+    void MatrixModel::backPropagation(std::vector<double>& target) {
+        Matrix error = _layers.back().values - Matrix(target);
+        // std::cout << "--------------------ErrY--------------------" << std::endl;
+        // error.Print();
+
+        Matrix err_x = makeErrX(error, _layers.back().values);
+        // std::cout << "--------------------ErrX--------------------" << std::endl;
+        // err_x.Print();
         
+        Matrix err_w = makeErrW(err_x, _layers[_layers.size() - 2].values);
+        // std::cout << "--------------------ErrW--------------------" << std::endl;
+        // err_w.Print();
+        
+        _layers[_layers.size() - 2].weights -= err_w * _learning_rate;
+        // std::cout << "--------------------updateW--------------------" << std::endl;
+        // _layers[_layers.size() - 2].weights.Print();
+
+        for (int l = _layers.size() - 2; l > 0; l--) {
+            // std::cout << "l: " << l << std::endl;
+            error = (err_x * _layers[l].weights.Transpose());
+
+            // std::cout << "-X" << std::endl;
+            err_x = makeErrX(error, _layers[l].values);
+            // err_x.Print();
+            
+            // std::cout << "--W" << std::endl;
+            err_w = makeErrW(err_x, _layers[l - 1].values);
+            // err_w.Print();
+            
+            // std::cout << "---U" << std::endl;
+
+            _layers[l - 1].weights -= (err_w * _learning_rate);
+            _layers[l - 1].bias -= (err_x * _learning_rate);
+            // _layers[l - 1].weights.Print();
+        }
+
+    }
+
+    Matrix MatrixModel::makeErrX(const Matrix &err_y, const Matrix &out_layer) {
+        Matrix err_x(err_y.getRows(), err_y.getCols());
+        for (size_t i = 0; i < err_x.getRows(); i++) {
+            for (size_t j = 0; j < err_x.getCols(); j++) {
+                err_x(i, j) = out_layer(i, j) * (1 - out_layer(i, j)) * err_y(i, j);
+            }
+        }
+        return err_x;
+    }
+
+    Matrix MatrixModel::makeErrW(const Matrix &err_x, const Matrix &in_layer) {
+        Matrix err_w(in_layer.getCols(), err_x.getCols());
+        for (size_t i = 0; i < err_w.getRows(); i++) {
+            for (size_t j = 0; j < err_w.getCols(); j++) {
+                err_w(i, j) = in_layer(0, i) * err_x(0, j);
+            }
+        }
+        return err_w;
     }
 
     std::vector<size_t> MatrixModel::getLayersSize() {

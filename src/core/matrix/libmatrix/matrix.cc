@@ -56,7 +56,7 @@ namespace s21 {
 
   void Matrix::SumMatrix(const Matrix& other) {
     if (other.cols_ != cols_ || other.rows_ != rows_)
-      throw std::out_of_range("Cols or rows not equal");
+      throw std::out_of_range("SumMatrix: Cols or rows not equal");
     for (size_t i = 0; i < rows_; i++) {
       for (size_t j = 0; j < cols_; j++) {
         matrix_[i][j] = matrix_[i][j] + other.matrix_[i][j];
@@ -66,7 +66,7 @@ namespace s21 {
 
   void Matrix::SubMatrix(const Matrix& other) {
     if (other.cols_ != cols_ || other.rows_ != rows_)
-      throw std::out_of_range("Cols or rows not equal");
+      throw std::out_of_range("SubMatrix: Cols or rows not equal");
     for (size_t i = 0; i < rows_; i++) {
       for (size_t j = 0; j < cols_; j++) {
         matrix_[i][j] = matrix_[i][j] - other.matrix_[i][j];
@@ -84,7 +84,7 @@ namespace s21 {
 
   void Matrix::MulMatrix(const Matrix& other) {
     if (this->cols_ != other.rows_)
-      throw std::out_of_range("Object cols not equal to other rows");
+      throw std::out_of_range("MulMatrix: Object cols not equal to other rows");
     Matrix res(rows_, other.cols_);
     for (size_t i = 0; i < rows_; i++) {
       for (size_t j = 0; j < other.cols_; j++) {
@@ -107,7 +107,7 @@ namespace s21 {
   }
 
   Matrix Matrix::CalcComplements() {
-    if (rows_ != cols_) throw std::out_of_range("Matrix not a square");
+    if (rows_ != cols_) throw std::out_of_range("CalcComplements: Matrix not a square");
     size_t n = rows_;
     Matrix tmp(rows_ - 1, cols_ - 1);
     Matrix res(n, n);
@@ -135,7 +135,7 @@ namespace s21 {
   }
 
   double Matrix::Determinant() {
-    if (cols_ != rows_) throw std::out_of_range("Matrix not a square");
+    if (cols_ != rows_) throw std::out_of_range("Determinant: Matrix not a square");
     if (rows_ == 1) return matrix_[0][0];
     return DeterminantPlus(rows_);
   }
@@ -166,32 +166,32 @@ namespace s21 {
 
   Matrix Matrix::InverseMatrix() {
     double det = Determinant();
-    if (det == 0) throw std::out_of_range("Determinant is 0");
+    if (det == 0) throw std::out_of_range("InverseMatrix: Determinant is 0");
     Matrix minor = CalcComplements();
     Matrix transpose = minor.Transpose();
     Matrix res = transpose * (1.0 / det);
     return res;
   }
 
-  Matrix Matrix::operator+(const Matrix& rhs) {
+  Matrix Matrix::operator+(const Matrix& rhs) const {
     Matrix res(*this);
     res.SumMatrix(rhs);
     return res;
   }
 
-  Matrix Matrix::operator-(const Matrix& rhs) {
+  Matrix Matrix::operator-(const Matrix& rhs) const {
     Matrix res(*this);
     res.SubMatrix(rhs);
     return res;
   }
 
-  Matrix Matrix::operator*(const Matrix& rhs) {
+  Matrix Matrix::operator*(const Matrix& rhs) const {
     Matrix res(*this);
     res.MulMatrix(rhs);
     return res;
   }
 
-  Matrix Matrix::operator*(const double rhs) {
+  Matrix Matrix::operator*(const double rhs) const {
     Matrix res(*this);
     res.MulNumber(rhs);
     return res;
@@ -232,17 +232,30 @@ namespace s21 {
     return *this;
   }
 
+  // Matrix Matrix::operator=(Matrix &&rhs) {
+  //   this->~Matrix();
+  //   rows_ = rhs.rows_;
+  //   cols_ = rhs.cols_;
+  //   matrix_ = rhs.matrix_;
+
+  //   return *this;
+  // }
+
   double& Matrix::operator()(const size_t row, const size_t col) {
     return matrix_[row][col];
   }
 
-  size_t Matrix::getRows() { return rows_; }
+  double Matrix::operator()(const size_t row, const size_t col) const {
+      return matrix_[row][col];
+  }
 
-  size_t Matrix::getCols() { return cols_; }
+  size_t Matrix::getRows() const { return rows_; }
+
+  size_t Matrix::getCols() const { return cols_; }
 
   void Matrix::setRows(size_t rows) {
     if (rows < 1) {
-      throw std::out_of_range("rows cannot be less 1");
+      throw std::out_of_range("setRows: rows cannot be less 1");
     }
     Matrix upd(rows, cols_);
     size_t r = (upd.rows_ < rows_) ? upd.rows_ : rows_;
@@ -253,7 +266,7 @@ namespace s21 {
   }
 
   void Matrix::setCols(size_t cols) {
-    if (cols < 1) throw std::out_of_range("Cols cannot be less than 1");
+    if (cols < 1) throw std::out_of_range("setCols: Cols cannot be less than 1");
     Matrix upd(rows_, cols);
     for (size_t i = 0; i < rows_; i++) {
       std::copy(matrix_[i], matrix_[i] + upd.cols_, upd.matrix_[i]);

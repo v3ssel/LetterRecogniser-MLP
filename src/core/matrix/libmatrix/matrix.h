@@ -5,6 +5,7 @@
 #include <cmath>
 #include <random>
 #include <iostream>
+#include <functional>
 
 namespace s21 {
   class Matrix {
@@ -28,10 +29,10 @@ namespace s21 {
     double Determinant();
     Matrix InverseMatrix();
 
-    Matrix operator+(const Matrix& rhs);
-    Matrix operator-(const Matrix& rhs);
-    Matrix operator*(const Matrix& rhs);
-    Matrix operator*(const double rhs);
+    Matrix operator+(const Matrix& rhs) const;
+    Matrix operator-(const Matrix& rhs) const;
+    Matrix operator*(const Matrix& rhs) const;
+    Matrix operator*(const double rhs) const;
 
     Matrix& operator+=(const Matrix& rhs);
     Matrix& operator-=(const Matrix& rhs);
@@ -40,10 +41,13 @@ namespace s21 {
 
     bool operator==(const Matrix& rhs) const;
     Matrix operator=(const Matrix& rhs);
-    double& operator()(const size_t row, const size_t col);
+    // Matrix operator=(Matrix&& rhs);
 
-    size_t getRows();
-    size_t getCols();
+    double& operator()(const size_t row, const size_t col);
+    double operator()(const size_t row, const size_t col) const;
+
+    size_t getRows() const;
+    size_t getCols() const;
 
     void setRows(size_t);
     void setCols(size_t);
