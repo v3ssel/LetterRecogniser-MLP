@@ -41,7 +41,7 @@ namespace s21 {
 
     bool operator==(const Matrix& rhs) const;
     Matrix operator=(const Matrix& rhs);
-    // Matrix operator=(Matrix&& rhs);
+    Matrix operator=(Matrix&& rhs);
 
     double& operator()(const size_t row, const size_t col);
     double operator()(const size_t row, const size_t col) const;

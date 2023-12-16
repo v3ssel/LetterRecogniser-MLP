@@ -12,17 +12,17 @@
 namespace s21 {
     class MatrixModel : public MLPModel {
        public:
-        MatrixModel(size_t input_layer, size_t output_layer, size_t hidden_layers, size_t neurons_in_hidden_layers);
+        MatrixModel(size_t input_layer, size_t output_layer, size_t hidden_layers, size_t neurons_in_hidden_layers, double learn_rate);
 
         void activationFunction(Matrix &layer);
         double sigmoidFunction(double n);
+        double sigmoidDerivative(double n);
 
         std::vector<double> feedForward(std::vector<double>& input_layer) override;
         void backPropagation(std::vector<double>& target) override;
         void randomFill() override;
 
-        Matrix makeErrX(const Matrix &err_y, const Matrix &out_layer);
-        Matrix makeErrW(const Matrix &err_x, const Matrix &in_layer);
+        Matrix applyDerivative(const Matrix &err_y, const Matrix &out_layer);
 
         std::vector<size_t> getLayersSize() override;
 
@@ -34,7 +34,7 @@ namespace s21 {
 
     // private:
         std::vector<MatrixLayer> _layers;
-        double _learning_rate = 0.4;
+        double _learning_rate;
     };
 }
 

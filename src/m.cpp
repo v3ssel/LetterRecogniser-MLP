@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]) {
     // mlp.exportModel("model.txt");
 
 
-    std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5);
+    std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
     s21::MultilayerPerceptron mlp2(model2);
     mlp2.importModel("model.txt");
 

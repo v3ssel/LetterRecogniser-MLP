@@ -232,14 +232,18 @@ namespace s21 {
     return *this;
   }
 
-  // Matrix Matrix::operator=(Matrix &&rhs) {
-  //   this->~Matrix();
-  //   rows_ = rhs.rows_;
-  //   cols_ = rhs.cols_;
-  //   matrix_ = rhs.matrix_;
+  Matrix Matrix::operator=(Matrix &&rhs) {
+    this->~Matrix();
+    rows_ = rhs.rows_;
+    cols_ = rhs.cols_;
+    matrix_ = rhs.matrix_;
 
-  //   return *this;
-  // }
+    rhs.rows_ = 0;
+    rhs.cols_ = 0;
+    rhs.matrix_ = nullptr;
+    
+    return *this;
+  }
 
   double& Matrix::operator()(const size_t row, const size_t col) {
     return matrix_[row][col];
