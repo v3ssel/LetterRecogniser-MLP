@@ -18,13 +18,6 @@ namespace s21 {
         _learning_rate = learn_rate;
     }
 
-    void MatrixModel::randomFill() {
-        for (size_t i = 0; i < _layers.size(); ++i) {
-            _layers[i].weights = Matrix::GenerateRandom(_layers[i].weights.getRows(), _layers[i].weights.getCols());
-            _layers[i].bias = Matrix::GenerateRandom(_layers[i].bias.getRows(), _layers[i].bias.getCols());
-        }
-    }
-
     std::vector<double> MatrixModel::feedForward(std::vector<double>& input_layer) {
         _layers[0].values = Matrix(input_layer);
 
@@ -82,6 +75,28 @@ namespace s21 {
 
     }
 
+    void MatrixModel::randomFill() {
+        for (size_t i = 0; i < _layers.size(); ++i) {
+            _layers[i].weights = Matrix::GenerateRandom(_layers[i].weights.getRows(), _layers[i].weights.getCols());
+            _layers[i].bias = Matrix::GenerateRandom(_layers[i].bias.getRows(), _layers[i].bias.getCols());
+        }
+    }
+
+    void MatrixModel::activationFunction(Matrix &layer) {
+        for (auto i = 0; i < layer.getRows(); i++) {
+            for (auto j = 0; j < layer.getCols(); j++)
+                layer(i, j) = sigmoidFunction(layer(i, j));
+        }
+    }
+
+    double MatrixModel::sigmoidFunction(double n) {
+        return 1.0l / (1.0l + std::exp(-n));
+    }
+
+    double MatrixModel::sigmoidDerivative(double n) {
+        return n * (1 - n);
+    }
+
     Matrix MatrixModel::applyDerivative(const Matrix &err_y, const Matrix &out_layer) {
         Matrix err_x(err_y.getRows(), err_y.getCols());
 
@@ -102,22 +117,7 @@ namespace s21 {
 
         return vec;
     }
-
-    void MatrixModel::activationFunction(Matrix &layer) {
-        for (auto i = 0; i < layer.getRows(); i++) {
-            for (auto j = 0; j < layer.getCols(); j++)
-                layer(i, j) = sigmoidFunction(layer(i, j));
-        }
-    }
-
-    double MatrixModel::sigmoidFunction(double n) {
-        return 1.0l / (1.0l + std::exp(-n));
-    }
-
-    double MatrixModel::sigmoidDerivative(double n) {
-        return n * (1 - n);
-    }
-
+ 
     void MatrixModel::setWeights(std::vector<double> weights) {
         int need_weights = std::accumulate(_layers.begin(), _layers.end(), 0, 
                             [](int i, MatrixLayer l) { return i + l.weights.getCols() * l.weights.getRows(); });
