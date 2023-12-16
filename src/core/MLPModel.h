@@ -6,6 +6,9 @@
 namespace s21 {
     class MLPModel {
        public:
+        virtual ~MLPModel() {}
+
+        virtual size_t predict(std::vector<double>&) = 0;
         virtual std::vector<double> feedForward(std::vector<double>&) = 0;
         virtual void backPropagation(std::vector<double>& target) = 0;
         virtual void randomFill() = 0;

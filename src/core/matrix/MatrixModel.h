@@ -14,6 +14,7 @@ namespace s21 {
        public:
         MatrixModel(size_t input_layer, size_t output_layer, size_t hidden_layers, size_t neurons_in_hidden_layers, double learn_rate);
 
+        size_t predict(std::vector<double>& input_layer) override;
         std::vector<double> feedForward(std::vector<double>& input_layer) override;
         void backPropagation(std::vector<double>& target) override;
         void randomFill() override;

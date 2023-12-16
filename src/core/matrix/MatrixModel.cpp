@@ -18,20 +18,33 @@ namespace s21 {
         _learning_rate = learn_rate;
     }
 
-    std::vector<double> MatrixModel::feedForward(std::vector<double>& input_layer) {
+    size_t MatrixModel::predict(std::vector<double> &input_layer) {
+        auto output_layer = feedForward(input_layer);
+
+        // std::cout << "\n-------------------------------OUTPUT MATRIX---------------------------------\n";
+        // for (auto i : output_layer) {
+        //     std::cout << i << " ";
+        // }
+        // std::cout << "\n";
+
+        return std::distance(output_layer.begin(), std::max_element(output_layer.begin(), output_layer.end()));
+    }
+
+    std::vector<double> MatrixModel::feedForward(std::vector<double> &input_layer)
+    {
         _layers[0].values = Matrix(input_layer);
 
         for (size_t i = 0; i < _layers.size() - 1; ++i) {
             _layers[i + 1].values = ((_layers[i].values * _layers[i].weights) + _layers[i].bias);
             activationFunction(_layers[i + 1].values);
 
-            std::cout << "-------------------------------LAYER " << i + 1 << " OF " << _layers.size() << " OF NEURAL NETWORK---------------------------------";
-            std::cout << "\nValues:\n";
-            _layers[i].values.Print();
-            std::cout << "\nWeights:\n";
-            _layers[i].weights.Print();
-            std::cout << "\nBias:\n";
-            _layers[i].bias.Print();
+            // std::cout << "-------------------------------LAYER " << i + 1 << " OF " << _layers.size() << " OF NEURAL NETWORK---------------------------------";
+            // std::cout << "\nValues:\n";
+            // _layers[i].values.Print();
+            // std::cout << "\nWeights:\n";
+            // _layers[i].weights.Print();
+            // std::cout << "\nBias:\n";
+            // _layers[i].bias.Print();
         }
 
         return _layers.back().values.ToVector();
@@ -178,5 +191,4 @@ namespace s21 {
 
         return biases;
     }
-
 } // namespace s21

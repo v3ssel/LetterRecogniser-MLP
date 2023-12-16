@@ -2,8 +2,9 @@
 #include <iostream>
 
 namespace s21 {
-    MultilayerPerceptron::MultilayerPerceptron(std::unique_ptr<MLPModel> &m) {
-        model = std::move(m);
+    MultilayerPerceptron::MultilayerPerceptron(std::unique_ptr<MLPModel> &m, std::unique_ptr<MLPTrainer>& t) {
+        _model = std::move(m);
+        _trainer = std::move(t);
     }
 
     void MultilayerPerceptron::importModel(std::string filepath) {
@@ -17,53 +18,45 @@ namespace s21 {
         auto [need_weights, need_bias] = getImportSize(line);
 
         std::vector<double> weights = fillImportVector(f, "weight", need_weights);
-        model->setWeights(weights);
+        _model->setWeights(weights);
 
         std::vector<double> bias = fillImportVector(f, "bias", need_bias);
-        model->setBiases(bias);
+        _model->setBiases(bias);
     }
 
     void MultilayerPerceptron::exportModel(std::string filepath) {
         std::ofstream of(filepath, std::ios_base::out);
 
-        auto layers_info = model->getLayersSize();
+        auto layers_info = _model->getLayersSize();
         for (auto i : layers_info) {
             of << i << " ";
         }
         of << "\n";
         
-        auto weights = model->getWeights();
+        auto weights = _model->getWeights();
         for (auto w : weights) {
             of << w << "\n";
         }
 
-        auto bias = model->getBiases();
+        auto bias = _model->getBiases();
         for (auto b : bias) {
             of << b << "\n";
         }
     }
 
-    std::vector<std::vector<double>> MultilayerPerceptron::learning() {
-        // auto output_layer = model.feedForward(input_layer);
-        // model.backPropagation(output_layer);
-        return std::vector<std::vector<double>>();
+    void MultilayerPerceptron::learning(std::string dataset_path, size_t epochs) {
+        _trainer->train(_model, dataset_path, epochs);
     }
 
 
     char MultilayerPerceptron::prediction(std::vector<double>& input_layer) {
-        auto output_layer = model->feedForward(input_layer);
-
-        std::cout << "\n-------------------------------OUTPUT MATRIX---------------------------------\n";
-        for (auto i : output_layer) {
-            std::cout << i << " ";
-        }
-        std::cout << "\n";
-
-        return static_cast<char>(std::distance(output_layer.begin(), std::max_element(output_layer.begin(), output_layer.end())));
+        return static_cast<char>(_model->predict(input_layer));
     }
     
     std::vector<double> MultilayerPerceptron::fillImportVector(std::ifstream &s, std::string type, size_t elements) {
         std::vector<double> vec;
+        vec.reserve(elements);
+
         while (vec.size() < elements) {
             double num;
             if (!(s >> num)) {
@@ -87,7 +80,7 @@ namespace s21 {
             }
         }
 
-        if (layers_info != model->getLayersSize()) {
+        if (layers_info != _model->getLayersSize()) {
             throw std::invalid_argument("Filemodel does not correspond to the object model");
         }
 
