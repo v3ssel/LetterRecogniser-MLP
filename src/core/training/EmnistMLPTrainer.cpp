@@ -5,10 +5,11 @@ namespace s21 {
     void EMNISTMLPTrainer::train(std::unique_ptr<MLPModel> &model, std::string &dataset_path, size_t epochs) {
         size_t accurancy = 0;
         std::unique_ptr<EMNISTDatasetReader> reader = std::make_unique<EMNISTDatasetReader>();
-        reader->open(dataset_path);
 
         for (size_t i = 0; i < epochs; i++) {
             size_t t = 0, acur = 0;
+            reader->open(dataset_path);
+            
             while (reader->is_open()) {
                 EMNISTData data = reader->readLine();
                 if (data.result == (size_t)-1) break;
@@ -23,7 +24,7 @@ namespace s21 {
                 expected[data.result - 1] = 1.0l;
 
                 size_t got = model->predict(data.image);
-                if (got == data.result) {
+                if (got == (data.result - 1)) {
                     accurancy++;
                     acur++;
                 }

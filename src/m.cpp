@@ -34,6 +34,7 @@ int main(int argc, char const *argv[]) {
     s21::MultilayerPerceptron mlp(model, trainer);
     std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
     mlp.exportModel("model-b.txt");
+    // mlp.importModel("model-b.txt");
 
     std::unique_ptr<s21::EMNISTDatasetReader> reader = std::make_unique<s21::EMNISTDatasetReader>();
     reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
