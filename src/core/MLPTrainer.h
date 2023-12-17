@@ -11,6 +11,7 @@ namespace s21 {
         virtual ~MLPTrainer() {}
 
         virtual void train(std::unique_ptr<MLPModel>& model, std::string &dataset_path, size_t epochs) = 0;
+        virtual void test(std::unique_ptr<MLPModel>& model, std::string &dataset_path, size_t percent) = 0;
     };
 }
 

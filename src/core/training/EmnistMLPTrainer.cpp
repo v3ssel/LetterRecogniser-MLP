@@ -40,4 +40,9 @@ namespace s21 {
             std::cout << "Epoch " << i + 1 << " accurancy: " << accurancy << std::endl;
         }
     }
+    
+    void EMNISTMLPTrainer::test(std::unique_ptr<MLPModel> &model, std::string &dataset_path, size_t percent) {
+        std::unique_ptr<EMNISTDatasetReader> reader = std::make_unique<EMNISTDatasetReader>();
+        reader->open(dataset_path);
+    }
 }

@@ -8,7 +8,7 @@ namespace s21 {
     class EMNISTMLPTrainer : public MLPTrainer {
        public:
         void train(std::unique_ptr<MLPModel>& model, std::string &dataset_path, size_t epochs) override;
-        
+        void test(std::unique_ptr<MLPModel>& model, std::string &dataset_path, size_t percent) override;        
     };
 }
 

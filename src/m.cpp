@@ -29,12 +29,12 @@ int main(int argc, char const *argv[]) {
     std::vector<double> ans = { 0.0l, 1.0l, 0.0l };
 
     std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>();
-    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 2, 140, 0.4);
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 2, 140, 0.1);
     model->randomFill();
     s21::MultilayerPerceptron mlp(model, trainer);
     std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
-    mlp.exportModel("model-b.txt");
-    // mlp.importModel("model-b.txt");
+    // mlp.exportModel("model-b.txt");
+    mlp.importModel("model-a2.txt");
 
     std::unique_ptr<s21::EMNISTDatasetReader> reader = std::make_unique<s21::EMNISTDatasetReader>();
     reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
@@ -49,7 +49,7 @@ int main(int argc, char const *argv[]) {
 
 
     mlp.learning("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 3);
-    mlp.exportModel("model-a.txt");
+    mlp.exportModel("model-a3.txt");
     // mlp.exportModel("model.txt");
 
     // std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
