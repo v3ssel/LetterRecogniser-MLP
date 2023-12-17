@@ -44,10 +44,13 @@ namespace s21 {
         }
     }
 
+    void MultilayerPerceptron::testing(std::string dataset_path, size_t percent) {
+        _trainer->test(_model, dataset_path, percent);
+    }
+
     void MultilayerPerceptron::learning(std::string dataset_path, size_t epochs) {
         _trainer->train(_model, dataset_path, epochs);
     }
-
 
     char MultilayerPerceptron::prediction(std::vector<double>& input_layer) {
         return static_cast<char>(_model->predict(input_layer));

@@ -33,6 +33,20 @@ namespace s21 {
         return data;
     }
 
+    size_t EMNISTDatasetReader::getNumberOfLines() {
+        if (!_file.is_open()) {
+            throw std::invalid_argument("EMNISTDatasetReader::getNumberOfLines: File is not open."); 
+        }
+
+        size_t lines = std::count(std::istreambuf_iterator<char>(_file), 
+                          std::istreambuf_iterator<char>(), '\n');
+        
+        _file.clear();
+        _file.seekg(0);
+
+        return lines;
+    }
+
     void EMNISTDatasetReader::close() {
         _file.close();
     }

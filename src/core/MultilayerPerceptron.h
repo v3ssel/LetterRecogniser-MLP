@@ -19,6 +19,7 @@ namespace s21 {
         void importModel(std::string filepath);
         void exportModel(std::string filepath);
 
+        void testing(std::string dataset_path, size_t percent);
         void learning(std::string dataset_path, size_t epochs);
         char prediction(std::vector<double>& input_layer);
        

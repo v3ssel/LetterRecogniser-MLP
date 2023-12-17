@@ -1,6 +1,7 @@
 #ifndef _EMNISTDATASET_READER_H_
 #define _EMNISTDATASET_READER_H_
 
+#include <algorithm>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -12,6 +13,7 @@ namespace s21 {
        public:
         void open(const std::string& filename);
         EMNISTData readLine();
+        size_t getNumberOfLines();
         void close();
 
         bool is_open() const;

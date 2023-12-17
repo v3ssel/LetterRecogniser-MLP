@@ -1,6 +1,7 @@
 #ifndef _EMNISTMLPTRAINER_H_
 #define _EMNISTMLPTRAINER_H_
 
+#include <cmath>
 #include "../MLPTrainer.h"
 #include "EmnistDatasetReader.h"
 
