@@ -3,6 +3,8 @@
 
 namespace s21 {
     void EMNISTDatasetReader::open(const std::string &filename) {
+        if (_file.is_open()) _file.close();
+
         _file.open(filename);
 
         if (!_file.is_open()) {

@@ -27,7 +27,7 @@ namespace s21 {
                     
                     expected[data.result - 1] = 1.0l;
 
-                    auto actual = model->feedForward(data.image);
+                    auto&& actual = model->feedForward(data.image);
                     mse += calculateMSE(expected, actual);
 
                     size_t got = model->getPrediction(actual);
@@ -63,17 +63,81 @@ namespace s21 {
     }
 
     std::vector<double> EMNISTMLPTrainer::crossValidationTrain(
-                                            std::unique_ptr<MLPModel> &model,
-                                            std::string &dataset_path,
-                                            size_t k_groups,
-                                            std::function<void(double)> callback) {
+                                    const std::unique_ptr<MLPModel> &model,
+                                    const std::string &dataset_path,
+                                    const size_t k_groups,
+                                    const std::function<void(double)>& callback) {
 
         std::unique_ptr<EMNISTDatasetReader> reader = std::make_unique<EMNISTDatasetReader>();
         size_t output_size = model->getLayersSize().back();
-        std::vector<double> expected(output_size, 0.0l), errors(k_groups);
-        size_t accurancy = 0, mse = 0;
-        
-        return std::vector<double>();
+
+        reader->open(dataset_path);
+        size_t dataset_size = reader->getNumberOfLines();
+        std::cout << "Dataset size: " << dataset_size << std::endl;
+
+        std::vector<EMNISTData> testingDataset;
+        std::vector<double> expected(output_size, 0.0l), errors;
+        errors.reserve(k_groups);
+
+        double mse = 0;
+        size_t accurancy = 0;
+        size_t group_start = 0, group_end = dataset_size / k_groups;
+
+        for (size_t k = 0; k < k_groups; k++) {
+            size_t t = 0, acur = 0;
+            reader->open(dataset_path);
+
+            for (size_t elem = 0; elem < dataset_size; elem++) {
+                EMNISTData data = reader->readLine();
+                if (data.result == (size_t)-1) break;
+
+                if (elem >= group_start && elem < group_end && k_groups != 1) {
+                    testingDataset.push_back(data);
+                    continue;
+                }
+
+                expected[data.result - 1] = 1.0l;
+
+                size_t got = model->getPrediction(model->feedForward(data.image));
+                if (got == (data.result - 1)) {
+                    accurancy++;
+                    acur++;
+                }
+
+                t++;
+                if (t % 1000 == 0) {
+                    std::cout << "Group " << k + 1 << " step " << t << " train accurancy per thousand: " << acur << " accurancy: " << accurancy << std::endl;
+                    acur = 0;
+                }
+
+                model->backPropagation(expected);
+                expected[data.result - 1] = 0.0l;
+            }
+            std::cout << "Group " << k + 1 << " train accurancy: " << accurancy << std::endl;
+            accurancy = 0;
+
+            for (auto& elem : testingDataset) {
+                auto&& actual = model->feedForward(elem.image);
+
+                if (elem.result == model->getPrediction(actual)) {
+                    accurancy++;
+                }
+                
+                t++;
+                if (t % 1000 == 0) {
+                    std::cout << "Group " << k + 1 << " step " << t << " test accurancy per thousand: " << acur << " accurancy: " << accurancy << std::endl;
+                    acur = 0;
+                }
+            }
+            std::cout << "Group " << k + 1 << " test accurancy: " << accurancy << std::endl;
+            accurancy = 0;
+
+            group_start = group_end;
+            group_end += dataset_size / k_groups;
+            testingDataset.clear();
+        }
+
+        return errors;
     }
 
     void EMNISTMLPTrainer::test(const std::unique_ptr<MLPModel> &model, const std::string &dataset_path, const size_t percent) {

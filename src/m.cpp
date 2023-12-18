@@ -47,32 +47,32 @@ int main(int argc, char const *argv[]) {
     mlp.importModel("4model-65-72.txt");
     // mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 50);
 
-    // std::unique_ptr<s21::EMNISTDatasetReader> reader = std::make_unique<s21::EMNISTDatasetReader>();
-    // reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
-    // size_t i = 0;
-    // while (reader->is_open()) {
-    //     s21::EMNISTData data = reader->readLine();
-    //     if (data.result == (size_t)-1) break;
+    std::unique_ptr<s21::EMNISTDatasetReader> reader = std::make_unique<s21::EMNISTDatasetReader>();
+    reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
+    size_t i = 0;
+    while (reader->is_open()) {
+        s21::EMNISTData data = reader->readLine();
+        if (data.result == (size_t)-1) break;
 
-    //     char a = mlp.prediction(data.image);
-    //     std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a + 1 <<  " " << (char)(65 + a) << "\n"; 
-    // }
+        char a = mlp.prediction(data.image);
+        std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a + 1 <<  " " << (char)(65 + a) << "\n"; 
+    }
 
 
-    mlp.learning("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 1);
-    // mlp.exportModel("model-a3.txt");
+    mlp.learning(true, "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 3);
+    mlp.exportModel("model-a3.txt");
 
-    // std::cout << ">>>>>>-------------------------------AFTER TRAIN---------------------------------<<<<<<\n";
-    // reader = std::make_unique<s21::EMNISTDatasetReader>();
-    // reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
-    // i = 0;
-    // while (reader->is_open()) {
-    //     s21::EMNISTData data = reader->readLine();
-    //     if (data.result == (size_t)-1) break;
+    std::cout << ">>>>>>-------------------------------AFTER TRAIN---------------------------------<<<<<<\n";
+    reader = std::make_unique<s21::EMNISTDatasetReader>();
+    reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
+    i = 0;
+    while (reader->is_open()) {
+        s21::EMNISTData data = reader->readLine();
+        if (data.result == (size_t)-1) break;
 
-    //     char a = mlp.prediction(data.image);
-    //     std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a + 1 <<  " " << (char)(65 + a) << "\n"; 
-    // }
+        char a = mlp.prediction(data.image);
+        std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a + 1 <<  " " << (char)(65 + a) << "\n"; 
+    }
 
     // std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
     // s21::MultilayerPerceptron mlp2(model2, trainer);

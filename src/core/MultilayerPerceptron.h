@@ -23,7 +23,7 @@ namespace s21 {
         void exportModel(const std::string& filepath);
 
         void testing(const std::string& dataset_path, const size_t percent);
-        void learning(const std::string& dataset_path, const size_t epochs);
+        void learning(const bool crossvalid, const std::string& dataset_path, const size_t epochs);
         char prediction(const std::vector<double>& input_layer);
        
     //    private:

@@ -51,8 +51,10 @@ namespace s21 {
         _trainer->test(_model, dataset_path, percent);
     }
 
-    void MultilayerPerceptron::learning(const std::string& dataset_path, const size_t epochs) {
-        auto l = _trainer->train(_model, dataset_path, epochs, _view_callback);
+    void MultilayerPerceptron::learning(const bool crossvalid, const std::string& dataset_path, const size_t epochs) {
+        auto l = crossvalid 
+               ? _trainer->crossValidationTrain(_model, dataset_path, epochs, _view_callback)
+               : _trainer->train(_model, dataset_path, epochs, _view_callback);
         std::cout << "Learning result:\n";
         for (auto i : l) {
             std::cout << i << " ";
