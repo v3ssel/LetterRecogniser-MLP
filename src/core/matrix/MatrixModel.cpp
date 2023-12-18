@@ -18,9 +18,7 @@ namespace s21 {
         _learning_rate = learn_rate;
     }
 
-    size_t MatrixModel::predict(std::vector<double> &input_layer) {
-        auto output_layer = feedForward(input_layer);
-
+    size_t MatrixModel::getPrediction(const std::vector<double> &output_layer) {
         // std::cout << "\n-------------------------------OUTPUT MATRIX---------------------------------\n";
         // for (auto i : output_layer) {
         //     std::cout << i << " ";
@@ -30,7 +28,7 @@ namespace s21 {
         return std::distance(output_layer.begin(), std::max_element(output_layer.begin(), output_layer.end()));
     }
 
-    std::vector<double> MatrixModel::feedForward(std::vector<double> &input_layer)
+    std::vector<double> MatrixModel::feedForward(const std::vector<double> &input_layer)
     {
         _layers[0].values = Matrix(input_layer);
 
@@ -50,7 +48,7 @@ namespace s21 {
         return _layers.back().values.ToVector();
     }
 
-    void MatrixModel::backPropagation(std::vector<double>& target) {
+    void MatrixModel::backPropagation(const std::vector<double>& target) {
         Matrix error = _layers.back().values - Matrix(target);
         // std::cout << "--------------------ErrY--------------------" << std::endl;
         // error.Print();
@@ -122,7 +120,7 @@ namespace s21 {
         return err_x;
     }
 
-    std::vector<size_t> MatrixModel::getLayersSize() {
+    std::vector<size_t> MatrixModel::getLayersSize() const {
         std::vector<size_t> vec;
 
         for (auto& layer : _layers)
@@ -131,7 +129,7 @@ namespace s21 {
         return vec;
     }
  
-    void MatrixModel::setWeights(std::vector<double> weights) {
+    void MatrixModel::setWeights(const std::vector<double>& weights) {
         int need_weights = std::accumulate(_layers.begin(), _layers.end(), 0, 
                             [](int i, MatrixLayer l) { return i + l.weights.getCols() * l.weights.getRows(); });
         if (weights.size() != need_weights) {
@@ -149,7 +147,7 @@ namespace s21 {
         }
     }
 
-    std::vector<double> MatrixModel::getWeights() {
+    std::vector<double> MatrixModel::getWeights() const {
         std::vector<double> weights;
 
         for (auto &layer : _layers) {
@@ -163,7 +161,7 @@ namespace s21 {
         return weights;
     }
 
-    void MatrixModel::setBiases(std::vector<double> biases) {
+    void MatrixModel::setBiases(const std::vector<double>& biases) {
         size_t need_biases = std::accumulate(_layers.begin(), _layers.end(), 0, [](int i, MatrixLayer l) { return i + l.bias.getCols(); });
         if (biases.size() != need_biases) {
             throw std::out_of_range("Number of biases is not equal to the number of biases in the model");
@@ -178,7 +176,7 @@ namespace s21 {
         }
     }
 
-    std::vector<double> MatrixModel::getBiases() {
+    std::vector<double> MatrixModel::getBiases() const {
         std::vector<double> biases;
 
         for (auto &layer : _layers) {
@@ -190,5 +188,13 @@ namespace s21 {
         }
 
         return biases;
+    }
+
+    void MatrixModel::setLearningRate(double rate) {
+        _learning_rate = rate;
+    }
+
+    double MatrixModel::getLearningRate() const {
+        return _learning_rate;
     }
 } // namespace s21

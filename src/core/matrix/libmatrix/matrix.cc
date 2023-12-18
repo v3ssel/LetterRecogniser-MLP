@@ -8,7 +8,7 @@ namespace s21 {
   }
 
   
-  Matrix::Matrix(std::vector<double>& vec) : rows_(1), cols_(vec.size()) {
+  Matrix::Matrix(const std::vector<double>& vec) : rows_(1), cols_(vec.size()) {
     memoryAlloc();
     std::copy(vec.begin(), vec.end(), matrix_[0]);
   }

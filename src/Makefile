@@ -3,7 +3,7 @@ CFLAGS = -std=c++17 -Wall -Werror -Wextra
 MATRIX_LIB = core/matrix/libmatrix/matrix
 
 build: matrix_lib
-	g++ m.cpp .\core\MultilayerPerceptron.cpp \
+	g++ -O3 m.cpp .\core\MultilayerPerceptron.cpp \
 			  .\core\training\EmnistMLPTrainer.cpp \
 			  .\core\training\EmnistDatasetReader.cpp \
 			  .\core\training\EmnistData.cpp \

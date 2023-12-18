@@ -9,6 +9,13 @@
 #include "core/training/EmnistMLPTrainer.h"
 #include "core/training/EmnistDatasetReader.h"
 
+class ExView {
+   public:
+    void msg(double v) {
+        std::cout << "ExView Got: " << v << "\n";
+    }
+};
+
 int main(int argc, char const *argv[]) {
     SetConsoleOutputCP(CP_UTF8);
     std::signal(SIGSEGV, [](int s) { std::cout << "\n\nSEGA\n"; });
@@ -28,14 +35,17 @@ int main(int argc, char const *argv[]) {
     // std::vector<double> v2 = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
     // std::vector<double> ans = { 0.0l, 1.0l, 0.0l };
 
+    std::function<void(double)> f = std::bind(&ExView::msg, ExView(), std::placeholders::_1);
+
     std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>();
-    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 2, 140, 0.05);
-    model->randomFill();
-    s21::MultilayerPerceptron mlp(model, trainer);
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 2, 140, 0.15);
+    // model->randomFill();
+    s21::MultilayerPerceptron mlp(model, trainer, f);
+    
     std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
     // mlp.exportModel("model-b.txt");
-    mlp.importModel("9model-64-71.txt");
-    mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 100);
+    mlp.importModel("4model-65-72.txt");
+    // mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 50);
 
     // std::unique_ptr<s21::EMNISTDatasetReader> reader = std::make_unique<s21::EMNISTDatasetReader>();
     // reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
@@ -49,7 +59,7 @@ int main(int argc, char const *argv[]) {
     // }
 
 
-    // mlp.learning("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 10);
+    mlp.learning("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 1);
     // mlp.exportModel("model-a3.txt");
 
     // std::cout << ">>>>>>-------------------------------AFTER TRAIN---------------------------------<<<<<<\n";
@@ -63,8 +73,6 @@ int main(int argc, char const *argv[]) {
     //     char a = mlp.prediction(data.image);
     //     std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a + 1 <<  " " << (char)(65 + a) << "\n"; 
     // }
-
-    // mlp.exportModel("model.txt");
 
     // std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
     // s21::MultilayerPerceptron mlp2(model2, trainer);

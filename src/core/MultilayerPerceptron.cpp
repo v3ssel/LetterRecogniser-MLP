@@ -2,12 +2,15 @@
 #include <iostream>
 
 namespace s21 {
-    MultilayerPerceptron::MultilayerPerceptron(std::unique_ptr<MLPModel> &m, std::unique_ptr<MLPTrainer>& t) {
+    MultilayerPerceptron::MultilayerPerceptron(std::unique_ptr<MLPModel>& m,
+                                               std::unique_ptr<MLPTrainer>& t,
+                                               const std::function<void(double)>& view_callback) {
         _model = std::move(m);
         _trainer = std::move(t);
+        _view_callback = view_callback;
     }
 
-    void MultilayerPerceptron::importModel(std::string filepath) {
+    void MultilayerPerceptron::importModel(const std::string& filepath) {
         std::ifstream f(filepath, std::ios_base::in);
 
         std::string line;
@@ -24,7 +27,7 @@ namespace s21 {
         _model->setBiases(bias);
     }
 
-    void MultilayerPerceptron::exportModel(std::string filepath) {
+    void MultilayerPerceptron::exportModel(const std::string& filepath) {
         std::ofstream of(filepath, std::ios_base::out);
 
         auto layers_info = _model->getLayersSize();
@@ -44,19 +47,24 @@ namespace s21 {
         }
     }
 
-    void MultilayerPerceptron::testing(std::string dataset_path, size_t percent) {
+    void MultilayerPerceptron::testing(const std::string& dataset_path, const size_t percent) {
         _trainer->test(_model, dataset_path, percent);
     }
 
-    void MultilayerPerceptron::learning(std::string dataset_path, size_t epochs) {
-        _trainer->train(_model, dataset_path, epochs);
+    void MultilayerPerceptron::learning(const std::string& dataset_path, const size_t epochs) {
+        auto l = _trainer->train(_model, dataset_path, epochs, _view_callback);
+        std::cout << "Learning result:\n";
+        for (auto i : l) {
+            std::cout << i << " ";
+        }
+        std::cout << "\n";
     }
 
-    char MultilayerPerceptron::prediction(std::vector<double>& input_layer) {
-        return static_cast<char>(_model->predict(input_layer));
+    char MultilayerPerceptron::prediction(const std::vector<double>& input_layer) {
+        return static_cast<char>(_model->getPrediction(_model->feedForward(input_layer)));
     }
     
-    std::vector<double> MultilayerPerceptron::fillImportVector(std::ifstream &s, std::string type, size_t elements) {
+    std::vector<double> MultilayerPerceptron::fillImportVector(std::ifstream &s, const std::string& type, const size_t elements) {
         std::vector<double> vec;
         vec.reserve(elements);
 
@@ -71,7 +79,7 @@ namespace s21 {
         return vec;
     }
     
-    std::pair<size_t, size_t> MultilayerPerceptron::getImportSize(std::string &line) {
+    std::pair<size_t, size_t> MultilayerPerceptron::getImportSize(const std::string &line) {
         std::stringstream ss(line);
         std::vector<size_t> layers_info;
 

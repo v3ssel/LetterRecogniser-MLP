@@ -12,7 +12,7 @@ namespace s21 {
    public:
     Matrix();
     Matrix(size_t, size_t);
-    Matrix(std::vector<double>& vec);
+    Matrix(const std::vector<double>& vec);
     Matrix(const Matrix &other);
     Matrix(Matrix&& other);
     ~Matrix();

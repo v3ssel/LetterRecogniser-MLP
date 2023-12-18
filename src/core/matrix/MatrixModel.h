@@ -14,9 +14,9 @@ namespace s21 {
        public:
         MatrixModel(size_t input_layer, size_t output_layer, size_t hidden_layers, size_t neurons_in_hidden_layers, double learn_rate);
 
-        size_t predict(std::vector<double>& input_layer) override;
-        std::vector<double> feedForward(std::vector<double>& input_layer) override;
-        void backPropagation(std::vector<double>& target) override;
+        size_t getPrediction(const std::vector<double>& output_layer) override;
+        std::vector<double> feedForward(const std::vector<double>& input_layer) override;
+        void backPropagation(const std::vector<double>& target) override;
         void randomFill() override;
   
         void activationFunction(Matrix &layer);
@@ -24,15 +24,18 @@ namespace s21 {
         double sigmoidDerivative(double n);
         Matrix applyDerivative(const Matrix &err_y, const Matrix &out_layer);
 
-        std::vector<size_t> getLayersSize() override;
+        std::vector<size_t> getLayersSize() const override;
 
-        void setWeights(std::vector<double> weights) override;
-        std::vector<double> getWeights() override;
+        void setWeights(const std::vector<double>& weights) override;
+        std::vector<double> getWeights() const override;
 
-        void setBiases(std::vector<double> biases) override;
-        std::vector<double> getBiases() override;
+        void setBiases(const std::vector<double>& biases) override;
+        std::vector<double> getBiases() const override;
 
-    // private:
+        void setLearningRate(double rate) override;
+        double getLearningRate() const override;
+
+       private:
         std::vector<MatrixLayer> _layers;
         double _learning_rate;
     };
