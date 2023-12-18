@@ -91,6 +91,7 @@ namespace s21 {
                 EMNISTData data = reader->readLine();
                 if (data.result == (size_t)-1) break;
 
+                t++;
                 if (elem >= group_start && elem < group_end && k_groups != 1) {
                     testingDataset.push_back(data);
                     continue;
@@ -104,7 +105,6 @@ namespace s21 {
                     acur++;
                 }
 
-                t++;
                 if (t % 1000 == 0) {
                     std::cout << "Group " << k + 1 << " step " << t << " train accurancy per thousand: " << acur << " accurancy: " << accurancy << std::endl;
                     acur = 0;
@@ -115,12 +115,13 @@ namespace s21 {
             }
             std::cout << "Group " << k + 1 << " train accurancy: " << accurancy << std::endl;
             accurancy = 0;
+            acur = 0;
+            t = dataset_size / k_groups * (k + 1);
 
             for (auto& elem : testingDataset) {
-                auto&& actual = model->feedForward(elem.image);
-
-                if (elem.result == model->getPrediction(actual)) {
+                if ((elem.result - 1) == model->getPrediction(model->feedForward(elem.image))) {
                     accurancy++;
+                    acur++;
                 }
                 
                 t++;

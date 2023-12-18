@@ -59,7 +59,7 @@ int main(int argc, char const *argv[]) {
     }
 
 
-    mlp.learning(true, "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 3);
+    mlp.learning(true, "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 5);
     mlp.exportModel("model-a3.txt");
 
     std::cout << ">>>>>>-------------------------------AFTER TRAIN---------------------------------<<<<<<\n";
