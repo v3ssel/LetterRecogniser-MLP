@@ -11,8 +11,30 @@
 
 class ExView {
    public:
-    void msg(double v) {
-        std::cout << "ExView Got: " << v << "\n";
+    void msg(size_t epoch, double mse, double accurancy) {
+        std::cout << "\nExView Stats:\n\t" 
+                  << "epoch:\t"  << epoch << "\n"
+                  << "error:\t" << mse << "\n"
+                  << "accurancy:\t" << accurancy << "\n\n";
+    }
+
+    void trainstagemsg(size_t epoch, s21::MLPTrainStages stage) {
+        std::cout << "ExView: Now ";
+        switch (stage) {
+            case s21::MLPTrainStages::STARTING:
+                std::cout << "Starting";
+                break;
+            case s21::MLPTrainStages::TRAINING:
+                std::cout << "Training";
+                break;
+            case s21::MLPTrainStages::TESTING:
+                std::cout << "Testing";
+                break;
+            case s21::MLPTrainStages::DONE:
+                std::cout << "Done";
+                break;
+        }
+        std::cout << " in " << epoch << " epoch\n";
     }
 };
 
@@ -35,17 +57,19 @@ int main(int argc, char const *argv[]) {
     // std::vector<double> v2 = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
     // std::vector<double> ans = { 0.0l, 1.0l, 0.0l };
 
-    std::function<void(double)> f = std::bind(&ExView::msg, ExView(), std::placeholders::_1);
+    ExView ev;
+    std::function<void(size_t, double, double)> f = std::bind(&ExView::msg, ev, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    std::function<void(size_t, s21::MLPTrainStages)> f2 = std::bind(&ExView::trainstagemsg, ev, std::placeholders::_1, std::placeholders::_2);
 
     std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>();
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 2, 140, 0.15);
     // model->randomFill();
-    s21::MultilayerPerceptron mlp(model, trainer, f);
+    s21::MultilayerPerceptron mlp(model, trainer, f, f2);
     
     std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
     // mlp.exportModel("model-b.txt");
-    mlp.importModel("4model-65-72.txt");
-    // mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 50);
+    mlp.importModel("model-v2-75.txt");
+    // mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 100);
 
     std::unique_ptr<s21::EMNISTDatasetReader> reader = std::make_unique<s21::EMNISTDatasetReader>();
     reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
@@ -59,7 +83,12 @@ int main(int argc, char const *argv[]) {
     }
 
 
-    mlp.learning(true, "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 5);
+    auto learn_res = mlp.learning(true, "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 10);
+    // std::cout << "Learning result:\n";
+    // for (auto i : l) {
+    //     std::cout << i << " ";
+    // }
+    // std::cout << "\n";
     mlp.exportModel("model-a3.txt");
 
     std::cout << ">>>>>>-------------------------------AFTER TRAIN---------------------------------<<<<<<\n";

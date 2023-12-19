@@ -4,10 +4,12 @@
 namespace s21 {
     MultilayerPerceptron::MultilayerPerceptron(std::unique_ptr<MLPModel>& m,
                                                std::unique_ptr<MLPTrainer>& t,
-                                               const std::function<void(double)>& view_callback) {
+                                               const std::function<void(size_t, double, double)>& view_callback,
+                                               const std::function<void(size_t, MLPTrainStages)>& trainstage_callback) {
         _model = std::move(m);
         _trainer = std::move(t);
-        _view_callback = view_callback;
+        _epoch_stats_callback = view_callback;
+        _trainstage_callback = trainstage_callback;
     }
 
     void MultilayerPerceptron::importModel(const std::string& filepath) {
@@ -51,15 +53,15 @@ namespace s21 {
         _trainer->test(_model, dataset_path, percent);
     }
 
-    void MultilayerPerceptron::learning(const bool crossvalid, const std::string& dataset_path, const size_t epochs) {
-        auto l = crossvalid 
-               ? _trainer->crossValidationTrain(_model, dataset_path, epochs, _view_callback)
-               : _trainer->train(_model, dataset_path, epochs, _view_callback);
-        std::cout << "Learning result:\n";
-        for (auto i : l) {
-            std::cout << i << " ";
-        }
-        std::cout << "\n";
+    std::vector<double> MultilayerPerceptron::learning(const bool crossvalid, const std::string& dataset_path, const size_t epochs) {
+        return crossvalid 
+                ? _trainer->crossValidation(_model, dataset_path, epochs, _epoch_stats_callback, _trainstage_callback)
+                : _trainer->train(_model, dataset_path, epochs, _epoch_stats_callback, _trainstage_callback);
+        // std::cout << "Learning result:\n";
+        // for (auto i : l) {
+        //     std::cout << i << " ";
+        // }
+        // std::cout << "\n";
     }
 
     char MultilayerPerceptron::prediction(const std::vector<double>& input_layer) {

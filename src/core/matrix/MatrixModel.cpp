@@ -28,8 +28,7 @@ namespace s21 {
         return std::distance(output_layer.begin(), std::max_element(output_layer.begin(), output_layer.end()));
     }
 
-    std::vector<double> MatrixModel::feedForward(const std::vector<double> &input_layer)
-    {
+    std::vector<double> MatrixModel::feedForward(const std::vector<double> &input_layer) {
         _layers[0].values = Matrix(input_layer);
 
         for (size_t i = 0; i < _layers.size() - 1; ++i) {
@@ -49,41 +48,21 @@ namespace s21 {
     }
 
     void MatrixModel::backPropagation(const std::vector<double>& target) {
-        Matrix error = _layers.back().values - Matrix(target);
-        // std::cout << "--------------------ErrY--------------------" << std::endl;
-        // error.Print();
-
-        Matrix err_x = applyDerivative(error, _layers.back().values);
-        // std::cout << "--------------------ErrX--------------------" << std::endl;
-        // err_x.Print();
-        
+        Matrix err_y = _layers.back().values - Matrix(target);
+        Matrix err_x = applyDerivative(err_y, _layers.back().values);
         Matrix err_w = _layers[_layers.size() - 2].values.Transpose() * err_x;
-        // std::cout << "--------------------ErrW--------------------" << std::endl;
-        // err_w.Print();
         
-        _layers[_layers.size() - 2].weights -= err_w * _learning_rate;
-        // std::cout << "--------------------updateW--------------------" << std::endl;
-        // _layers[_layers.size() - 2].weights.Print();
+        _layers[_layers.size() - 2].weights -= (err_w * _learning_rate);
+        _layers[_layers.size() - 2].bias -= (err_x * _learning_rate);
 
         for (int l = _layers.size() - 2; l > 0; l--) {
-            // std::cout << "l: " << l << std::endl;
-            error = (err_x * _layers[l].weights.Transpose());
-
-            // std::cout << "-X" << std::endl;
-            err_x = applyDerivative(error, _layers[l].values);
-            // err_x.Print();
-            
-            // std::cout << "--W" << std::endl;
+            err_y = (err_x * _layers[l].weights.Transpose());
+            err_x = applyDerivative(err_y, _layers[l].values);
             err_w = _layers[l - 1].values.Transpose() * err_x;
-            // err_w.Print();
-            
-            // std::cout << "---U" << std::endl;
 
             _layers[l - 1].weights -= (err_w * _learning_rate);
             _layers[l - 1].bias -= (err_x * _learning_rate);
-            // _layers[l - 1].weights.Print();
         }
-
     }
 
     void MatrixModel::randomFill() {
