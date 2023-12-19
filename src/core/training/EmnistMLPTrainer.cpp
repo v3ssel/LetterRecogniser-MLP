@@ -3,12 +3,16 @@
 #include <algorithm>
 
 namespace s21 {
+    EMNISTMLPTrainer::EMNISTMLPTrainer(const std::function<void(size_t, double, double)> &epoch_callback,
+                                       const std::function<void(size_t, MLPTrainStages)> &process_callback) {
+        _epoch_callback = epoch_callback;
+        _process_callback = process_callback;
+    }
+
     std::vector<double> EMNISTMLPTrainer::train(const std::unique_ptr<MLPModel> &model,
                                                 const std::string &dataset_path,
-                                                const size_t epochs,
-                                                const std::function<void(size_t, double, double)>& callback,
-                                                const std::function<void(size_t, MLPTrainStages)>& process_callback) {
-        process_callback(0, MLPTrainStages::STARTING);
+                                                const size_t epochs) {
+        _process_callback(0, MLPTrainStages::STARTING);
         std::vector<double> errors;
         
         try {
@@ -24,14 +28,13 @@ namespace s21 {
 
 
             for (size_t i = 0; i < epochs; i++) {
-                process_callback(i + 1, MLPTrainStages::TRAINING);
+                _process_callback(i + 1, MLPTrainStages::TRAINING);
                 size_t accurancy = 0;
                 double mse = 0;
                 reader->open(dataset_path);
                 
                 while (true) {
                     if (_stop) {
-                        reader->close();
                         _stop = false;
                         return errors;
                     }
@@ -52,12 +55,12 @@ namespace s21 {
                 }
 
                 errors.push_back(mse);
-                callback(i + 1, mse, accurancy * 100.0l / dataset_size);
+                _epoch_callback(i + 1, mse, accurancy * 100.0l / dataset_size);
             }
         } catch (std::exception &e) {
             throw std::runtime_error("EMNISTMLPTrainer::train: " + std::string(e.what()));
         }
-        process_callback(epochs, MLPTrainStages::DONE);
+        _process_callback(epochs, MLPTrainStages::DONE);
 
         return errors;
     }
@@ -65,10 +68,8 @@ namespace s21 {
     std::vector<double> EMNISTMLPTrainer::crossValidation(
                                     const std::unique_ptr<MLPModel> &model,
                                     const std::string &dataset_path,
-                                    const size_t k_groups,
-                                    const std::function<void(size_t, double, double)>& callback,
-                                    const std::function<void(size_t, MLPTrainStages)>& process_callback) {
-        process_callback(0, MLPTrainStages::STARTING);
+                                    const size_t k_groups) {
+        _process_callback(0, MLPTrainStages::STARTING);
         std::vector<double> errors;
 
         try {
@@ -88,14 +89,13 @@ namespace s21 {
             testingDataset.reserve(group_size);
 
             for (size_t k = 0; k < k_groups; k++) {
-                process_callback(k + 1, MLPTrainStages::TRAINING);
+                _process_callback(k + 1, MLPTrainStages::TRAINING);
                 double mse = 0;
                 // size_t t = 0, acur = 0; // for debug
                 reader->open(dataset_path);
 
                 for (size_t elem = 0; elem < dataset_size; elem++) {
                     if (_stop) {
-                        reader->close();
                         _stop = false;
                         return errors;
                     }
@@ -123,7 +123,7 @@ namespace s21 {
 
                 size_t accurancy = 0;
 
-                process_callback(k + 1, MLPTrainStages::TESTING);
+                _process_callback(k + 1, MLPTrainStages::TESTING);
                 for (auto& elem : testingDataset) {
                     if (_stop) {
                         _stop = false;
@@ -151,12 +151,12 @@ namespace s21 {
                 testingDataset.clear();
 
                 errors.push_back(mse);
-                callback(k + 1, mse, accurancy * 100.0l / (group_size));
+                _epoch_callback(k + 1, mse, accurancy * 100.0l / (group_size));
             }
         } catch (std::exception &e) {
             throw std::runtime_error("EMNISTMLPTrainer::crossValidation: " + std::string(e.what()));
         }
-        process_callback(k_groups, MLPTrainStages::DONE);
+        _process_callback(k_groups, MLPTrainStages::DONE);
 
         return errors;
     }
