@@ -1,11 +1,9 @@
-#ifndef _MATRIXMODEL_H
-#define _MATRIXMODEL_H
+#ifndef _MATRIXMODEL_H_
+#define _MATRIXMODEL_H_
 
-#include <vector>
 #include <algorithm>
 #include <numeric>
 
-#include "libmatrix/matrix.h"
 #include "../MLPModel.h"
 #include "MatrixLayer.h"
 
@@ -41,4 +39,4 @@ namespace s21 {
     };
 }
 
-#endif //_MATRIXMODEL_H
+#endif //_MATRIXMODEL_H_

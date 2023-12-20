@@ -1,5 +1,5 @@
-#ifndef _MLPTRAIN_STAGES_H
-#define _MLPTRAIN_STAGES_H
+#ifndef _MLPTRAINSTAGES_H_
+#define _MLPTRAINSTAGES_H_
 
 namespace s21 {
     enum class MLPTrainStages {
@@ -10,4 +10,4 @@ namespace s21 {
     };
 }
 
-#endif // _MLPTRAIN_STAGES_H
+#endif // _MLPTRAINSTAGES_H_

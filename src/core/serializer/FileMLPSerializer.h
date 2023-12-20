@@ -1,6 +1,9 @@
 #ifndef _FILEMLPSERIALIZER_H_
 #define _FILEMLPSERIALIZER_H_
 
+#include <fstream>
+#include <sstream>
+
 #include "../MLPSerializer.h"
 
 namespace s21 {

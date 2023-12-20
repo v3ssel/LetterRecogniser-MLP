@@ -1,5 +1,4 @@
 #include "EmnistDatasetReader.h"
-#include <iostream>
 
 namespace s21 {
     void EMNISTDatasetReader::open(const std::string &filename) {

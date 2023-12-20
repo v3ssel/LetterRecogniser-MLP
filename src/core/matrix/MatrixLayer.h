@@ -7,8 +7,8 @@
 namespace s21 {
     class MatrixLayer {
        public:
-        MatrixLayer(size_t s) : size(s) {}
-        MatrixLayer(Matrix w, Matrix b, size_t s) : weights(w), bias(b), size(s) {}
+        MatrixLayer(size_t s);
+        MatrixLayer(Matrix w, Matrix b, size_t s);
 
         Matrix weights;
         Matrix bias;

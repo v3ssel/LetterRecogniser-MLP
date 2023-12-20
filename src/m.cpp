@@ -72,7 +72,7 @@ int main(int argc, char const *argv[]) {
     
     std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
     // mlp.exportModel("model-b.txt");
-    mlp.importModel("5-model-64.txt");
+    mlp.importModel("5-model-72.txt");
     // auto test_res = mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 100);
     // std::cout << "\nTesting result:" 
     //           << "\nAccurancy: " << test_res.accurancy

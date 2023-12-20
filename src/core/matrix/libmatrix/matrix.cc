@@ -303,8 +303,7 @@ namespace s21 {
     }
   }
 
-  Matrix Matrix::GenerateRandom(size_t rows, size_t cols)
-  {
+  Matrix Matrix::GenerateRandom(size_t rows, size_t cols) {
       std::mt19937 gen(std::random_device{}());
       std::normal_distribution<long double> dist(0.0l, 1.0l);
 

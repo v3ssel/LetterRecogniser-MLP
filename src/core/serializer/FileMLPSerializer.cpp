@@ -1,6 +1,4 @@
 #include "FileMLPSerializer.h"
-#include <fstream>
-#include <sstream>
 
 namespace s21 {
     void s21::FileMLPSerializer::serialize(std::unique_ptr<MLPModel> &model, const std::string &filename) {

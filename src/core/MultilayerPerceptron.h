@@ -1,13 +1,10 @@
-#ifndef _MULTILAYERPERCEPTRON_H
-#define _MULTILAYERPERCEPTRON_H
+#ifndef _MULTILAYERPERCEPTRON_H_
+#define _MULTILAYERPERCEPTRON_H_
 
-#include <algorithm>
-#include <functional>
 #include <vector>
 #include <memory>
 #include <string>
-#include <fstream>
-#include <sstream>
+
 #include "MLPModel.h"
 #include "MLPTrainer.h"
 #include "MLPSerializer.h"
@@ -38,4 +35,4 @@ namespace s21 {
     };
 }  // namespace s21
 
-#endif //_MULTILAYERPERCEPTRON_H
+#endif //_MULTILAYERPERCEPTRON_H_

@@ -1,5 +1,4 @@
 #include "MultilayerPerceptron.h"
-#include <iostream>
 
 namespace s21 {
     MultilayerPerceptron::MultilayerPerceptron(std::unique_ptr<MLPModel>& m,

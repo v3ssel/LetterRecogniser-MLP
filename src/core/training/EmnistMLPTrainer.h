@@ -4,6 +4,7 @@
 #include <cmath>
 #include <functional>
 #include <numeric>
+
 #include "../MLPTrainer.h"
 #include "EmnistDatasetReader.h"
 #include "TFMetrics.h"

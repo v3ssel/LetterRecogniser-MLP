@@ -5,7 +5,6 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <vector>
 #include "EMNISTData.h"
 
 namespace s21 {

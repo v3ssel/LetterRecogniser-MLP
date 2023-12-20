@@ -1,11 +1,9 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
-#include <array>
 #include <cmath>
 #include <random>
 #include <iostream>
-#include <functional>
 
 namespace s21 {
   class Matrix {
