@@ -54,6 +54,7 @@ namespace s21 {
                     expected[data.result - 1] = 0.0l;
                 }
 
+                mse /= static_cast<double>(dataset_size);
                 errors.push_back(mse);
                 _epoch_callback(i + 1, mse, accurancy * 100.0l / dataset_size);
             }
@@ -102,7 +103,7 @@ namespace s21 {
 
                     EMNISTData data = reader->readLine();
 
-                    t++;
+                    // t++;
                     if (elem >= group_start && elem < group_end && k_groups != 1) {
                         testingDataset.push_back(data);
                         continue;
@@ -118,7 +119,7 @@ namespace s21 {
                     expected[data.result - 1] = 0.0l;
                 }
                 std::cout << "Group " << k + 1 << std::endl;
-                t = group_size * (k + 1);
+                t = group_size * k;
 
                 size_t accurancy = 0;
 
@@ -145,6 +146,7 @@ namespace s21 {
                 }
                 std::cout << "Group " << k + 1 << " test accurancy: " << accurancy << std::endl;
 
+                mse /= static_cast<double>(testingDataset.size());
                 group_start = group_end;
                 group_end += group_size;
                 testingDataset.clear();
@@ -230,10 +232,11 @@ namespace s21 {
     double EMNISTMLPTrainer::calculateMSE(const std::vector<double> &expected, const std::vector<double> &actual) {
         double mse = 0;
         for (size_t i = 0; i < expected.size(); i++) {
-            mse += (actual[i] - expected[i]) * (actual[i] - expected[i]);
+            double val = actual[i] - expected[i];
+            mse += val * val;
         }
 
-        return mse / expected.size();
+        return mse;
     }
     
     void EMNISTMLPTrainer::calculateMetrics(MLPTestMetrics &metrics, std::vector<TFMetrics> &submetrics) {
