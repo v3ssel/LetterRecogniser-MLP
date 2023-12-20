@@ -19,6 +19,7 @@ TEST(FileMLPSerializer, SerializeMatrixModel) {
 
     std::unique_ptr<s21::MLPModel> des_model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
     serializer->deserialize(des_model, new_filename);
+    std::filesystem::remove(new_filename);
 
     auto weights_rnd = rnd_model->getWeights();
     auto weights_des = des_model->getWeights();
