@@ -34,14 +34,6 @@ namespace s21 {
         for (size_t i = 0; i < _layers.size() - 1; ++i) {
             _layers[i + 1].values = ((_layers[i].values * _layers[i].weights) + _layers[i].bias);
             activationFunction(_layers[i + 1].values);
-
-            // std::cout << "-------------------------------LAYER " << i + 1 << " OF " << _layers.size() << " OF NEURAL NETWORK---------------------------------";
-            // std::cout << "\nValues:\n";
-            // _layers[i].values.Print();
-            // std::cout << "\nWeights:\n";
-            // _layers[i].weights.Print();
-            // std::cout << "\nBias:\n";
-            // _layers[i].bias.Print();
         }
 
         return _layers.back().values.ToVector();

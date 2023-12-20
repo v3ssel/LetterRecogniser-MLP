@@ -4,6 +4,7 @@ MATRIX_LIB = core/matrix/libmatrix/matrix
 
 build: matrix_lib
 	g++ -O3 m.cpp .\core\MultilayerPerceptron.cpp \
+			  .\core\serializer\FileMLPSerializer.cpp \
 			  .\core\training\EmnistMLPTrainer.cpp \
 			  .\core\training\EmnistDatasetReader.cpp \
 			  .\core\training\EmnistData.cpp \

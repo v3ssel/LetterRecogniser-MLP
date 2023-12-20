@@ -18,8 +18,8 @@ namespace s21 {
         _serializer->serialize(_model, filepath);
     }
 
-    void MultilayerPerceptron::testing(const std::string& dataset_path, const size_t percent) {
-        _trainer->test(_model, dataset_path, percent);
+    MLPTestMetrics MultilayerPerceptron::testing(const std::string& dataset_path, const size_t percent) {
+        return _trainer->test(_model, dataset_path, percent);
     }
 
     std::vector<double> MultilayerPerceptron::learning(const bool crossvalid, const std::string& dataset_path, const size_t epochs) {
@@ -29,7 +29,7 @@ namespace s21 {
     }
 
     char MultilayerPerceptron::prediction(const std::vector<double>& input_layer) {
-        return static_cast<char>(_model->getPrediction(_model->feedForward(input_layer)));
+        return static_cast<char>(_model->getPrediction(_model->feedForward(input_layer)) + 65);
     }
 
     void MultilayerPerceptron::stopTraining() {

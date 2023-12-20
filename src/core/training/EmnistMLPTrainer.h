@@ -3,8 +3,10 @@
 
 #include <cmath>
 #include <functional>
+#include <numeric>
 #include "../MLPTrainer.h"
 #include "EmnistDatasetReader.h"
+#include "TFMetrics.h"
 
 namespace s21 {
     class EMNISTMLPTrainer : public MLPTrainer {
@@ -21,16 +23,17 @@ namespace s21 {
                                   const std::string &dataset_path,
                                   const size_t k_groups) override;
         
-        void test(const std::unique_ptr<MLPModel>& model, const std::string& dataset_path, const size_t percent) override;        
+        MLPTestMetrics test(const std::unique_ptr<MLPModel>& model, const std::string& dataset_path, const size_t percent) override;        
         
         void stop() override;
 
        private:
-        double calculateMSE(const std::vector<double> &expected, const std::vector<double> &actual);
         bool _stop = false;
         std::function<void(size_t, double, double)> _epoch_callback;
         std::function<void(size_t, MLPTrainStages)> _process_callback;
         
+        double calculateMSE(const std::vector<double> &expected, const std::vector<double> &actual);
+        void calculateMetrics(MLPTestMetrics& metrics, std::vector<TFMetrics>& submetrics);
     };
 }
 
