@@ -31,11 +31,19 @@ namespace s21 {
         return static_cast<char>(_model->getPrediction(_model->feedForward(input_layer)) + 65);
     }
 
-    void MultilayerPerceptron::stopTraining() {
+    void MultilayerPerceptron::stopTrainer() {
         _trainer->stop();
+    }
+
+    void MultilayerPerceptron::setModel(std::unique_ptr<MLPModel> &model) {
+        _model = std::move(model);
     }
 
     void MultilayerPerceptron::setLearningRate(const double learning_rate) {
         _model->setLearningRate(learning_rate);
+    }
+    
+    double MultilayerPerceptron::getLearningRate() {
+        return _model->getLearningRate();
     }
 } // namespace s21

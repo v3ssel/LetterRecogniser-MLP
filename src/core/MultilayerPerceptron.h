@@ -24,9 +24,12 @@ namespace s21 {
         std::vector<double> learning(const bool crossvalid, const std::string& dataset_path, const size_t epochs);
         char prediction(const std::vector<double>& input_layer);
        
-        void stopTraining();
+        void stopTrainer();
 
+        void setModel(std::unique_ptr<MLPModel>& model);
+        
         void setLearningRate(const double learning_rate);
+        double getLearningRate();
 
        private:
         std::unique_ptr<MLPModel> _model;

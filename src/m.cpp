@@ -65,14 +65,14 @@ int main(int argc, char const *argv[]) {
     std::function<void(size_t, s21::MLPTrainStages)> f2 = std::bind(&ExView::trainstagemsg, ev, std::placeholders::_1, std::placeholders::_2);
 
     std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>(f, f2);
-    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 4, 140, 0.15);
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 4, 140, 0.07);
     std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
     // model->randomFill();
     s21::MultilayerPerceptron mlp(model, trainer, serializer);
     
     std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
     // mlp.exportModel("model-b.txt");
-    mlp.importModel("4-model-60.txt");
+    mlp.importModel("4-model-63.txt");
     // auto test_res = mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 100);
     // std::cout << "\nTesting result:" 
     //           << "\nAccurancy: " << test_res.accurancy

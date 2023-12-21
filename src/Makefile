@@ -13,6 +13,7 @@ SOURCES = .\core\MultilayerPerceptron.cpp \
 
 TESTS = .\tests\main_test.cpp \
 		.\tests\EmnistMLPTrainerTests.cpp \
+		.\tests\MultilayerPerceptronTests.cpp \
 		.\tests\FileMLPSerializerTests.cpp \
 		.\tests\EmnistDatasetReaderTests.cpp \
 		.\tests\MatrixModelTests.cpp

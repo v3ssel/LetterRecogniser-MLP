@@ -6,7 +6,7 @@
 #include "../core/serializer/FileMLPSerializer.h"
 
 const std::string kDatasetPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\emnist-sample.txt";
-const std::string kModelPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\weights\\5-model-78.txt";
+const std::string kModelPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\smartmodel.txt";
 
 TEST(EMNISTMLPTrainer, Training) {
     size_t ecb_count = 0, pcb_count = 0;
