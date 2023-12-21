@@ -10,7 +10,8 @@ SOURCES = .\core\MultilayerPerceptron.cpp \
 		  .\core\matrix\MatrixModel.cpp \
 		  .\core\matrix\MatrixLayer.cpp
 
-TESTS = .\tests\FileMLPSerializerTests.cpp
+TESTS = .\tests\FileMLPSerializerTests.cpp \
+		.\tests\EmnistDatasetReaderTests.cpp
 
 build: matrix_lib
 	g++ -O3 m.cpp $(SOURCES) \

@@ -4,14 +4,14 @@
 #include "../core/serializer/FileMLPSerializer.h"
 #include "../core/matrix/MatrixModel.h"
 
-const std::string filename = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\model-test.txt";
+const std::string kTestModelFilename = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\model-test.txt";
 const std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
 
 TEST(FileMLPSerializer, SerializeMatrixModel) {
     std::unique_ptr<s21::MLPModel> rnd_model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
     rnd_model->randomFill();
 
-    std::filesystem::path path(filename);
+    std::filesystem::path path(kTestModelFilename);
     std::string new_filename = path.replace_filename(path.stem().string() + "_serialized" + path.extension().string()).string();
 
     serializer->serialize(rnd_model, new_filename);
@@ -51,7 +51,7 @@ TEST(FileMLPSerializer, DeserializeMatrixModel) {
         EXPECT_EQ(biases[i], 0.0l);
     }
     
-    serializer->deserialize(model, filename);
+    serializer->deserialize(model, kTestModelFilename);
 
     weights = model->getWeights();
     biases = model->getBiases();
@@ -74,11 +74,11 @@ TEST(FileMLPSerializer, DeserializeEmptyModel) {
 TEST(FileMLPSerializer, DeserializeInvalidModel) {
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 2, 140, 0.1);
 
-    EXPECT_THROW(serializer->deserialize(model, filename), std::invalid_argument);
+    EXPECT_THROW(serializer->deserialize(model, kTestModelFilename), std::invalid_argument);
 }
 
 TEST(FileMLPSerializer, DeserializeInvalidFile) {
-    std::filesystem::path path(filename);
+    std::filesystem::path path(kTestModelFilename);
     std::string broken_filename = path.replace_filename(path.stem().string() + "-broken" + path.extension().string()).string();
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
 
