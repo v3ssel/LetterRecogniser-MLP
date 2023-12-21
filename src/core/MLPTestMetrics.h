@@ -3,13 +3,15 @@
 
 #include <chrono>
 
-struct MLPTestMetrics {
-    double accurancy_percent;
-    double accurancy;
-    double precision;
-    double recall;
-    double f_measure;
-    std::chrono::milliseconds testing_time;
-};
+namespace s21 {
+    struct MLPTestMetrics {
+        double accurancy_percent = 0.0l;
+        double accurancy = 0.0l;
+        double precision = 0.0l;
+        double recall = 0.0l;
+        double f_measure = 0.0l;
+        std::chrono::milliseconds testing_time;
+    };
+}
 
 #endif //_MLPTESTMETRICS_H_

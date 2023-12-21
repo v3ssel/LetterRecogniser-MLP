@@ -18,7 +18,7 @@ namespace s21 {
 
         std::string line;
         if (!std::getline(_file, line)) {
-            throw std::invalid_argument("EMNISTDatasetReader::readLine: File is empty.");
+            return EMNISTData();
         }
         
         std::stringstream ss(line);

@@ -26,7 +26,6 @@ namespace s21 {
             
             std::vector<double> expected(output_size, 0.0l);
 
-
             for (size_t i = 0; i < epochs; i++) {
                 _process_callback(i + 1, MLPTrainStages::TRAINING);
                 size_t accurancy = 0;
@@ -81,6 +80,10 @@ namespace s21 {
 
             size_t output_size = model->getLayersSize().back();
             size_t dataset_size = reader->getNumberOfLines();
+
+            if (k_groups > dataset_size) {
+                throw std::runtime_error("EMNISTMLPTrainer::crossValidation: k_groups > dataset_size");
+            }
 
             size_t group_size = dataset_size / k_groups;
             size_t group_start = 0, group_end = group_size;
@@ -165,6 +168,11 @@ namespace s21 {
     MLPTestMetrics EMNISTMLPTrainer::test(const std::unique_ptr<MLPModel> &model, 
                                           const std::string &dataset_path, 
                                           const size_t percent) {
+        if (percent > 100) {
+            throw std::invalid_argument("EMNISTMLPTrainer::test: percent > 100");
+        }
+        
+        _process_callback(0, MLPTrainStages::STARTING);
         MLPTestMetrics metrics;
 
         try {
@@ -180,6 +188,7 @@ namespace s21 {
             std::vector<TFMetrics> submetrics(model->getLayersSize().back());
             size_t accurancy_percent = 0;
 
+            _process_callback(0, MLPTrainStages::TESTING);
             auto start = std::chrono::high_resolution_clock::now();
             for (size_t i = 0; i < test_count; i++) {
                 if (_stop) {
@@ -221,6 +230,7 @@ namespace s21 {
         } catch (std::exception &e) {
             throw std::runtime_error("EMNISTMLPTrainer::test: " + std::string(e.what()));
         }
+        _process_callback(1, MLPTrainStages::DONE);
 
         return metrics;
     }

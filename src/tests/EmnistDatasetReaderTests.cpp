@@ -19,9 +19,12 @@ TEST(EMNISTDatasetReader, ReadLineClosedFile) {
 
 TEST(EMNISTDatasetReader, ReadLineEmptyFile) {
     std::filesystem::path path = kDatasetPath;
-    
     reader->open(path.replace_filename("empty.txt").string());
-    EXPECT_THROW(reader->readLine(), std::invalid_argument);
+    
+    auto result = reader->readLine();
+
+    EXPECT_EQ(result.result, (size_t)-1);
+    EXPECT_TRUE(result.image.empty());
 }
 
 TEST(EMNISTDatasetReader, IsOpen) {
