@@ -12,6 +12,7 @@
 namespace s21 {
     class EMNISTMLPTrainer : public MLPTrainer {
        public:
+       
         EMNISTMLPTrainer(const std::function<void(size_t, double, double)> &epoch_callback,
                          const std::function<void(size_t, MLPTrainStages)> &process_callback);
 

@@ -17,6 +17,19 @@ TEST(EMNISTDatasetReader, ReadLineClosedFile) {
     EXPECT_THROW(reader->readLine(), std::invalid_argument);
 }
 
+TEST(EMNISTDatasetReader, ReadLineEmptyFile) {
+    std::filesystem::path path = kDatasetPath;
+    
+    reader->open(path.replace_filename("empty.txt").string());
+    EXPECT_THROW(reader->readLine(), std::invalid_argument);
+}
+
+TEST(EMNISTDatasetReader, IsOpen) {
+    reader->open(kDatasetPath);
+
+    EXPECT_TRUE(reader->is_open());
+}
+
 TEST(EMNISTDatasetReader, ReadBrokenLine) {
     std::filesystem::path path = kDatasetPath;
     std::string broken_file = path.replace_filename(path.stem().string() + "-broken" + path.extension().string()).string();

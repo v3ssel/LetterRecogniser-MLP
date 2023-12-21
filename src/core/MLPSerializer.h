@@ -9,7 +9,7 @@
 namespace s21 {
     class MLPSerializer {
        public:
-        virtual ~MLPSerializer() {};
+        virtual ~MLPSerializer() = default;
 
         virtual void serialize(std::unique_ptr<MLPModel>& model, const std::string& filename) = 0;
         virtual void deserialize(std::unique_ptr<MLPModel>& model, const std::string& filename) = 0;

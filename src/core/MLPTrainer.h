@@ -11,7 +11,7 @@
 namespace s21 {
     class MLPTrainer {
        public:
-        virtual ~MLPTrainer() {}
+        virtual ~MLPTrainer() = default;
 
         virtual std::vector<double> train(const std::unique_ptr<MLPModel>& model,
                                           const std::string &dataset_path, 

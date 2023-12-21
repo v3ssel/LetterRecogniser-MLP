@@ -119,3 +119,44 @@ TEST(MatrixModel, DefaultModel) {
 
     EXPECT_EQ(model->getLearningRate(), 0.1);
 }
+
+TEST(MatrixModel, FeedForward) {
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
+    model->randomFill();
+
+    auto result = model->feedForward({ 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 });
+    
+    EXPECT_EQ(result.size(), 3);
+    EXPECT_TRUE(std::all_of(result.begin(), result.end(), [](double v) { return v != 0; }));
+}
+
+TEST(MatrixModel, GetPrediction) {
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
+    model->randomFill();
+
+    auto result = model->feedForward({ 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 });
+    size_t answer = model->getPrediction(result);
+
+    size_t expected = 0;
+    double tmp = -1111;
+    for (size_t i = 0; i < result.size(); i++) {
+        if (result[i] > tmp) {
+            tmp = result[i];
+            expected = i;
+        }
+    }
+
+    EXPECT_EQ(answer, expected);
+}
+
+TEST(MatrixModel, BackPropagation) {
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
+    model->randomFill();
+    std::vector<double> test_vec = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
+
+    auto result = model->feedForward(test_vec);
+    model->backPropagation({ 0.0l, 1.0l, 0.0l });
+    auto new_result = model->feedForward(test_vec);
+
+    EXPECT_FALSE(result == new_result);
+}

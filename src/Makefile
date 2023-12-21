@@ -17,18 +17,18 @@ TESTS = .\tests\main_test.cpp \
 		.\tests\MatrixModelTests.cpp
 
 build: matrix_lib
-	g++ -O3 m.cpp $(SOURCES) \
-			      $(MATRIX_LIB).a
+	$(CXX) -O3 m.cpp $(SOURCES) $(MATRIX_LIB).a
 
-test:
-	g++ $(TESTS) \
-		$(SOURCES) \
-		$(MATRIX_LIB).a \
-		-lgtest -o $(TEST_EXEC)
+tests:
+	$(CXX) $(TESTS) $(SOURCES) $(MATRIX_LIB).a -lgtest -o $(TEST_EXEC)
 
 gcov_report:
-	lcov -t "./$(TEST_EXEC)" -o test.info --no-external -c -d . --ignore-errors mismatch
-	genhtml -o report test.info
+	$(CXX) --coverage -fno-elide-constructors $(TESTS) $(SOURCES) $(MATRIX_LIB).a -lgtest -o gcov_$(TEST_EXEC)
+	./gcov_$(TEST_EXEC)
+	lcov -d . -t "gcov_$(TEST_EXEC)" -c -o coverage_test.info -b .
+	lcov --remove coverage_test.info "/c/Coding/msys64/*" -o coverage_test.info
+	genhtml -o report coverage_test.info
+	rm -rf *.gcda *.gcno
 
 matrix_lib:
 	$(CXX) $(CFLAGS) -c $(MATRIX_LIB).cc -o $(MATRIX_LIB).o

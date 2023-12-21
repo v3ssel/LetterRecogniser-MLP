@@ -6,7 +6,6 @@
 namespace s21 {
     struct EMNISTData {
         EMNISTData();
-        EMNISTData(std::vector<double> i, std::size_t r);
 
         std::vector<double> image;
         std::size_t result;

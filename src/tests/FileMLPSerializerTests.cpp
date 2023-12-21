@@ -5,9 +5,9 @@
 #include "../core/matrix/MatrixModel.h"
 
 const std::string kTestModelFilename = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\model-test.txt";
-const std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
 
 TEST(FileMLPSerializer, SerializeMatrixModel) {
+    std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
     std::unique_ptr<s21::MLPModel> rnd_model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
     rnd_model->randomFill();
 
@@ -39,6 +39,7 @@ TEST(FileMLPSerializer, SerializeMatrixModel) {
 }
 
 TEST(FileMLPSerializer, DeserializeMatrixModel) {
+    std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
 
     auto weights = model->getWeights();
@@ -66,18 +67,21 @@ TEST(FileMLPSerializer, DeserializeMatrixModel) {
 }
 
 TEST(FileMLPSerializer, DeserializeEmptyModel) {
+    std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
 
     EXPECT_THROW(serializer->deserialize(model, ""), std::invalid_argument);
 }
 
 TEST(FileMLPSerializer, DeserializeInvalidModel) {
+    std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 2, 140, 0.1);
 
     EXPECT_THROW(serializer->deserialize(model, kTestModelFilename), std::invalid_argument);
 }
 
 TEST(FileMLPSerializer, DeserializeInvalidFile) {
+    std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
     std::filesystem::path path(kTestModelFilename);
     std::string broken_filename = path.replace_filename(path.stem().string() + "-broken" + path.extension().string()).string();
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);

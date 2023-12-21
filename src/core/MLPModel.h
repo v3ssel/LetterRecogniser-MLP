@@ -6,7 +6,7 @@
 namespace s21 {
     class MLPModel {
        public:
-        virtual ~MLPModel() {}
+        virtual ~MLPModel() = default;
 
         virtual size_t getPrediction(const std::vector<double>&) = 0;
         virtual std::vector<double> feedForward(const std::vector<double>&) = 0;
