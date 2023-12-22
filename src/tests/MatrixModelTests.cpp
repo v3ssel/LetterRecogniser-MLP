@@ -41,6 +41,36 @@ TEST(MatrixModel, GetBiases) {
     EXPECT_TRUE(std::any_of(biases.begin(), biases.end(), [](double v) { return v != 0; }));
 }
 
+TEST(MatrixModel, GetAndSetWeights) {
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
+    model->randomFill();
+    auto weights = model->getWeights();
+
+    std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
+    model2->setWeights(weights);
+
+    auto weights2 = model2->getWeights();
+
+    EXPECT_EQ(weights.size(), 90);
+    EXPECT_EQ(weights2.size(), 90);
+    EXPECT_TRUE(weights == weights2);
+}
+
+TEST(MatrixModel, GetAndSetBiases) {
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
+    model->randomFill();
+    auto biases = model->getBiases();
+
+    std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
+    model2->setBiases(biases);
+
+    auto biases2 = model2->getBiases();
+
+    EXPECT_EQ(biases.size(), 13);
+    EXPECT_EQ(biases2.size(), 13);
+    EXPECT_TRUE(biases == biases2);
+}
+
 TEST(MatrixModel, RandomFill) {
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
     auto weights = model->getWeights();

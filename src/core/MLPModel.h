@@ -8,12 +8,12 @@ namespace s21 {
        public:
         virtual ~MLPModel() = default;
 
-        virtual size_t getPrediction(const std::vector<double>&) = 0;
+        virtual std::size_t getPrediction(const std::vector<double>&) = 0;
         virtual std::vector<double> feedForward(const std::vector<double>&) = 0;
         virtual void backPropagation(const std::vector<double>& target) = 0;
         virtual void randomFill() = 0;
 
-        virtual std::vector<size_t> getLayersSize() const = 0;
+        virtual std::vector<std::size_t> getLayersSize() const = 0;
 
         virtual void setWeights(const std::vector<double>& weights) = 0;
         virtual std::vector<double> getWeights() const = 0;

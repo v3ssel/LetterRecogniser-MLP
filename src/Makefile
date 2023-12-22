@@ -9,7 +9,9 @@ SOURCES = .\core\MultilayerPerceptron.cpp \
 		  .\core\training\EmnistDatasetReader.cpp \
 		  .\core\training\EmnistData.cpp \
 		  .\core\matrix\MatrixModel.cpp \
-		  .\core\matrix\MatrixLayer.cpp
+		  .\core\matrix\MatrixLayer.cpp \
+		  .\core\graph\GraphModel.cpp \
+		  .\core\graph\GraphLayer.cpp
 
 TESTS = .\tests\main_test.cpp \
 		.\tests\EmnistMLPTrainerTests.cpp \
@@ -19,7 +21,7 @@ TESTS = .\tests\main_test.cpp \
 		.\tests\MatrixModelTests.cpp
 
 build: matrix_lib
-	$(CXX) -O3 m.cpp $(SOURCES) $(MATRIX_LIB).a
+	$(CXX) -g -O3 m.cpp $(SOURCES) $(MATRIX_LIB).a
 
 tests:
 	$(CXX) $(TESTS) $(SOURCES) $(MATRIX_LIB).a -lgtest -o $(TEST_EXEC)

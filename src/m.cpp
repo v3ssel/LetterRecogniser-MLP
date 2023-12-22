@@ -7,7 +7,8 @@
 #include <csignal>
 
 #include "core/MultilayerPerceptron.h"
-#include "core/matrix/MatrixModel.h"
+#include "core/graph/GraphModel.h"
+// #include "core/matrix/MatrixModel.h"
 #include "core/serializer/FileMLPSerializer.h"
 #include "core/training/EmnistMLPTrainer.h"
 #include "core/training/EmnistDatasetReader.h"
@@ -60,19 +61,41 @@ int main(int argc, char const *argv[]) {
     // std::vector<double> v2 = { 0, 1, 0, 2, 3, 0, 5, 2, 3, 2 };
     // std::vector<double> ans = { 0.0l, 1.0l, 0.0l };
 
-    ExView ev;
-    std::function<void(size_t, double, double)> f = std::bind(&ExView::msg, ev, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    std::function<void(size_t, s21::MLPTrainStages)> f2 = std::bind(&ExView::trainstagemsg, ev, std::placeholders::_1, std::placeholders::_2);
-
-    std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>(f, f2);
-    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 4, 140, 0.07);
-    std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
-    // model->randomFill();
-    s21::MultilayerPerceptron mlp(model, trainer, serializer);
+    // std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::GraphModel>(10, 3, 2, 5, 0.1);
+    s21::GraphModel model(10, 3, 2, 5, 0.1);
+    model.randomFill();
     
-    std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
+    auto& layers = model._layers;
+    for (auto i = 0; i < layers.size(); i++) {
+        std::cout << "Layer: " << i << "\n";
+        std::cout << "UseCount: " << layers[i].use_count() << "\n";
+        std::cout << "Size: " << layers[i]->_size << "\n";
+        std::cout << "Neurons:\n";
+        for (auto j = 0; j < layers[i]->_nodes.size(); j++) {
+            std::cout << "\tNeuron: " << j << "\n";
+            std::cout << "\tValue: " << layers[i]->_nodes[j].value << "\n";
+            std::cout << "\tBias: " << layers[i]->_nodes[j].bias << "\n";
+            std::cout << "\tWeights:\n";
+            for (auto k = 0; k < layers[i]->_nodes[j].weights.size(); k++) {
+                std::cout << "\t\tWeight: " << k << ": " << layers[i]->_nodes[j].weights[k] << "\n";
+            }
+        }
+        std::cout << "\n";
+    }
+
+    // ExView ev;
+    // std::function<void(size_t, double, double)> f = std::bind(&ExView::msg, ev, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    // std::function<void(size_t, s21::MLPTrainStages)> f2 = std::bind(&ExView::trainstagemsg, ev, std::placeholders::_1, std::placeholders::_2);
+
+    // std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>(f, f2);
+    // std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 3, 140, 0.07);
+    // std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
+    // model->randomFill();
+    // s21::MultilayerPerceptron mlp(model, trainer, serializer);
+    
+    // std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
     // mlp.exportModel("model-b.txt");
-    mlp.importModel("4-model-63.txt");
+    // mlp.importModel("3-model-67.txt");
     // auto test_res = mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 100);
     // std::cout << "\nTesting result:" 
     //           << "\nAccurancy: " << test_res.accurancy
@@ -83,38 +106,38 @@ int main(int argc, char const *argv[]) {
     //           << "\nTime: " << test_res.testing_time.count()
     //           << "\n";
 
-    std::unique_ptr<s21::EMNISTDatasetReader> reader = std::make_unique<s21::EMNISTDatasetReader>();
-    reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
-    size_t i = 0;
-    while (reader->is_open()) {
-        s21::EMNISTData data = reader->readLine();
-        if (data.result == (size_t)-1) break;
+    // std::unique_ptr<s21::EMNISTDatasetReader> reader = std::make_unique<s21::EMNISTDatasetReader>();
+    // reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
+    // size_t i = 0;
+    // while (reader->is_open()) {
+    //     s21::EMNISTData data = reader->readLine();
+    //     if (data.result == (size_t)-1) break;
 
-        char a = mlp.prediction(data.image);
-        std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a - 64 <<  " " << (char)(a) << "\n"; 
-    }
+    //     char a = mlp.prediction(data.image);
+    //     std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a - 64 <<  " " << (char)(a) << "\n"; 
+    // }
 
-    auto learn_res = mlp.learning(true, "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 5);
-    mlp.exportModel("model-a3.txt");
+    // auto learn_res = mlp.learning(true, "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-train.csv", 5);
+    // mlp.exportModel("model-a3.txt");
 
-    std::cout << "Learning result:\n";
-    for (auto i : learn_res) {
-        std::cout << i << " ";
-    }
-    std::cout << "\n";
+    // std::cout << "Learning result:\n";
+    // for (auto i : learn_res) {
+    //     std::cout << i << " ";
+    // }
+    // std::cout << "\n";
 
 
-    std::cout << ">>>>>>-------------------------------AFTER TRAIN---------------------------------<<<<<<\n";
-    reader = std::make_unique<s21::EMNISTDatasetReader>();
-    reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
-    i = 0;
-    while (reader->is_open()) {
-        s21::EMNISTData data = reader->readLine();
-        if (data.result == (size_t)-1) break;
+    // std::cout << ">>>>>>-------------------------------AFTER TRAIN---------------------------------<<<<<<\n";
+    // reader = std::make_unique<s21::EMNISTDatasetReader>();
+    // reader->open("C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\em5.txt");
+    // i = 0;
+    // while (reader->is_open()) {
+    //     s21::EMNISTData data = reader->readLine();
+    //     if (data.result == (size_t)-1) break;
 
-        char a = mlp.prediction(data.image);
-        std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a - 64 <<  " " << (char)(a) << "\n"; 
-    }
+    //     char a = mlp.prediction(data.image);
+    //     std::cout << ++i << ". " << "expected: " << data.result << " and got: " << (int)a - 64 <<  " " << (char)(a) << "\n"; 
+    // }
 
     // std::unique_ptr<s21::MLPModel> model2 = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.4);
     // s21::MultilayerPerceptron mlp2(model2, trainer);
