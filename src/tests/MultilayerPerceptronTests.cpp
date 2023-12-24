@@ -4,6 +4,7 @@
 
 #include "../core/MultilayerPerceptron.h"
 #include "../core/matrix/MatrixModel.h"
+#include "../core/graph/GraphModel.h"
 #include "../core/training/EmnistMLPTrainer.h"
 #include "../core/serializer/FileMLPSerializer.h"
 
@@ -42,6 +43,9 @@ TEST(MultilayerPerceptron, ImportExport) {
     EXPECT_TRUE(std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
                            std::istreambuf_iterator<char>(),
                            std::istreambuf_iterator<char>(f2.rdbuf())));
+
+    f2.close();
+    std::filesystem::remove(export_path);
 }
 
 TEST(MultilayerPerceptron, Prediction) {
@@ -106,4 +110,32 @@ TEST(MultilayerPerceptron, LearningRate) {
     mlp.setLearningRate(0.5);
 
     EXPECT_NE(prev_lr, mlp.getLearningRate());
+}
+
+TEST(MultilayerPerceptron, TwoModels) {
+    s21::MultilayerPerceptron matrix_mlp = getMLP();
+    s21::MultilayerPerceptron graph_mlp = getMLP();
+    
+
+    std::filesystem::path path(kModelPath);
+    std::string m_model_path = path.replace_filename(path.stem().string() + "_matrix" + path.extension().string()).string();
+    std::string g_model_path = path.replace_filename(path.stem().string() + "_graph" + path.extension().string()).string();
+
+    matrix_mlp.importModel(kModelPath);
+    graph_mlp.importModel(kModelPath);
+
+    matrix_mlp.exportModel(m_model_path);
+    graph_mlp.exportModel(g_model_path);
+
+    std::ifstream f1(m_model_path, std::ifstream::binary | std::ifstream::ate);
+    std::ifstream f2(g_model_path, std::ifstream::binary | std::ifstream::ate);
+
+    EXPECT_TRUE(std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
+                           std::istreambuf_iterator<char>(),
+                           std::istreambuf_iterator<char>(f2.rdbuf())));
+
+    f1.close();
+    f2.close();
+    std::filesystem::remove(m_model_path); 
+    std::filesystem::remove(g_model_path); 
 }
