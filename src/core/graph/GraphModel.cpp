@@ -119,14 +119,6 @@ namespace s21 {
             node.bias -= (err_x * _learning_rate);
         }
     }
-
-//    Matrix MatrixModel::applyDerivative(const std::vector<double> &err_y, const std::vector<double> &out_layer) {
-//        std::vector<double> err_x;
-//        for (auto i = 0; i < err_y.size(); i++) {
-//            err_y.push_back(sigmoidDerivative(out_layer[i]) * err_y[i];
-//        }
-//        return err_x;
-//    }
     
     void GraphModel::randomFill() {
         for (auto &layer : _layers) {
