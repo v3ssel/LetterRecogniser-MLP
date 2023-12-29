@@ -64,9 +64,69 @@ namespace s21 {
     }
     
     void GraphModel::backPropagation(const std::vector<double> &target) {
+        std::vector<double> err_y;
+        for (auto i = 0; i < target.size(); i++) {
+            err_y.push_back(_layers.back()->_nodes[i].value - target[i]);
+        }
+        std::vector<double> err_x;
+        for (auto i = 0; i < err_y.size(); i++) {
+            err_x.push_back(sigmoidDerivative(_layers.back()->_nodes[i].value) * err_y[i]);
+        }
+        std::vector<double> err_w;
+        for (auto i = 0; i < err_x.size(); i++) {
+            for (auto j = 0; j < _layers.back()->_input_layer->_nodes.size(); j++) {
+                err_w.push_back(_layers.back()->_input_layer->_nodes[j].value * err_x[i]);
+            }
+        }
 
-        
+        updateWeights(_layers.back(), err_w);
+        updateBias(_layers.back(), err_x);
+//        for (auto &node : _layers.back()->_nodes) {
+//            for (auto i = 0; i < node.weights.size(); i++) {
+//                node.weights[i] = -= (err_w * _learning_rate);
+//            }
+//        }
+//        for (auto &node : _layers.back()->_nodes) {
+//            node.bias = -= (err_x * _learning_rate);
+//        }
+
+        for (int l = _layers.size() - 2; l > 0; l--) {
+            err_y = (err_x * _layers[l].weights.Transpose());
+            err_x = applyDerivative(err_y, _layers[l].values);
+            err_w = _layers[l - 1].values.Transpose() * err_x;
+
+            updateWeights(_layers[l], err_w);
+            updateBias(_layers[l], err_x);
+//            _layers[l - 1].weights -= (err_w * _learning_rate);
+//            _layers[l - 1].bias -= (err_x * _learning_rate);
+        }
     }
+
+    double GraphModel::sigmoidDerivative(double n) {
+        return n * (1 - n);
+    }
+
+    void GraphModel::updateWeights(GraphLayer &layer, std::vector<double> &err_w) {
+        for (auto &node : layer->_nodes) {
+            for (auto i = 0; i < node.weights.size(); i++) {
+                node.weights[i] -= (err_w * _learning_rate);
+            }
+        }
+    }
+
+    void GraphModel::updateBias(GraphLayer &layer, std::vector<double> &err_x) {
+        for (auto &node : layer->_nodes) {
+            node.bias -= (err_x * _learning_rate);
+        }
+    }
+
+//    Matrix MatrixModel::applyDerivative(const std::vector<double> &err_y, const std::vector<double> &out_layer) {
+//        std::vector<double> err_x;
+//        for (auto i = 0; i < err_y.size(); i++) {
+//            err_y.push_back(sigmoidDerivative(out_layer[i]) * err_y[i];
+//        }
+//        return err_x;
+//    }
     
     void GraphModel::randomFill() {
         for (auto &layer : _layers) {

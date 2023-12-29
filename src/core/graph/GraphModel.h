@@ -16,10 +16,6 @@ namespace s21 {
         void backPropagation(const std::vector<double>& target) override;
         void randomFill() override;
 
-        void summatoryFunction(GraphLayer &layer, GraphNode &output_node);
-        void activationFunction(std::vector<GraphNode> &nodes);
-        double sigmoidFunction(double n);
-
         std::vector<size_t> getLayersSize() const override;
 
         void setWeights(const std::vector<double>& weights) override;
@@ -34,6 +30,16 @@ namespace s21 {
     //    private:
         std::vector<std::shared_ptr<GraphLayer>> _layers;
         double _learning_rate;
+
+    private:
+        void summatoryFunction(GraphLayer &layer, GraphNode &output_node);
+        void activationFunction(std::vector<GraphNode> &nodes);
+        double sigmoidFunction(double n);
+
+        double sigmoidDerivative(double n);
+        void updateWeights(GraphLayer &layer, std::vector<double> &err_w);
+        void updateBias(GraphLayer &layer, std::vector<double> &err_x);
+
     };
 }
 
