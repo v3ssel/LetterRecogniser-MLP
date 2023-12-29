@@ -33,11 +33,38 @@ namespace s21 {
         return std::distance(output_layer.begin(), std::max_element(output_layer.begin(), output_layer.end()));
     }
 
-    std::vector<double> GraphModel::feedForward(const std::vector<double> &input_layer) {
-        return std::vector<double>();
+    void GraphModel::feedForward(const std::vector<double> &input_layer) {
+        for (size_t i = 0; i < _layers[0].size; ++i) {
+            _layers[0]->_nodes[i].value = input_layer[i];
+        }
+
+        for (size_t i = 0; i < _layers.size() - 1; ++i) {
+            for (auto &output_node : _layers[i]->_output_layer->_nodes) {
+                summatoryFunction(_layers[i], output_node);
+            }
+            activationFunction(_layers[i]->_output_layer->_nodes);
+        }
+    }
+
+    void GraphModel::summatoryFunction(GraphLayer &layer, GraphNode &output_node) {
+        for (auto i = 0; i < layer.getSize(); i++) {
+            output_node.value += layer._nodes[i] * output_node.weights[i];
+        }
+        output_node.value += output_node.bias;
+    }
+
+    void GraphModel::activationFunction(std::vector<GraphNode> &nodes) {
+        for (auto i = 0; i < nodes.size(); i++) {
+            nodes[i].value = sigmoidFunction(nodes[i].value);
+        }
+    }
+
+    double GraphModel::sigmoidFunction(double n) {
+        return 1.0l / (1.0l + std::exp(-n));
     }
     
     void GraphModel::backPropagation(const std::vector<double> &target) {
+
         
     }
     
