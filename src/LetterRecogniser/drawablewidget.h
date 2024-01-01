@@ -19,10 +19,15 @@ class DrawableWidget : public QWidget {
 
     void paintEvent(QPaintEvent* paint) override;
 
+
     void loadImage(const QString& fileName);
     void clear();
 
     void setImage(const QImage &new_image);
+
+   signals:
+    void predict(QImage image);
+
    private:
     bool moving_;
 

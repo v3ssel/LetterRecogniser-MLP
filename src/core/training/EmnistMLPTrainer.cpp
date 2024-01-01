@@ -3,8 +3,8 @@
 #include <algorithm>
 
 namespace s21 {
-    EMNISTMLPTrainer::EMNISTMLPTrainer(const std::function<void(size_t, double, double)> &epoch_callback,
-                                       const std::function<void(size_t, MLPTrainStages)> &process_callback) {
+    EMNISTMLPTrainer::EMNISTMLPTrainer(const EpochCb &epoch_callback,
+                                       const ProcessCb &process_callback) {
         _epoch_callback = epoch_callback;
         _process_callback = process_callback;
     }

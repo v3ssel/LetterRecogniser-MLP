@@ -20,6 +20,36 @@ set(PROJECT_SOURCES
         letterrecogniserwindow.ui
         drawablewidget.h
         drawablewidget.cpp
+        ../controller/controller.h
+        ../controller/controller.cpp
+        ../core/MLPModel.h
+        ../core/MLPSerializer.h
+        ../core/MLPTestMetrics.h
+        ../core/MLPTrainer.h
+        ../core/MLPTrainStages.h
+        ../core/MultilayerPerceptron.h
+        ../core/MultilayerPerceptron.cpp
+        ../core/ModelBuilder.h
+        ../core/ModelBuilder.cpp
+        ../core/serializer/FileMLPSerializer.h
+        ../core/serializer/FileMLPSerializer.cpp
+        ../core/training/EmnistMLPTrainer.h
+        ../core/training/EmnistMLPTrainer.cpp
+        ../core/training/EmnistDatasetReader.h
+        ../core/training/EmnistDatasetReader.cpp
+        ../core/training/EmnistData.h
+        ../core/training/EmnistData.cpp
+        ../core/training/TFMetrics.h
+        ../core/matrix/MatrixModel.h
+        ../core/matrix/MatrixModel.cpp
+        ../core/matrix/MatrixLayer.h
+        ../core/matrix/MatrixLayer.cpp
+        ../core/graph/GraphModel.h
+        ../core/graph/GraphModel.cpp
+        ../core/graph/GraphLayer.h
+        ../core/graph/GraphLayer.cpp
+        ../core/matrix/libmatrix/matrix.h
+        ../core/matrix/libmatrix/matrix.cc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

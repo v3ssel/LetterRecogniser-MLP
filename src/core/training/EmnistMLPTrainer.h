@@ -12,9 +12,11 @@
 namespace s21 {
     class EMNISTMLPTrainer : public MLPTrainer {
        public:
-       
-        EMNISTMLPTrainer(const std::function<void(size_t, double, double)> &epoch_callback,
-                         const std::function<void(size_t, MLPTrainStages)> &process_callback);
+        using EpochCb = std::function<void(size_t, double, double)>;
+        using ProcessCb = std::function<void(size_t, MLPTrainStages)>;
+
+        EMNISTMLPTrainer(const EpochCb &epoch_callback,
+                         const ProcessCb &process_callback);
 
         std::vector<double> train(const std::unique_ptr<MLPModel>& model, 
                                   const std::string& dataset_path,
@@ -31,8 +33,8 @@ namespace s21 {
 
        private:
         bool _stop = false;
-        std::function<void(size_t, double, double)> _epoch_callback;
-        std::function<void(size_t, MLPTrainStages)> _process_callback;
+        EpochCb _epoch_callback;
+        ProcessCb _process_callback;
         
         double calculateMSE(const std::vector<double> &expected, const std::vector<double> &actual);
         void calculateMetrics(MLPTestMetrics& metrics, std::vector<TFMetrics>& submetrics);

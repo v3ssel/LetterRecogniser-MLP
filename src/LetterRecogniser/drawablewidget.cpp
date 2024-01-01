@@ -2,7 +2,6 @@
 
 DrawableWidget::DrawableWidget(QWidget *parent)
     : QWidget{parent} {
-
 }
 
 void DrawableWidget::mousePressEvent(QMouseEvent *mouse) {
@@ -22,6 +21,12 @@ void DrawableWidget::mouseReleaseEvent(QMouseEvent *mouse) {
     if (mouse->button() == Qt::MouseButton::LeftButton) {
         moving_ = false;
     }
+
+    QImage mnist = canvas_;
+    mnist.invertPixels();
+    mnist = mnist.scaled(QSize(28, 28), Qt::KeepAspectRatio).convertToFormat(QImage::Format::Format_Grayscale8);
+
+    emit predict(mnist);
 }
 
 void DrawableWidget::paintEvent(QPaintEvent *paint) {
@@ -38,7 +43,6 @@ void DrawableWidget::loadImage(const QString& fileName) {
         return;
     }
 
-    qDebug() << new_image << canvas_;
     setImage(new_image);
     update();
 }
@@ -58,6 +62,8 @@ void DrawableWidget::drawLine(QPoint endPoint) {
     QPen pen(Qt::GlobalColor::black);
     pen.setStyle(Qt::PenStyle::SolidLine);
     pen.setWidth(15);
+    pen.setCapStyle(Qt::PenCapStyle::RoundCap);
+    pen.setJoinStyle(Qt::PenJoinStyle::RoundJoin);
 
     painter.setPen(pen);
     painter.drawLine(start_point_, endPoint);
