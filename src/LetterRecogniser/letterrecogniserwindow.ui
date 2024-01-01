@@ -14,7 +14,7 @@
    <string>LetterRecogniserWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="settings_groupBox">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -28,14 +28,14 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="settings_horizontalLayout">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QVBoxLayout" name="labels_verticalLayout">
          <property name="spacing">
           <number>1</number>
          </property>
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="model_label">
            <property name="text">
             <string>Model</string>
            </property>
@@ -51,7 +51,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="layers_label">
            <property name="text">
             <string>Layers</string>
            </property>
@@ -61,7 +61,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="rate_label">
            <property name="text">
             <string>Learn Rate</string>
            </property>
@@ -73,9 +73,9 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <layout class="QVBoxLayout" name="values_verticalLayout">
          <item>
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="model_comboBox">
            <item>
             <property name="text">
              <string>Matrix</string>
@@ -89,7 +89,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox">
+          <widget class="QSpinBox" name="layers_spinBox">
            <property name="minimum">
             <number>2</number>
            </property>
@@ -99,7 +99,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="doubleSpinBox">
+          <widget class="QDoubleSpinBox" name="learnrate_doubleSpinBox">
            <property name="maximum">
             <double>2.000000000000000</double>
            </property>
@@ -117,7 +117,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="training_groupBox">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -131,9 +131,9 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="training_verticalLayout">
        <item>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="crossvalid_checkBox">
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -143,21 +143,21 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="epochs_horizontalLayout">
          <item>
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="epochs_label">
            <property name="text">
             <string>Epochs</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_2"/>
+          <widget class="QSpinBox" name="epochs_count_spinBox"/>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="start_training_pushButton">
          <property name="text">
           <string>Start Train</string>
          </property>
@@ -167,7 +167,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGroupBox" name="groupBox_3">
+   <widget class="QGroupBox" name="weights_groupBox">
     <property name="geometry">
      <rect>
       <x>341</x>
@@ -181,16 +181,16 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
+      <layout class="QVBoxLayout" name="weights_verticalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="load_weights_pushButton">
          <property name="text">
           <string>Load Weights</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="save_weights_pushButton">
          <property name="text">
           <string>Save Weights</string>
          </property>
@@ -200,7 +200,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGroupBox" name="groupBox_4">
+   <widget class="QGroupBox" name="testing_groupBox">
     <property name="geometry">
      <rect>
       <x>512</x>
@@ -212,7 +212,7 @@
     <property name="title">
      <string/>
     </property>
-    <widget class="QPushButton" name="pushButton_6">
+    <widget class="QPushButton" name="start_testing_pushButton">
      <property name="geometry">
       <rect>
        <x>13</x>
@@ -225,7 +225,7 @@
       <string>Start Testing</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="load_image_pushButton">
      <property name="geometry">
       <rect>
        <x>13</x>
@@ -238,7 +238,7 @@
       <string>Load BMP-Image</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="testpart_label">
      <property name="geometry">
       <rect>
        <x>14</x>
@@ -251,7 +251,7 @@
       <string>Testing part</string>
      </property>
     </widget>
-    <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+    <widget class="QDoubleSpinBox" name="testpart_doubleSpinBox">
      <property name="geometry">
       <rect>
        <x>149</x>
@@ -271,7 +271,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_5">
+   <widget class="QGroupBox" name="answer_groupBox">
     <property name="geometry">
      <rect>
       <x>520</x>
@@ -285,9 +285,9 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_11">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,0">
+      <layout class="QVBoxLayout" name="answer_verticalLayout" stretch="0,0">
        <item alignment="Qt::AlignHCenter|Qt::AlignTop">
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="preanswer_label">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -299,7 +299,7 @@
         </widget>
        </item>
        <item alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="answer_label">
          <property name="font">
           <font>
            <family>Sylfaen</family>
@@ -321,7 +321,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGroupBox" name="groupBox_6">
+   <widget class="QGroupBox" name="testres_groupBox">
     <property name="geometry">
      <rect>
       <x>520</x>
@@ -335,86 +335,86 @@
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="0">
-      <layout class="QGridLayout" name="gridLayout">
+      <layout class="QGridLayout" name="testres_gridLayout">
        <item row="1" column="2">
-        <widget class="QLabel" name="label_18">
+        <widget class="QLabel" name="fm_label">
          <property name="text">
           <string>F-Measure:</string>
          </property>
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QLabel" name="label_17">
+        <widget class="QLabel" name="recall_label">
          <property name="text">
           <string>Recall:</string>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label_11">
+        <widget class="QLabel" name="avacur_label">
          <property name="text">
           <string>Average Accuracy:</string>
          </property>
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLabel" name="label_16">
+        <widget class="QLabel" name="precision_value_label">
          <property name="text">
           <string>n/a</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_13">
+        <widget class="QLabel" name="avperc_label">
          <property name="text">
           <string>Accuracy Percent:</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_15">
+        <widget class="QLabel" name="precision_label">
          <property name="text">
           <string>Precision:</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLabel" name="label_12">
+        <widget class="QLabel" name="avacur_value_label">
          <property name="text">
           <string>n/a</string>
          </property>
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="QLabel" name="label_19">
+        <widget class="QLabel" name="time_label">
          <property name="text">
           <string>Time:</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLabel" name="label_14">
+        <widget class="QLabel" name="avperc_value_label">
          <property name="text">
           <string>n/a</string>
          </property>
         </widget>
        </item>
        <item row="0" column="3">
-        <widget class="QLabel" name="label_20">
+        <widget class="QLabel" name="recall_value_label">
          <property name="text">
           <string>n/a</string>
          </property>
         </widget>
        </item>
        <item row="1" column="3">
-        <widget class="QLabel" name="label_21">
+        <widget class="QLabel" name="fm_value_label">
          <property name="text">
           <string>n/a</string>
          </property>
         </widget>
        </item>
        <item row="2" column="3">
-        <widget class="QLabel" name="label_22">
+        <widget class="QLabel" name="time_value_label">
          <property name="text">
           <string>n/a</string>
          </property>
@@ -424,7 +424,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QLabel" name="testres_label">
     <property name="geometry">
      <rect>
       <x>595</x>
@@ -443,7 +443,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;TEST RESULT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_10">
+   <widget class="QLabel" name="trainres_label">
     <property name="geometry">
      <rect>
       <x>590</x>
@@ -462,7 +462,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;TRAIN RESULT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox_7">
+   <widget class="QGroupBox" name="trainres_groupBox">
     <property name="geometry">
      <rect>
       <x>520</x>
@@ -474,48 +474,48 @@
     <property name="title">
      <string/>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
+    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_9" stretch="0,1">
+      <layout class="QVBoxLayout" name="trainres_verticalLayout" stretch="0,1">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,0,0,0,0,0">
          <item>
-          <widget class="QLabel" name="label_23">
+          <widget class="QLabel" name="epoch_label">
            <property name="text">
             <string>Epoch:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_24">
+          <widget class="QLabel" name="epoch_value_label">
            <property name="text">
             <string>n/a</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_25">
+          <widget class="QLabel" name="mse_label">
            <property name="text">
             <string>MSE:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_26">
+          <widget class="QLabel" name="mse_value_label">
            <property name="text">
             <string>n/a</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_27">
+          <widget class="QLabel" name="accur_label">
            <property name="text">
             <string>Accuracy:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_28">
+          <widget class="QLabel" name="accur_value_label">
            <property name="text">
             <string>n/a</string>
            </property>
@@ -524,15 +524,9 @@
         </layout>
        </item>
        <item>
-        <widget class="QFrame" name="frame_2">
+        <widget class="QWidget" name="trainres_graph_widget" native="true">
          <property name="styleSheet">
-          <string notr="true">QFrame { background-color: rgb(255, 240, 124); }</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <string notr="true">QWidget { background-color: rgb(255, 240, 124); }</string>
          </property>
         </widget>
        </item>
@@ -540,7 +534,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGroupBox" name="groupBox_8">
+   <widget class="QGroupBox" name="stage_groupBox">
     <property name="geometry">
      <rect>
       <x>512</x>
@@ -554,9 +548,9 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_9">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
+      <layout class="QHBoxLayout" name="stage_horizontalLayout">
        <item alignment="Qt::AlignLeft">
-        <widget class="QLabel" name="label_29">
+        <widget class="QLabel" name="currentstage_label">
          <property name="font">
           <font>
            <pointsize>11</pointsize>
@@ -569,7 +563,7 @@
         </widget>
        </item>
        <item alignment="Qt::AlignRight">
-        <widget class="QLabel" name="label_30">
+        <widget class="QLabel" name="stage_label">
          <property name="font">
           <font>
            <pointsize>11</pointsize>
@@ -577,7 +571,7 @@
           </font>
          </property>
          <property name="text">
-          <string>TRAINING</string>
+          <string>WAITING</string>
          </property>
         </widget>
        </item>
@@ -585,20 +579,26 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QLabel" name="result_label">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>96</y>
-      <width>80</width>
-      <height>24</height>
+      <x>610</x>
+      <y>100</y>
+      <width>91</width>
+      <height>25</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Gabriola</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
     <property name="text">
-     <string>Start train</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;RESULTS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="DrawableWidget" name="painting_widget" native="true">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -623,39 +623,47 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">QFrame { background-color: rgb(136, 0, 255); }</string>
+     <string notr="true">QWidget { border: 1px solid gray; }</string>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <property name="lineWidth">
-     <number>4</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>100</y>
-      <width>91</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Gabriola</family>
-      <pointsize>24</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;RESULTS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
+    <widget class="QPushButton" name="clear_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>497</y>
+       <width>15</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="whatsThis">
+      <string>Clear paint.</string>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: rgb(175, 175, 175);
+}
+
+QPushButton:hover:!pressed {
+	background-color: rgb(154, 154, 154);
+}</string>
+     </property>
+     <property name="text">
+      <string>X</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DrawableWidget</class>
+   <extends>QWidget</extends>
+   <header>drawablewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

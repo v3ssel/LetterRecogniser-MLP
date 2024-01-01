@@ -2,6 +2,7 @@
 #define LETTERRECOGNISERWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LetterRecogniserWindow; }
@@ -13,6 +14,10 @@ class LetterRecogniserWindow : public QMainWindow {
    public:
     LetterRecogniserWindow(QWidget *parent = nullptr);
     ~LetterRecogniserWindow();
+
+   public slots:
+    void clearPaintButtonClicked();
+    void loadBmpImageButtonClicked();
 
    private:
     Ui::LetterRecogniserWindow *ui;
