@@ -22,11 +22,7 @@ void DrawableWidget::mouseReleaseEvent(QMouseEvent *mouse) {
         moving_ = false;
     }
 
-    QImage mnist = canvas_;
-    mnist.invertPixels();
-    mnist = mnist.scaled(QSize(28, 28), Qt::KeepAspectRatio).convertToFormat(QImage::Format::Format_Grayscale8);
-
-    emit predict(mnist);
+    emit predict(toMNIST());
 }
 
 void DrawableWidget::paintEvent(QPaintEvent *paint) {
@@ -43,13 +39,24 @@ void DrawableWidget::loadImage(const QString& fileName) {
         return;
     }
 
+    new_image = new_image.scaled(QSize(512, 512), Qt::AspectRatioMode::KeepAspectRatio, Qt::TransformationMode::SmoothTransformation);
     setImage(new_image);
     update();
+
+    emit predict(toMNIST());
 }
 
 void DrawableWidget::clear() {
     canvas_.fill(Qt::GlobalColor::white);
     update();
+}
+
+QImage DrawableWidget::toMNIST() {
+    QImage mnist = canvas_;
+    mnist.invertPixels();
+    mnist = mnist.scaled(QSize(28, 28), Qt::KeepAspectRatio).convertToFormat(QImage::Format::Format_Grayscale8);
+
+    return mnist;
 }
 
 void DrawableWidget::setImage(const QImage &new_image) {

@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QtConcurrent/QtConcurrent>
+#include <QFutureWatcher>
 #include "../controller/controller.h"
 
 QT_BEGIN_NAMESPACE
@@ -31,15 +33,31 @@ class LetterRecogniserWindow : public QMainWindow {
 
     void changeModelType(const QString &arg1);
     void changeLayersSize(int layers);
+    void changeLearnRate(double rate);
 
     void loadWeightsButtonClicked();
     void saveWeightsButtonClicked();
+    void randomizeWeightsButtonClicked();
 
-private:
+    void testingButtonClicked();
+    void trainingButtonClicked();
+
+    void testingResults();
+    void trainingResult();
+
+   private:
     Ui::LetterRecogniserWindow *ui;
 
     QString prev_model_type_;
     int prev_layers_size_;
+
+    QFutureWatcher<s21::MLPTestMetrics> *testing_future_watcher_;
+    QFutureWatcher<std::vector<double>> *training_future_watcher_;
+    bool canceled_;
+
+    std::string exception_msg_;
+
     s21::ModelType chooseModelType();
+    void blockButtons(bool block, bool testing);
 };
 #endif // LETTERRECOGNISERWINDOW_H

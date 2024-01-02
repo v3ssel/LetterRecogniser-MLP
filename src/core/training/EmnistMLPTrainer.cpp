@@ -95,7 +95,6 @@ namespace s21 {
             for (size_t k = 0; k < k_groups; k++) {
                 _process_callback(k + 1, MLPTrainStages::TRAINING);
                 double mse = 0;
-                size_t t = 0, acur = 0; // for debug
                 reader->open(dataset_path);
 
                 for (size_t elem = 0; elem < dataset_size; elem++) {
@@ -106,24 +105,16 @@ namespace s21 {
 
                     EMNISTData data = reader->readLine();
 
-                    // t++;
                     if (elem >= group_start && elem < group_end && k_groups != 1) {
                         testingDataset.push_back(data);
                         continue;
                     }
-
-                    // if (t % 1000 == 0) {
-                    //     std::cout << "Group " << k + 1 << " step " << t << std::endl;
-                    // }
 
                     expected[data.result - 1] = 1.0l;
                     model->feedForward(data.image);
                     model->backPropagation(expected);
                     expected[data.result - 1] = 0.0l;
                 }
-                std::cout << "Group " << k + 1 << std::endl;
-                t = group_size * k;
-
                 size_t accurancy = 0;
 
                 _process_callback(k + 1, MLPTrainStages::TESTING);
@@ -138,16 +129,8 @@ namespace s21 {
 
                     if ((elem.result - 1) == model->getPrediction(actual)) {
                         accurancy++;
-                        acur++;
-                    }
-                    
-                    t++;
-                    if (t % 1000 == 0) {
-                        std::cout << "Group " << k + 1 << " step " << t << " test accurancy per thousand: " << acur << " accurancy: " << accurancy << std::endl;
-                        acur = 0;
                     }
                 }
-                std::cout << "Group " << k + 1 << " test accurancy: " << accurancy << std::endl;
 
                 mse /= static_cast<double>(testingDataset.size());
                 group_start = group_end;
@@ -181,10 +164,7 @@ namespace s21 {
 
             size_t dataset_size = reader->getNumberOfLines();
             size_t test_count = static_cast<size_t>(std::ceil(dataset_size * percent / 100.0l));
-            // std::cout << "Dataset size: " << dataset_size << std::endl;
-            // std::cout << "Test dataset size: " << test_count << std::endl;
 
-            // std::vector<bool> v(26, false); // debug
             std::vector<TFMetrics> submetrics(model->getLayersSize().back());
             size_t accurancy_percent = 0;
 
@@ -204,7 +184,6 @@ namespace s21 {
 
                 for (size_t j = 0; j < actual.size(); j++) {
                     if (expected == j && got == j) {
-                        // v[got] = true;
                         accurancy_percent++;
                         submetrics[j].tp++;
                     } else if (expected == j && got != j) {
@@ -222,11 +201,6 @@ namespace s21 {
             metrics.accurancy_percent = accurancy_percent * 100.0l / test_count;
             metrics.testing_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-            // std::cout << "Get all? " << std::endl;
-            // for (size_t i = 0; i < 26; i++) {
-            //     std::cout << char(i + 65) << ":" << v[i] << "\n";
-            // }
-            // std::cout << std::endl;
         } catch (std::exception &e) {
             throw std::runtime_error("EMNISTMLPTrainer::test: " + std::string(e.what()));
         }

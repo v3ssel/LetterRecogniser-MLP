@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QPaintEvent>
 #include <QPainter>
-#include <QPainter>
 #include <QMessageBox>
 
 class DrawableWidget : public QWidget {
@@ -23,10 +22,11 @@ class DrawableWidget : public QWidget {
     void loadImage(const QString& fileName);
     void clear();
 
-    void setImage(const QImage &new_image);
+    QImage toMNIST();
+    void setImage(const QImage& new_image);
 
    signals:
-    void predict(QImage image);
+    void predict(const QImage& image);
 
    private:
     bool moving_;

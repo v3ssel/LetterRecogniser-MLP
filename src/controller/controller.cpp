@@ -40,7 +40,23 @@ namespace s21 {
         mlp_->exportModel(path);
     }
 
+    void Controller::randomizeWeights() {
+        mlp_->randomizeModelWeights();
+    }
+
     char Controller::predicate(const std::vector<double> &input) {
         return mlp_->prediction(input);
+    }
+    
+    MLPTestMetrics Controller::startTesting(const std::string &path, const size_t percent) {
+        return mlp_->testing(path, percent);
+    }
+    
+    std::vector<double> Controller::startTraining(const bool cv, const std::string &path, const size_t epochs) {
+        return mlp_->learning(cv, path, epochs);
+    }
+    
+    void Controller::stopTrainer() {
+        mlp_->stopTrainer();
     }
 }

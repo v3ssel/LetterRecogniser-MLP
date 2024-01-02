@@ -129,43 +129,61 @@
     <property name="title">
      <string/>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_4">
-     <item>
-      <layout class="QVBoxLayout" name="training_verticalLayout">
-       <item>
-        <widget class="QCheckBox" name="crossvalid_checkBox">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Crossvalidation Training</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="epochs_horizontalLayout">
-         <item>
-          <widget class="QLabel" name="epochs_label">
-           <property name="text">
-            <string>Epochs</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="epochs_count_spinBox"/>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="start_training_pushButton">
-         <property name="text">
-          <string>Start Train</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <widget class="QCheckBox" name="crossvalid_checkBox">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>12</y>
+       <width>155</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Crossvalidation Training</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="start_training_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>59</y>
+       <width>155</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Start Train</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>33</y>
+       <width>155</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="epochs_horizontalLayout">
+      <item>
+       <widget class="QLabel" name="epochs_label">
+        <property name="text">
+         <string>Epochs</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="epochs_count_spinBox">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="weights_groupBox">
     <property name="geometry">
@@ -179,26 +197,45 @@
     <property name="title">
      <string/>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <layout class="QVBoxLayout" name="weights_verticalLayout">
-       <item>
-        <widget class="QPushButton" name="load_weights_pushButton">
-         <property name="text">
-          <string>Load Weights</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="save_weights_pushButton">
-         <property name="text">
-          <string>Save Weights</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <widget class="QPushButton" name="random_weights_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>59</y>
+       <width>145</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Random Weights</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="load_weights_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>12</y>
+       <width>145</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Load Weights</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="save_weights_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>35</y>
+       <width>145</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Save Weights</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="testing_groupBox">
     <property name="geometry">
@@ -474,65 +511,79 @@
     <property name="title">
      <string/>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0">
-     <item>
-      <layout class="QVBoxLayout" name="trainres_verticalLayout" stretch="0,1">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,0,0,0,0,0">
-         <item>
-          <widget class="QLabel" name="epoch_label">
-           <property name="text">
-            <string>Epoch:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="epoch_value_label">
-           <property name="text">
-            <string>n/a</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="mse_label">
-           <property name="text">
-            <string>MSE:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="mse_value_label">
-           <property name="text">
-            <string>n/a</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="accur_label">
-           <property name="text">
-            <string>Accuracy:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="accur_value_label">
-           <property name="text">
-            <string>n/a</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QWidget" name="trainres_graph_widget" native="true">
-         <property name="styleSheet">
-          <string notr="true">QWidget { background-color: rgb(255, 240, 124); }</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>0</y>
+       <width>245</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QGroupBox { border: no; }</string>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="epoch_label">
+        <property name="text">
+         <string>Epoch:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="epoch_value_label">
+        <property name="text">
+         <string>n/a</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="mse_label">
+        <property name="text">
+         <string>MSE:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="mse_value_label">
+        <property name="text">
+         <string>n/a</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="accur_label">
+        <property name="text">
+         <string>Accuracy:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="accur_value_label">
+        <property name="text">
+         <string>n/a</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="ResultGraphWidget" name="trainres_graph_widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>40</y>
+       <width>245</width>
+       <height>88</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget { border: 1px solid gray; }</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="stage_groupBox">
     <property name="geometry">
@@ -623,7 +674,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">QWidget { border: 1px solid gray; }</string>
+     <string notr="true"/>
     </property>
     <widget class="QPushButton" name="clear_pushButton">
      <property name="geometry">
@@ -661,6 +712,12 @@ QPushButton:hover:!pressed {
    <class>DrawableWidget</class>
    <extends>QWidget</extends>
    <header>drawablewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ResultGraphWidget</class>
+   <extends>QWidget</extends>
+   <header>resultgraphwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

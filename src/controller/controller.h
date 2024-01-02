@@ -28,8 +28,13 @@ namespace s21 {
 
         void loadWeights(const std::string &path);
         void saveWeights(const std::string &path);
+        void randomizeWeights();
 
         char predicate(const std::vector<double> &input);
+
+        MLPTestMetrics startTesting(const std::string &path, const size_t percent);
+        std::vector<double> startTraining(const bool cv, const std::string &path, const size_t epochs);
+        void stopTrainer();
 
        private:
         Controller() = default;
