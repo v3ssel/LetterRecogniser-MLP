@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LetterRecogniserWindow</class>
+ <widget class="QMainWindow" name="LetterRecogniserWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>LetterRecogniserWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="settings_groupBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>161</width>
+      <height>88</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="settings_horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="labels_verticalLayout">
+         <property name="spacing">
+          <number>1</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="model_label">
+           <property name="text">
+            <string>Model</string>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="layers_label">
+           <property name="text">
+            <string>Layers</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="rate_label">
+           <property name="text">
+            <string>Learn Rate</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="values_verticalLayout">
+         <item>
+          <widget class="QComboBox" name="model_comboBox">
+           <item>
+            <property name="text">
+             <string>Matrix</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Graph</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="layers_spinBox">
+           <property name="minimum">
+            <number>2</number>
+           </property>
+           <property name="maximum">
+            <number>5</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="learnrate_doubleSpinBox">
+           <property name="maximum">
+            <double>2.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="training_groupBox">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>0</y>
+      <width>181</width>
+      <height>88</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QCheckBox" name="crossvalid_checkBox">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>12</y>
+       <width>155</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Crossvalidation Training</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="start_training_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>59</y>
+       <width>155</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Start Train</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>33</y>
+       <width>155</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="epochs_horizontalLayout">
+      <item>
+       <widget class="QLabel" name="epochs_label">
+        <property name="text">
+         <string>Epochs</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="epochs_count_spinBox">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="weights_groupBox">
+    <property name="geometry">
+     <rect>
+      <x>341</x>
+      <y>0</y>
+      <width>171</width>
+      <height>88</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QPushButton" name="random_weights_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>59</y>
+       <width>145</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Random Weights</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="load_weights_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>12</y>
+       <width>145</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Load Weights</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="save_weights_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>35</y>
+       <width>145</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Save Weights</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="testing_groupBox">
+    <property name="geometry">
+     <rect>
+      <x>512</x>
+      <y>0</y>
+      <width>291</width>
+      <height>88</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QPushButton" name="start_testing_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>56</y>
+       <width>265</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Start Testing</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="load_image_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>12</y>
+       <width>265</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Load BMP-Image</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="testpart_label">
+     <property name="geometry">
+      <rect>
+       <x>14</x>
+       <y>36</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Testing part</string>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="testpart_doubleSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>149</x>
+       <y>36</y>
+       <width>128</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>1.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.010000000000000</double>
+     </property>
+     <property name="value">
+      <double>1.000000000000000</double>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="answer_groupBox">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>130</y>
+      <width>271</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_11">
+     <item>
+      <layout class="QVBoxLayout" name="answer_verticalLayout" stretch="0,0">
+       <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+        <widget class="QLabel" name="preanswer_label">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>My answer is...</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QLabel" name="answer_label">
+         <property name="font">
+          <font>
+           <family>Sylfaen</family>
+           <pointsize>40</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>A</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="testres_groupBox">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>285</y>
+      <width>271</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <layout class="QGridLayout" name="testres_gridLayout">
+       <item row="1" column="2">
+        <widget class="QLabel" name="fm_label">
+         <property name="text">
+          <string>F-Measure:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="recall_label">
+         <property name="text">
+          <string>Recall:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="avacur_label">
+         <property name="text">
+          <string>Average Accuracy:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="precision_value_label">
+         <property name="text">
+          <string>n/a</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="avperc_label">
+         <property name="text">
+          <string>Accuracy Percent:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="precision_label">
+         <property name="text">
+          <string>Precision:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="avacur_value_label">
+         <property name="text">
+          <string>n/a</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="time_label">
+         <property name="text">
+          <string>Time:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="avperc_value_label">
+         <property name="text">
+          <string>n/a</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLabel" name="recall_value_label">
+         <property name="text">
+          <string>n/a</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QLabel" name="fm_value_label">
+         <property name="text">
+          <string>n/a</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QLabel" name="time_value_label">
+         <property name="text">
+          <string>n/a</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="testres_label">
+    <property name="geometry">
+     <rect>
+      <x>595</x>
+      <y>255</y>
+      <width>131</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gabriola</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;TEST RESULT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="trainres_label">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>380</y>
+      <width>151</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gabriola</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;TRAIN RESULT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="trainres_groupBox">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>410</y>
+      <width>271</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>0</y>
+       <width>245</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QGroupBox { border: no; }</string>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="epoch_label">
+        <property name="text">
+         <string>Epoch:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="epoch_value_label">
+        <property name="text">
+         <string>n/a</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="mse_label">
+        <property name="text">
+         <string>MSE:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="mse_value_label">
+        <property name="text">
+         <string>n/a</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="accur_label">
+        <property name="text">
+         <string>Accuracy:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="accur_value_label">
+        <property name="text">
+         <string>n/a</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="ResultGraphWidget" name="trainres_graph_widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>13</x>
+       <y>40</y>
+       <width>245</width>
+       <height>88</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget { border: 1px solid gray; }</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="stage_groupBox">
+    <property name="geometry">
+     <rect>
+      <x>512</x>
+      <y>559</y>
+      <width>291</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <layout class="QHBoxLayout" name="stage_horizontalLayout">
+       <item alignment="Qt::AlignLeft">
+        <widget class="QLabel" name="currentstage_label">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>CURRENT STAGE:</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignRight">
+        <widget class="QLabel" name="stage_label">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>WAITING</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="result_label">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>100</y>
+      <width>91</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gabriola</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;RESULTS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="DrawableWidget" name="painting_widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>88</y>
+      <width>512</width>
+      <height>512</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>512</width>
+      <height>512</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>512</width>
+      <height>512</height>
+     </size>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <widget class="QPushButton" name="clear_pushButton">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>497</y>
+       <width>15</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="whatsThis">
+      <string>Clear paint.</string>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: rgb(175, 175, 175);
+}
+
+QPushButton:hover:!pressed {
+	background-color: rgb(154, 154, 154);
+}</string>
+     </property>
+     <property name="text">
+      <string>X</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DrawableWidget</class>
+   <extends>QWidget</extends>
+   <header>drawablewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ResultGraphWidget</class>
+   <extends>QWidget</extends>
+   <header>resultgraphwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

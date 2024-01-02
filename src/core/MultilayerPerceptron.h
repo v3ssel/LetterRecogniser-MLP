@@ -8,11 +8,11 @@
 #include "MLPModel.h"
 #include "MLPTrainer.h"
 #include "MLPSerializer.h"
+#include "ModelBuilder.h"
 
 namespace s21 {
     class MultilayerPerceptron {
        public:
-        // можно сделать билдера модели, через него собираем модель и подаем сюда
         MultilayerPerceptron(std::unique_ptr<MLPModel>& model,
                              std::unique_ptr<MLPTrainer>& trainer,
                              std::unique_ptr<MLPSerializer>& serializer);
@@ -26,6 +26,8 @@ namespace s21 {
        
         void stopTrainer();
 
+        void randomizeModelWeights();
+        void changeModel(ModelType type, size_t hidden_layers);
         void setModel(std::unique_ptr<MLPModel>& model);
         
         void setLearningRate(const double learning_rate);

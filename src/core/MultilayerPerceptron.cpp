@@ -35,6 +35,25 @@ namespace s21 {
         _trainer->stop();
     }
 
+    void MultilayerPerceptron::randomizeModelWeights() {
+        _model->randomFill();
+    }
+
+    void MultilayerPerceptron::changeModel(ModelType type, size_t hidden_layers) {
+        auto sizes = _model->getLayersSize();
+        
+        ModelBuilder builder;
+        builder.setModelType(type)
+              ->setInputLayerSize(sizes[0])
+              ->setOutputLayerSize(sizes.back())
+              ->setLayers(hidden_layers)
+              ->setHiddenLayerSize(sizes[1])
+              ->setLearningRate(_model->getLearningRate());
+        
+        auto new_model = builder.build();
+        setModel(new_model);
+    }
+
     void MultilayerPerceptron::setModel(std::unique_ptr<MLPModel> &model) {
         _model = std::move(model);
     }

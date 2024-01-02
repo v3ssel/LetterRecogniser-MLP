@@ -62,36 +62,44 @@ int main(int argc, char const *argv[]) {
     // std::vector<double> ans = { 0.0l, 1.0l, 0.0l };
 
     // std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::GraphModel>(10, 3, 2, 5, 0.1);
-    s21::GraphModel model(10, 3, 2, 5, 0.1);
-    model.randomFill();
-    
-    auto& layers = model._layers;
-    for (auto i = 0; i < layers.size(); i++) {
-        std::cout << "Layer: " << i << "\n";
-        std::cout << "UseCount: " << layers[i].use_count() << "\n";
-        std::cout << "Size: " << layers[i]->_size << "\n";
-        std::cout << "Neurons:\n";
-        for (auto j = 0; j < layers[i]->_nodes.size(); j++) {
-            std::cout << "\tNeuron: " << j << "\n";
-            std::cout << "\tValue: " << layers[i]->_nodes[j].value << "\n";
-            std::cout << "\tBias: " << layers[i]->_nodes[j].bias << "\n";
-            std::cout << "\tWeights:\n";
-            for (auto k = 0; k < layers[i]->_nodes[j].weights.size(); k++) {
-                std::cout << "\t\tWeight: " << k << ": " << layers[i]->_nodes[j].weights[k] << "\n";
-            }
-        }
-        std::cout << "\n";
+    // s21::GraphModel model(10, 3, 2, 5, 0.1);
+    // model.randomFill();
+
+    // auto& layers = model._layers;
+    // for (auto i = 0; i < layers.size(); i++) {
+    //     std::cout << "Layer: " << i << "\n";
+    //     std::cout << "UseCount: " << layers[i].use_count() << "\n";
+    //     std::cout << "Size: " << layers[i]->_size << "\n";
+    //     std::cout << "Neurons:\n";
+    //     for (auto j = 0; j < layers[i]->_nodes.size(); j++) {
+    //         std::cout << "\tNeuron: " << j << "\n";
+    //         std::cout << "\tValue: " << layers[i]->_nodes[j].value << "\n";
+    //         std::cout << "\tBias: " << layers[i]->_nodes[j].bias << "\n";
+    //         std::cout << "\tWeights:\n";
+    //         for (auto k = 0; k < layers[i]->_nodes[j].weights.size(); k++) {
+    //             std::cout << "\t\tWeight: " << k << ": " << layers[i]->_nodes[j].weights[k] << "\n";
+    //         }
+    //     }
+    //     std::cout << "\n";
+    // }
+
+    ExView ev;
+    std::function<void(size_t, double, double)> f = std::bind(&ExView::msg, ev, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    std::function<void(size_t, s21::MLPTrainStages)> f2 = std::bind(&ExView::trainstagemsg, ev, std::placeholders::_1, std::placeholders::_2);
+
+    std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>(f, f2);
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 3, 140, 0.07);
+    std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
+    model->randomFill();
+
+    // trainer->test(model, "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv", 100);
+
+    s21::MultilayerPerceptron mlp(model, trainer, serializer);
+    try {
+        auto test_res = mlp.testing("C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\emnist-sample-broken.txt", 100);
+    } catch (std::exception& e) {
+        std::cout << e.what() << "\n";
     }
-
-    // ExView ev;
-    // std::function<void(size_t, double, double)> f = std::bind(&ExView::msg, ev, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    // std::function<void(size_t, s21::MLPTrainStages)> f2 = std::bind(&ExView::trainstagemsg, ev, std::placeholders::_1, std::placeholders::_2);
-
-    // std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>(f, f2);
-    // std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(784, 26, 3, 140, 0.07);
-    // std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
-    // model->randomFill();
-    // s21::MultilayerPerceptron mlp(model, trainer, serializer);
     
     // std::cout << "<<<<<<<-------------------------------BEFORE TRAIN-------------------------------->>>>>>>>\n";
     // mlp.exportModel("model-b.txt");

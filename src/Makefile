@@ -4,6 +4,7 @@ MATRIX_LIB = core/matrix/libmatrix/matrix
 TEST_EXEC = tests.exe
 
 SOURCES = .\core\MultilayerPerceptron.cpp \
+		  .\core\ModelBuilder.cpp \
 		  .\core\serializer\FileMLPSerializer.cpp \
 		  .\core\training\EmnistMLPTrainer.cpp \
 		  .\core\training\EmnistDatasetReader.cpp \
