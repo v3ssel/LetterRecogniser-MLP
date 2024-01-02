@@ -270,7 +270,7 @@ void LetterRecogniserWindow::testingResults() {
         ui->precision_value_label->setText(QString::number(metrics.precision, 'g', 2));
         ui->recall_value_label->setText(QString::number(metrics.recall, 'g', 2));
         ui->fm_value_label->setText(QString::number(metrics.f_measure, 'g', 2));
-        ui->time_value_label->setText(QString::number(metrics.testing_time.count() / 1000.0l, 'g', 2));
+        ui->time_value_label->setText(QString::number(metrics.testing_time.count() / 1000.0l, 'g', 2) + "s");
     } catch (const std::exception& ex) {
         QMessageBox::critical(this, "Failed to test model.", QString("Error message: ") + QString::fromStdString(exception_msg_));
     }
