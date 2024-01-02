@@ -33,22 +33,24 @@ namespace s21 {
         return std::distance(output_layer.begin(), std::max_element(output_layer.begin(), output_layer.end()));
     }
 
-    void GraphModel::feedForward(const std::vector<double> &input_layer) {
-        for (size_t i = 0; i < _layers[0].size; ++i) {
+    std::vector<double> GraphModel::feedForward(const std::vector<double> &input_layer) {
+        for (size_t i = 0; i < _layers[0]->_size; ++i) {
             _layers[0]->_nodes[i].value = input_layer[i];
         }
 
         for (size_t i = 0; i < _layers.size() - 1; ++i) {
             for (auto &output_node : _layers[i]->_output_layer->_nodes) {
-                summatoryFunction(_layers[i], output_node);
+//                summatoryFunction(_layers[i], output_node);
             }
             activationFunction(_layers[i]->_output_layer->_nodes);
         }
+
+        return {};
     }
 
     void GraphModel::summatoryFunction(GraphLayer &layer, GraphNode &output_node) {
         for (auto i = 0; i < layer.getSize(); i++) {
-            output_node.value += layer._nodes[i] * output_node.weights[i];
+//            output_node.value += layer._nodes[i] * output_node.weights[i];
         }
         output_node.value += output_node.bias;
     }
@@ -79,8 +81,8 @@ namespace s21 {
             }
         }
 
-        updateWeights(_layers.back(), err_w);
-        updateBias(_layers.back(), err_x);
+//        updateWeights(_layers.back(), err_w);
+//        updateBias(_layers.back(), err_x);
 //        for (auto &node : _layers.back()->_nodes) {
 //            for (auto i = 0; i < node.weights.size(); i++) {
 //                node.weights[i] = -= (err_w * _learning_rate);
@@ -91,12 +93,12 @@ namespace s21 {
 //        }
 
         for (int l = _layers.size() - 2; l > 0; l--) {
-            err_y = (err_x * _layers[l].weights.Transpose());
-            err_x = applyDerivative(err_y, _layers[l].values);
-            err_w = _layers[l - 1].values.Transpose() * err_x;
+//            err_y = (err_x * _layers[l].weights.Transpose());
+//            err_x = applyDerivative(err_y, _layers[l].values);
+//            err_w = _layers[l - 1].values.Transpose() * err_x;
 
-            updateWeights(_layers[l], err_w);
-            updateBias(_layers[l], err_x);
+//            updateWeights(_layers[l], err_w);
+//            updateBias(_layers[l], err_x);
 //            _layers[l - 1].weights -= (err_w * _learning_rate);
 //            _layers[l - 1].bias -= (err_x * _learning_rate);
         }
@@ -107,17 +109,17 @@ namespace s21 {
     }
 
     void GraphModel::updateWeights(GraphLayer &layer, std::vector<double> &err_w) {
-        for (auto &node : layer->_nodes) {
-            for (auto i = 0; i < node.weights.size(); i++) {
-                node.weights[i] -= (err_w * _learning_rate);
-            }
-        }
+//        for (auto &node : layer->_nodes) {
+//            for (auto i = 0; i < node.weights.size(); i++) {
+//                node.weights[i] -= (err_w * _learning_rate);
+//            }
+//        }
     }
 
     void GraphModel::updateBias(GraphLayer &layer, std::vector<double> &err_x) {
-        for (auto &node : layer->_nodes) {
-            node.bias -= (err_x * _learning_rate);
-        }
+//        for (auto &node : layer->_nodes) {
+//            node.bias -= (err_x * _learning_rate);
+//        }
     }
     
     void GraphModel::randomFill() {

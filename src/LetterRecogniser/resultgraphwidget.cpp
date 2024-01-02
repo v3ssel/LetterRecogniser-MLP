@@ -28,6 +28,9 @@ void ResultGraphWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void ResultGraphWidget::drawGraph(std::vector<double> data) {
+    if (data.empty())
+        return;
+
     point_to_value.clear();
 
     QImage canvas(QSize(this->width(), this->height()), QImage::Format_ARGB32);
@@ -42,7 +45,7 @@ void ResultGraphWidget::drawGraph(std::vector<double> data) {
     painter.setPen(pen);
 
     double min = 0.0l;
-    double max = *std::max_element(data.begin(), data.end());
+    double max = 1.0l;
     size_t distance_per_points = this->width() / (data.size() + 1);
 
     auto normalize = [min, max, limit = this->height()](double val) {
