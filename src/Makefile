@@ -3,6 +3,7 @@ BINPATH = bin/Release
 BINPATH_TESTING = bin/Testing
 TEST_EXEC = MLPTests.exe
 DISTPATH=letter-recogniser-archive
+LINTER=../materials/linters/.clang-format
 
 
 all: install clean
@@ -50,6 +51,14 @@ gcov_report: clean | $(BUILDPATH)
 	echo "GCOV SUCCESSFUL: report placed in src/$(BINPATH_TESTING)/report folder"
 # --no-external - add this to first lcov
 # and delete last
+
+
+check:
+	cp $(LINTER) .
+	clang-format -n */*.cpp */*.h
+	clang-format -n */*/*.cpp */*/*.h
+	clang-format -n */*/*/*.cpp */*/*/*.h
+	rm -rf $(notdir $(LINTER))
 
 
 clean:
