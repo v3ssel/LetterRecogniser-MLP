@@ -3,21 +3,35 @@ BINPATH = bin/Release
 BINPATH_TESTING = bin/Testing
 TEST_EXEC = MLPTests.exe
 
-install: | $(BUILDPATH)
+all: install clean
+
+install: clean | $(BUILDPATH)
 	cd $(BUILDPATH) && \
 	cmake -DCMAKE_BUILD_TYPE=Release -DINSTALLING=ON ../ -G "Unix Makefiles" && \
 	make -j4
 	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH) folder"
 
 
-tests: | $(BUILDPATH)
+uninstall: clean
+	rm -rf $(dir $(BINPATH))
+
+
+dvi:
+
+
+
+dist:
+
+
+
+tests: clean | $(BUILDPATH)
 	cd $(BUILDPATH) && \
 	cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTESTING=ON ../ -G "Unix Makefiles" && \
 	make -j4
 	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH_TESTING) folder"
 
 
-gcov_report: | $(BUILDPATH)
+gcov_report: clean | $(BUILDPATH)
 	cd $(BUILDPATH) && \
 	cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTESTING=ON -DCOVERAGE=ON ../ -G "Unix Makefiles" && \
 	make -j4
@@ -26,9 +40,9 @@ gcov_report: | $(BUILDPATH)
 	lcov --remove coverage_test.info "/c/Coding/msys64/*" -o coverage_test.info && \
 	genhtml -o report coverage_test.info
 	echo "GCOV SUCCESSFUL: report placed in src/$(BINPATH_TESTING)/report folder"
-
 # --no-external - add this to first lcov
 # and delete last
+
 
 clean:
 	rm -rf $(BUILDPATH)

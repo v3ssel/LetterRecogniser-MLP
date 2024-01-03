@@ -19,12 +19,6 @@ namespace s21 {
     }
 
     size_t MatrixModel::getPrediction(const std::vector<double> &output_layer) {
-        // std::cout << "\n-------------------------------OUTPUT MATRIX---------------------------------\n";
-        // for (auto i : output_layer) {
-        //     std::cout << i << " ";
-        // }
-        // std::cout << "\n";
-
         return std::distance(output_layer.begin(), std::max_element(output_layer.begin(), output_layer.end()));
     }
 
