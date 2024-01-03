@@ -2,6 +2,8 @@ BUILDPATH = build
 BINPATH = bin/Release
 BINPATH_TESTING = bin/Testing
 TEST_EXEC = MLPTests.exe
+DISTPATH=letter-recogniser-archive
+
 
 all: install clean
 
@@ -17,11 +19,17 @@ uninstall: clean
 
 
 dvi:
+	open ReadMe.html
 
 
-
-dist:
-
+dist: | $(DISTPATH)
+	cp -R core/* $(DISTPATH)/src
+	cp -R controller/* $(DISTPATH)/src
+	cp -R LetterRecogniser/* $(DISTPATH)/src
+	cp CMakeLists.txt $(DISTPATH)
+	tar -cf $(DISTPATH).tar $(DISTPATH)
+	gzip -9f $(DISTPATH).tar
+	rm -rf $(DISTPATH)
 
 
 tests: clean | $(BUILDPATH)
@@ -45,8 +53,13 @@ gcov_report: clean | $(BUILDPATH)
 
 
 clean:
-	rm -rf $(BUILDPATH)
+	rm -rf $(BUILDPATH) $(DISTPATH).tar.gz
 
 
 $(BUILDPATH):
 	mkdir -p $@
+
+
+$(DISTPATH):
+	mkdir -p $@
+	mkdir -p $@/src
