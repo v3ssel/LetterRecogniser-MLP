@@ -65,8 +65,8 @@ namespace s21 {
     }
 
     void MatrixModel::activationFunction(Matrix &layer) {
-        for (auto i = 0; i < layer.getRows(); i++) {
-            for (auto j = 0; j < layer.getCols(); j++)
+        for (size_t i = 0; i < layer.getRows(); i++) {
+            for (size_t j = 0; j < layer.getCols(); j++)
                 layer(i, j) = sigmoidFunction(layer(i, j));
         }
     }
@@ -101,7 +101,7 @@ namespace s21 {
     }
  
     void MatrixModel::setWeights(const std::vector<double>& weights) {
-        int need_weights = std::accumulate(_layers.begin(), _layers.end(), 0, 
+        size_t need_weights = std::accumulate(_layers.begin(), _layers.end(), 0, 
                             [](int i, MatrixLayer l) { return i + l.weights.getCols() * l.weights.getRows(); });
         if (weights.size() != need_weights) {
             throw std::out_of_range("Number of weights is not equal to the number of weights in the model");

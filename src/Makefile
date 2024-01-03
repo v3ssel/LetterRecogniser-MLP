@@ -1,42 +1,38 @@
-CXX = g++
-CFLAGS = -std=c++17 -Wall -Werror -Wextra
-MATRIX_LIB = core/matrix/libmatrix/matrix
-TEST_EXEC = tests.exe
+BUILDPATH = build
+BINPATH = bin/Release
+BINPATH_TESTING = bin/Testing
+TEST_EXEC = MLPTests.exe
 
-SOURCES = .\core\MultilayerPerceptron.cpp \
-		  .\core\ModelBuilder.cpp \
-		  .\core\serializer\FileMLPSerializer.cpp \
-		  .\core\training\EmnistMLPTrainer.cpp \
-		  .\core\training\EmnistDatasetReader.cpp \
-		  .\core\training\EmnistData.cpp \
-		  .\core\matrix\MatrixModel.cpp \
-		  .\core\matrix\MatrixLayer.cpp \
-		  .\core\graph\GraphModel.cpp \
-		  .\core\graph\GraphLayer.cpp
+install: | $(BUILDPATH)
+	cd $(BUILDPATH) && \
+	cmake -DCMAKE_BUILD_TYPE=Release -DINSTALLING=ON ../ -G "Unix Makefiles" && \
+	make -j4
+	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH) folder"
 
-TESTS = .\tests\main_test.cpp \
-		.\tests\EmnistMLPTrainerTests.cpp \
-		.\tests\MultilayerPerceptronTests.cpp \
-		.\tests\FileMLPSerializerTests.cpp \
-		.\tests\EmnistDatasetReaderTests.cpp \
-		.\tests\MatrixModelTests.cpp
 
-build: matrix_lib
-	$(CXX) -g -O3 m.cpp $(SOURCES) $(MATRIX_LIB).a
+tests: | $(BUILDPATH)
+	cd $(BUILDPATH) && \
+	cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTESTING=ON ../ -G "Unix Makefiles" && \
+	make -j4
+	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH_TESTING) folder"
 
-tests:
-	$(CXX) $(TESTS) $(SOURCES) $(MATRIX_LIB).a -lgtest -o $(TEST_EXEC)
 
-gcov_report:
-	$(CXX) --coverage -fno-elide-constructors $(TESTS) $(SOURCES) $(MATRIX_LIB).a -lgtest -o gcov_$(TEST_EXEC)
-	./gcov_$(TEST_EXEC)
-	lcov -d . -t "gcov_$(TEST_EXEC)" -c -o coverage_test.info -b .
-	lcov --remove coverage_test.info "/c/Coding/msys64/*" -o coverage_test.info
+gcov_report: | $(BUILDPATH)
+	cd $(BUILDPATH) && \
+	cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTESTING=ON -DCOVERAGE=ON ../ -G "Unix Makefiles" && \
+	make -j4
+	cd $(BINPATH_TESTING) && ./$(TEST_EXEC) && \
+	lcov --test-name "$(TEST_EXEC)" --capture --directory ../../build/  -o coverage_test.info && \
+	lcov --remove coverage_test.info "/c/Coding/msys64/*" -o coverage_test.info && \
 	genhtml -o report coverage_test.info
-	rm -rf *.gcda *.gcno
+	echo "GCOV SUCCESSFUL: report placed in src/$(BINPATH_TESTING)/report folder"
 
-matrix_lib:
-	$(CXX) $(CFLAGS) -c $(MATRIX_LIB).cc -o $(MATRIX_LIB).o
-	ar rcs $(MATRIX_LIB).a $(MATRIX_LIB).o
-	ranlib $(MATRIX_LIB).a
-	rm -f $(MATRIX_LIB).o
+# --no-external - add this to first lcov
+# and delete last
+
+clean:
+	rm -rf $(BUILDPATH)
+
+
+$(BUILDPATH):
+	mkdir -p $@
