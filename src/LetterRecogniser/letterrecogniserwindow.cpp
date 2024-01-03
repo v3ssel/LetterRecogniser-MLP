@@ -121,7 +121,7 @@ void LetterRecogniserWindow::changeModelType(const QString &val) {
 
     auto btn = QMessageBox::question(this, "Losing data", "Changing model type will lose all weights and biases.");
     if (btn == QMessageBox::StandardButton::Yes) {
-        s21::Controller::getInstance().changeModel(chooseModelType(), ui->layers_spinBox->value());
+        s21::Controller::getInstance().changeModelTypeAndLayersSize(chooseModelType(), ui->layers_spinBox->value());
         prev_model_type_ = val;
     } else {
         ui->model_comboBox->setCurrentIndex(ui->model_comboBox->findText(prev_model_type_));
@@ -133,7 +133,7 @@ void LetterRecogniserWindow::changeLayersSize(int val) {
 
     auto btn = QMessageBox::question(this, "Losing data", "Changing layers count will lose all weights and biases.");
     if (btn == QMessageBox::StandardButton::Yes) {
-        s21::Controller::getInstance().changeModel(chooseModelType(), val);
+        s21::Controller::getInstance().changeModelTypeAndLayersSize(chooseModelType(), val);
         prev_layers_size_ = val;
     } else {
         ui->layers_spinBox->setValue(prev_layers_size_);

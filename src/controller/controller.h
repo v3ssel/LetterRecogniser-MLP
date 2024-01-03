@@ -23,7 +23,7 @@ namespace s21 {
                      const EMNISTMLPTrainer::EpochCb &epoch_callback,
                      const EMNISTMLPTrainer::ProcessCb &process_callback);
 
-        void changeModel(ModelType type, size_t hidden_layers);
+        void changeModelTypeAndLayersSize(ModelType type, size_t hidden_layers);
         void setLearningRate(double learning_rate);
 
         void loadWeights(const std::string &path);

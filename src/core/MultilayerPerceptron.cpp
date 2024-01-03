@@ -39,7 +39,7 @@ namespace s21 {
         _model->randomFill();
     }
 
-    void MultilayerPerceptron::changeModel(ModelType type, size_t hidden_layers) {
+    void MultilayerPerceptron::changeModelTypeAndLayersSize(ModelType type, size_t hidden_layers) {
         auto sizes = _model->getLayersSize();
         
         ModelBuilder builder;
@@ -56,6 +56,10 @@ namespace s21 {
 
     void MultilayerPerceptron::setModel(std::unique_ptr<MLPModel> &model) {
         _model = std::move(model);
+    }
+
+    std::unique_ptr<MLPModel> &MultilayerPerceptron::getModel() {
+        return _model;
     }
 
     void MultilayerPerceptron::setLearningRate(const double learning_rate) {

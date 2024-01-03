@@ -1,6 +1,4 @@
 #include "EmnistMLPTrainer.h"
-#include <iostream>
-#include <algorithm>
 
 namespace s21 {
     EMNISTMLPTrainer::EMNISTMLPTrainer(const EpochCb &epoch_callback,

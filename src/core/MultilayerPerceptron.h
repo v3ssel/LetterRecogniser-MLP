@@ -27,9 +27,11 @@ namespace s21 {
         void stopTrainer();
 
         void randomizeModelWeights();
-        void changeModel(ModelType type, size_t hidden_layers);
+        void changeModelTypeAndLayersSize(ModelType type, size_t hidden_layers);
+
         void setModel(std::unique_ptr<MLPModel>& model);
-        
+        std::unique_ptr<MLPModel>& getModel();
+
         void setLearningRate(const double learning_rate);
         double getLearningRate();
 

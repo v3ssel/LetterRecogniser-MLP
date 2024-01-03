@@ -23,6 +23,7 @@ set(${PROJECT_NAME}_SOURCES
     GraphModelTests.cpp
     MatrixModelTests.cpp
     MultilayerPerceptronTests.cpp
+    ModelBuilderTests.cpp
 )
 
 add_subdirectory(../core ${CMAKE_CURRENT_BINARY_DIR}/core)

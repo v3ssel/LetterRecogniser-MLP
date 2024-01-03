@@ -24,8 +24,8 @@ namespace s21 {
         mlp_ = std::make_unique<MultilayerPerceptron>(model, trainer, serializer);
     }
 
-    void Controller::changeModel(ModelType type, size_t hidden_layers) {
-        mlp_->changeModel(type, hidden_layers);
+    void Controller::changeModelTypeAndLayersSize(ModelType type, size_t hidden_layers) {
+        mlp_->changeModelTypeAndLayersSize(type, hidden_layers);
     }
 
     void Controller::setLearningRate(double learning_rate) {

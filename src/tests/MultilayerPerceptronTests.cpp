@@ -12,13 +12,8 @@ const std::string kDatasetPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\
 const std::string kModelPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\model-test.txt";
 const std::string kSmartModelPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\smartmodel.txt";
 
-void epoch_callback(size_t, double, double) {
-
-}
-
-void process_callback(size_t, s21::MLPTrainStages) {
-
-}
+void epoch_callback(size_t, double, double) {}
+void process_callback(size_t, s21::MLPTrainStages) {}
 
 s21::MultilayerPerceptron getMLP() {
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.3);
@@ -41,8 +36,7 @@ TEST(MultilayerPerceptron, ImportExport) {
     std::ifstream f2(export_path, std::ifstream::binary | std::ifstream::ate);
 
     EXPECT_TRUE(std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
-                           std::istreambuf_iterator<char>(),
-                           std::istreambuf_iterator<char>(f2.rdbuf())));
+                std::istreambuf_iterator<char>(), std::istreambuf_iterator<char>(f2.rdbuf())));
 
     f2.close();
     std::filesystem::remove(export_path);
@@ -131,11 +125,53 @@ TEST(MultilayerPerceptron, TwoModels) {
     std::ifstream f2(g_model_path, std::ifstream::binary | std::ifstream::ate);
 
     EXPECT_TRUE(std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
-                           std::istreambuf_iterator<char>(),
-                           std::istreambuf_iterator<char>(f2.rdbuf())));
+                std::istreambuf_iterator<char>(), std::istreambuf_iterator<char>(f2.rdbuf())));
 
     f1.close();
     f2.close();
     std::filesystem::remove(m_model_path); 
     std::filesystem::remove(g_model_path); 
+}
+
+TEST(MultilayerPerceptron, randomizeModelWeights) {
+    std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.3);
+    std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>(epoch_callback, process_callback);
+    std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
+
+    auto weights = model->getWeights();
+    auto bias = model->getBiases();
+    
+    s21::MultilayerPerceptron mlp(model, trainer, serializer);
+    mlp.randomizeModelWeights();
+
+    auto rweights = mlp.getModel()->getWeights();
+    auto rbias = mlp.getModel()->getBiases();
+
+    EXPECT_EQ(weights.size(), rweights.size());
+    EXPECT_EQ(bias.size(), rbias.size());
+    EXPECT_FALSE(weights == rweights);
+    EXPECT_FALSE(bias == rbias);
+}
+
+TEST(MultilayerPerceptron, changeModelTypeAndLayersSize) {
+    s21::MultilayerPerceptron mlp = getMLP();
+    auto sizes = mlp.getModel()->getLayersSize();
+    
+    EXPECT_EQ(sizes.size(), 4);
+    EXPECT_EQ(sizes[0], 10);
+    EXPECT_EQ(sizes[1], 5);
+    EXPECT_EQ(sizes[2], 5);
+    EXPECT_EQ(sizes[3], 3);
+
+    mlp.changeModelTypeAndLayersSize(s21::ModelType::Graph, 5);
+    sizes = mlp.getModel()->getLayersSize();
+
+    EXPECT_EQ(sizes.size(), 7);
+    EXPECT_EQ(sizes[0], 10);
+    EXPECT_EQ(sizes[1], 5);
+    EXPECT_EQ(sizes[2], 5);
+    EXPECT_EQ(sizes[3], 5);
+    EXPECT_EQ(sizes[4], 5);
+    EXPECT_EQ(sizes[5], 5);
+    EXPECT_EQ(sizes[6], 3);
 }
