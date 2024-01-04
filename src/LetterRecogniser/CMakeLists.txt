@@ -14,6 +14,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+set(app_icon "")
+
+if (APPLE)
+    set(MACOSX_BUNDLE_ICON_FILE icon.icns)
+    set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/resources/icon.icns")
+    set_source_files_properties(${app_icon_macos} PROPERTIES
+            MACOSX_PACKAGE_LOCATION "Resources")
+
+    set(app_icon ${app_icon_macos})
+    
+elseif(WIN32)
+    set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.rc")
+    set(app_icon ${app_icon_resource_windows})
+endif()
+
 add_subdirectory(../controller ${CMAKE_BINARY_DIR}/core)
 
 set(PROJECT_SOURCES
@@ -25,6 +40,7 @@ set(PROJECT_SOURCES
         drawablewidget.cpp
         resultgraphwidget.h
         resultgraphwidget.cpp
+        ${app_icon}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
