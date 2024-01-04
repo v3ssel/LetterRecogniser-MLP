@@ -45,7 +45,7 @@ void ResultGraphWidget::drawGraph(std::vector<double> data) {
     painter.setPen(pen);
 
     double min = 0.0l;
-    double max = 1.0l;
+    double max = std::max(1.0, *std::max_element(data.begin(), data.end()));
     size_t distance_per_points = this->width() / (data.size() + 1);
 
     auto normalize = [min, max, limit = this->height()](double val) {
