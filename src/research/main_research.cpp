@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <iostream>
 #include <chrono>
 
@@ -7,15 +8,12 @@
 #include "../core/serializer/FileMLPSerializer.h"
 #include "../core/training/EmnistMLPTrainer.h"
 
-const std::string kModelPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\weights\\2-model-77.txt";
-const std::string kDatasetPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\datasets\\emnist-letters\\emnist-letters-test.csv";
-
 void epochCb(size_t, double, double) {}
 void processCb(size_t, s21::MLPTrainStages) {}
 
 int main(int argc, char const **argv) {
-    if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " <model_type>[1 - Matrix, 2 - Graph]" << std::endl;
+    if (argc != 4) {
+        std::cout << "Usage: " << argv[0] << " <model_type>[1 - Matrix, 2 - Graph] <path_to_model_weights(2_layers)> <path_to_test_dataset>" << std::endl;
         return 1;
     }
 
@@ -30,6 +28,16 @@ int main(int argc, char const **argv) {
         return 1;
     }
 
+    std::string modelPath = argv[2];
+    if (!std::filesystem::exists(modelPath)) {
+        std::cout << "Model file not found: " << modelPath << std::endl;
+    }
+
+    std::string datasetPath = argv[3];
+    if (!std::filesystem::exists(datasetPath)) {
+        std::cout << "Dataset file not found: " << datasetPath << std::endl;
+    }
+
     s21::ModelBuilder builder;
     builder.setModelType(type == 1 ? s21::ModelType::Matrix : s21::ModelType::Graph)
           ->setInputLayerSize(784)
@@ -42,19 +50,24 @@ int main(int argc, char const **argv) {
     std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
     std::unique_ptr<s21::MLPTrainer> trainer = std::make_unique<s21::EMNISTMLPTrainer>(epochCb, processCb);
     s21::MultilayerPerceptron mlp(model, trainer, serializer);
-    mlp.importModel(kModelPath);
     
-    auto start = std::chrono::high_resolution_clock::now();
-    for (size_t i = 0; i < 1000; i++) {
-        mlp.testing(kDatasetPath, 10);
+    try {
+        mlp.importModel(modelPath);
 
-        if (i == 9 || i == 99 || i == 999) {
-            std::cout << "Count: "
-                      <<  i + 1 
-                      << "| Time: "
-                      << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count()
-                      << "ms" << std::endl;
+        auto start = std::chrono::high_resolution_clock::now();
+        for (size_t i = 0; i < 1000; i++) {
+            mlp.testing(datasetPath, 10);
+
+            if (i == 9 || i == 99 || i == 999) {
+                std::cout << "Count: "
+                        <<  i + 1 
+                        << "| Time: "
+                        << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count()
+                        << "ms" << std::endl;
+            }
         }
+    } catch (const std::exception& ex) {
+        std::cout << "Error occured: " << ex.what() << std::endl;
     }
 
     return 0;

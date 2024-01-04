@@ -50,8 +50,8 @@ gcov_report: | $(BUILDPATH)-coverage
 	echo "GCOV SUCCESSFUL: report placed in src/$(BINPATH_TESTING)/report folder"
 
 
-research: clean $(BUILDPATH)
-	cd $(BUILDPATH) && \
+research: | $(BUILDPATH)-research
+	cd $(BUILDPATH)-research && \
 	cmake -DCMAKE_BUILD_TYPE=Release -DRESEARCH=ON ../ -G "Unix Makefiles" && \
 	make -j4
 	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH) folder"
