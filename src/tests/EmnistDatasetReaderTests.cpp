@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include "../core/training/EmnistDatasetReader.h"
 
-const std::string kDatasetPath = "C:\\Coding\\Projects\\CPP7_MLP-1\\src\\tests\\assets\\emnist-sample.txt";
+const std::string kDatasetPath = (std::filesystem::current_path() / "assets" / "emnist-sample.txt").string();
 auto reader = std::make_unique<s21::EMNISTDatasetReader>();
 
 TEST(EMNISTDatasetReader, OpenInvalidFile) {

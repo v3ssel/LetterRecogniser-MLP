@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "../core/matrix/MatrixModel.h"
 
-
 TEST(MatrixModel, LearningRate) {
     std::unique_ptr<s21::MLPModel> model = std::make_unique<s21::MatrixModel>(10, 3, 2, 5, 0.1);
     EXPECT_EQ(model->getLearningRate(), 0.1);

@@ -39,5 +39,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/Testing
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/Testing
 )
+file(COPY assets DESTINATION ${CMAKE_SOURCE_DIR}/bin/Testing)
 
 add_test(tests ${PROJECT_NAME})
