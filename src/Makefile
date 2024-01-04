@@ -8,6 +8,7 @@ LINTER=../materials/linters/.clang-format
 
 all: install clean
 
+
 install: clean | $(BUILDPATH)
 	cd $(BUILDPATH) && \
 	cmake -DCMAKE_BUILD_TYPE=Release -DINSTALLING=ON ../ -G "Unix Makefiles" && \
@@ -53,6 +54,13 @@ gcov_report: clean | $(BUILDPATH)
 # and delete last
 
 
+research: clean | $(BUILDPATH)
+	cd $(BUILDPATH) && \
+	cmake -DCMAKE_BUILD_TYPE=Release -DRESEARCH=ON ../ -G "Unix Makefiles" && \
+	make -j4
+	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH) folder"
+
+
 check:
 	cp $(LINTER) .
 	clang-format -n */*.cpp */*.h
@@ -72,3 +80,4 @@ $(BUILDPATH):
 $(DISTPATH):
 	mkdir -p $@
 	mkdir -p $@/src
+

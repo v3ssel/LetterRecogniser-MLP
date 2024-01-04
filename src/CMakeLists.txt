@@ -4,6 +4,7 @@ project(LetterRecogniserMainList VERSION 0.1 LANGUAGES CXX)
 option(INSTALLING OFF)
 option(TESTING OFF)
 option(COVERAGE OFF)
+option(RESEARCH OFF)
 
 if (INSTALLING)
     add_subdirectory(LetterRecogniser)
@@ -15,4 +16,8 @@ endif()
 
 if (COVERAGE)
     add_subdirectory(tests)
+endif()
+
+if (RESEARCH)
+    add_subdirectory(research)
 endif()
