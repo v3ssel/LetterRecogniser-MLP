@@ -40,7 +40,7 @@ namespace s21 {
 
         for (size_t i = 0; i < _layers.size() - 1; ++i) {
             for (auto &output_node : _layers[i]->_output_layer->_nodes) {
-//                summatoryFunction(_layers[i], output_node);
+                summatoryFunction(_layers[i], output_node);
             }
             activationFunction(_layers[i]->_output_layer->_nodes);
         }
@@ -50,7 +50,7 @@ namespace s21 {
 
     void GraphModel::summatoryFunction(GraphLayer &layer, GraphNode &output_node) {
         for (auto i = 0; i < layer.getSize(); i++) {
-//            output_node.value += layer._nodes[i] * output_node.weights[i];
+            output_node.value += layer._nodes[i] * output_node.weights[i];
         }
         output_node.value += output_node.bias;
     }
@@ -93,8 +93,11 @@ namespace s21 {
 //        }
 
         for (int l = _layers.size() - 2; l > 0; l--) {
+            err_y = derivativeOfY(_layers[l], err_w);
 //            err_y = (err_x * _layers[l].weights.Transpose());
+            err_x = derivativeOfX(_layers[l], err_y);
 //            err_x = applyDerivative(err_y, _layers[l].values);
+            err_w = derivativeOfW(_layers[l]->_input_layer, err_x);
 //            err_w = _layers[l - 1].values.Transpose() * err_x;
 
 //            updateWeights(_layers[l], err_w);
@@ -102,6 +105,49 @@ namespace s21 {
 //            _layers[l - 1].weights -= (err_w * _learning_rate);
 //            _layers[l - 1].bias -= (err_x * _learning_rate);
         }
+    }
+
+    void GraphModel::summatoryFunction(GraphLayer &layer, GraphNode &output_node) {
+        for (auto i = 0; i < layer.getSize(); i++) {
+            output_node.value += layer._nodes[i] * output_node.weights[i];
+        }
+        output_node.value += output_node.bias;
+    }
+
+    for (size_t i = 0; i < _layers.size() - 1; ++i) {
+        for (auto &output_node : _layers[i]->_output_layer->_nodes) {
+            summatoryFunction(_layers[i], output_node);
+        }
+        activationFunction(_layers[i]->_output_layer->_nodes);
+    }
+
+    std::vector<double> GraphModel::derivativeOfY(GraphLayer &layer, std::vector<double> &err_x) {
+        std::vector<double> err_y;
+        for (auto &node : layer->_nodes) {
+            double dy = 0;
+            for (auto i = 0; i < layer.getSize(); i++) {
+                dy += err_x[i] * node.weights[i]);
+            }
+            err_x.push_back(dy);
+        }
+    }
+
+    std::vector<double> GraphModel::derivativeOfX(GraphLayer &layer, std::vector<double> &err_y) {
+        std::vector<double> err_x;
+        for (auto i = 0; i < err_y.size(); i++) {
+            dsigmoidDerivative(layer->_nodes[i].value) * err_y[i]);
+        }
+        return err_x;
+    }
+
+    std::vector<double> GraphModel::derivativeOfW(std::vector<double> &err_x) {
+        std::vector<double> err_w;
+        for (auto i = 0; i < err_x.size(); i++) {
+            for (auto j = 0; j < layer->_nodes.size(); j++) {
+                err_w.push_back(layer->_nodes[j].value * err_x[i]);
+            }
+        }
+        return err_w;
     }
 
     double GraphModel::sigmoidDerivative(double n) {
