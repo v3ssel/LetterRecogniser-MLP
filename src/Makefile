@@ -5,12 +5,11 @@ TEST_EXEC = MLPTests.exe
 DISTPATH=letter-recogniser-archive
 LINTER=../materials/linters/.clang-format
 
+all: install tests gcov_report check clean dist
 
-all: install clean
 
-
-install: clean | $(BUILDPATH)
-	cd $(BUILDPATH) && \
+install: | $(BUILDPATH)-install
+	cd $(BUILDPATH)-install && \
 	cmake -DCMAKE_BUILD_TYPE=Release -DINSTALLING=ON ../ -G "Unix Makefiles" && \
 	make -j4
 	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH) folder"
@@ -21,7 +20,7 @@ uninstall: clean
 
 
 dvi:
-	open ReadMe.html
+	open README.md
 
 
 dist: | $(DISTPATH)
@@ -34,19 +33,19 @@ dist: | $(DISTPATH)
 	rm -rf $(DISTPATH)
 
 
-tests: clean | $(BUILDPATH)
-	cd $(BUILDPATH) && \
+tests: | $(BUILDPATH)-testing
+	cd $(BUILDPATH)-testing && \
 	cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTESTING=ON ../ -G "Unix Makefiles" && \
 	make -j4
 	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH_TESTING) folder"
 
 
-gcov_report: clean | $(BUILDPATH)
-	cd $(BUILDPATH) && \
+gcov_report: | $(BUILDPATH)-coverage
+	cd $(BUILDPATH)-coverage && \
 	cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTESTING=ON -DCOVERAGE=ON ../ -G "Unix Makefiles" && \
 	make -j4
 	cd $(BINPATH_TESTING) && ./$(TEST_EXEC) && \
-	lcov --test-name "$(TEST_EXEC)" --capture --directory ../../build/  -o coverage_test.info && \
+	lcov --test-name "$(TEST_EXEC)" --capture --directory ../../$(BUILDPATH)-coverage/  -o coverage_test.info && \
 	lcov --remove coverage_test.info "/c/Coding/msys64/*" -o coverage_test.info && \
 	genhtml -o report coverage_test.info
 	echo "GCOV SUCCESSFUL: report placed in src/$(BINPATH_TESTING)/report folder"
@@ -54,7 +53,7 @@ gcov_report: clean | $(BUILDPATH)
 # and delete last
 
 
-research: clean | $(BUILDPATH)
+research: clean $(BUILDPATH)
 	cd $(BUILDPATH) && \
 	cmake -DCMAKE_BUILD_TYPE=Release -DRESEARCH=ON ../ -G "Unix Makefiles" && \
 	make -j4
@@ -70,11 +69,11 @@ check:
 
 
 clean:
-	rm -rf $(BUILDPATH) $(DISTPATH).tar.gz
+	rm -rf $(BUILDPATH)-* $(DISTPATH).tar.gz
 
 
-$(BUILDPATH):
-	mkdir -p $@
+$(BUILDPATH)-%:
+	if [ ! -d "$@" ]; then mkdir -p $@; fi
 
 
 $(DISTPATH):
