@@ -44,7 +44,7 @@ void ResultGraphWidget::drawGraph(std::vector<double> data) {
     pen.setCapStyle(Qt::PenCapStyle::RoundCap);
     painter.setPen(pen);
 
-    double min = 0.0l;
+    double min = std::min(0.0, *std::min_element(data.begin(), data.end()));
     double max = std::max(1.0, *std::max_element(data.begin(), data.end()));
     size_t distance_per_points = this->width() / (data.size() + 1);
 

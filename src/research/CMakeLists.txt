@@ -6,6 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # add_compile_options(-Wall -Werror -Wextra)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+if (APPLE OR UNIX)
+    add_compile_options(-fPIC)
+endif()
+
 add_subdirectory(../core ${CMAKE_BINARY_DIR}/core)
 
 add_executable(${PROJECT_NAME} main_research.cpp)

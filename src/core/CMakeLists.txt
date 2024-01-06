@@ -7,7 +7,7 @@ option(TESTING OFF)
 set(LIBGCOV "")
 set(OUTPUT_PATH "bin/Release")
 
-if (COVERAGE)
+if (COVERAGE AND (NOT APPLE))
     set(LIBGCOV "gcov")
 endif()
 

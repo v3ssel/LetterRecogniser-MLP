@@ -8,8 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(${PROJECT_NAME}_SOURCES 
-    Controller.cpp
-    Controller.h
+    controller.cpp
+    controller.h
 )
 
 add_subdirectory(../core ${CMAKE_CURRENT_BINARY_DIR}/core)

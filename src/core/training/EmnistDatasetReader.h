@@ -5,7 +5,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "EMNISTData.h"
+#include "EmnistData.h"
 
 namespace s21 {
     class EMNISTDatasetReader {

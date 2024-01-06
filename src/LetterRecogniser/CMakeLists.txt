@@ -16,6 +16,10 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(app_icon "")
 
+if (APPLE OR UNIX)
+    add_compile_options(-fPIC)
+endif()
+
 if (APPLE)
     set(MACOSX_BUNDLE_ICON_FILE icon.icns)
     set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/resources/icon.icns")

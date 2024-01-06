@@ -292,7 +292,7 @@ void LetterRecogniserWindow::trainingResult() {
 
     try {
         std::vector<double> mse_errors = training_future_watcher_->result();
-        qDebug() << mse_errors;
+
         ui->trainres_graph_widget->drawGraph(mse_errors);
     } catch (const std::exception& ex) {
         QMessageBox::critical(this, "Failed to train model.", QString("Error message: ") + QString::fromStdString(exception_msg_));

@@ -1,3 +1,4 @@
+PROJECTDIR = $(CURDIR)
 BUILDPATH = build
 BINPATH = bin/Release
 BINPATH_TESTING = bin/Testing
@@ -8,10 +9,15 @@ MACCOMPILER =
 
 ifeq ($(shell uname), Darwin)
 	MACCOMPILER = -DCMAKE_CXX_COMPILER="/usr/local/bin/g++"
+	TEST_EXEC = MLPTests
+endif
+
+ifeq ($(shell uname), Linux)
+	TEST_EXEC = MLPTests
 endif
 
 
-all: install tests gcov_report check clean dist
+all: install tests gcov_report clean check dist
 
 
 install: $(BUILDPATH)-install
@@ -51,7 +57,7 @@ gcov_report: $(BUILDPATH)-coverage
 	cmake -DTESTING=ON -DCOVERAGE=ON $(MACCOMPILER) ../ -G "Unix Makefiles" && \
 	cmake --build . --config=RelWithDebInfo
 	cd $(BINPATH_TESTING) && ./$(TEST_EXEC) && \
-	lcov --test-name "$(TEST_EXEC)" --capture --no-external --base-directory . --directory ../../$(BUILDPATH)-coverage/  -o coverage_test.info && \
+	lcov --test-name "$(TEST_EXEC)" --capture --no-external --base-directory $(PROJECTDIR) --directory ../../$(BUILDPATH)-coverage/  -o coverage_test.info && \
 	genhtml -o report coverage_test.info
 	echo "GCOV SUCCESSFUL: report placed in src/$(BINPATH_TESTING)/report folder"
 
