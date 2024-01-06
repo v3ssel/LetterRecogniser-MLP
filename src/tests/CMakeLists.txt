@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+add_definitions(-DGTEST_LANGUAGE_CXX17)
 enable_testing()
 
 set(${PROJECT_NAME}_SOURCES
@@ -32,7 +34,8 @@ add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
     MLPCore
-    gtest
+    ${GTEST_LIBRARIES}
+    ${GTEST_MAIN_LIBRARIES}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

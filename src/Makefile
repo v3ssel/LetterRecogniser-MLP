@@ -2,16 +2,22 @@ BUILDPATH = build
 BINPATH = bin/Release
 BINPATH_TESTING = bin/Testing
 TEST_EXEC = MLPTests.exe
-DISTPATH=letter-recogniser-archive
-LINTER=../materials/linters/.clang-format
+DISTPATH = letter-recogniser-archive
+LINTER = ../materials/linters/.clang-format
+MACCOMPILER = 
+
+ifeq ($(shell uname), Darwin)
+	MACCOMPILER = -DCMAKE_CXX_COMPILER="/usr/local/bin/g++"
+endif
+
 
 all: install tests gcov_report check clean dist
 
 
-install: | $(BUILDPATH)-install
+install: $(BUILDPATH)-install
 	cd $(BUILDPATH)-install && \
-	cmake -DCMAKE_BUILD_TYPE=Release -DINSTALLING=ON ../ -G "Unix Makefiles" && \
-	make -j4
+	cmake -DINSTALLING=ON ../ -G "Unix Makefiles" && \
+	cmake --build . --config=Release
 	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH) folder"
 
 
@@ -33,27 +39,27 @@ dist: | $(DISTPATH)
 	rm -rf $(DISTPATH)
 
 
-tests: | $(BUILDPATH)-testing
+tests: $(BUILDPATH)-testing
 	cd $(BUILDPATH)-testing && \
-	cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTESTING=ON ../ -G "Unix Makefiles" && \
-	make -j4
+	cmake -DTESTING=ON $(MACCOMPILER) ../ -G "Unix Makefiles" && \
+	cmake --build . --config=RelWithDebInfo
 	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH_TESTING) folder"
 
 
-gcov_report: | $(BUILDPATH)-coverage
+gcov_report: $(BUILDPATH)-coverage
 	cd $(BUILDPATH)-coverage && \
-	cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTESTING=ON -DCOVERAGE=ON ../ -G "Unix Makefiles" && \
-	make -j4
+	cmake -DTESTING=ON -DCOVERAGE=ON $(MACCOMPILER) ../ -G "Unix Makefiles" && \
+	cmake --build . --config=RelWithDebInfo
 	cd $(BINPATH_TESTING) && ./$(TEST_EXEC) && \
-	lcov --test-name "$(TEST_EXEC)" --capture --no-external --directory ../../$(BUILDPATH)-coverage/  -o coverage_test.info && \
+	lcov --test-name "$(TEST_EXEC)" --capture --no-external --base-directory . --directory ../../$(BUILDPATH)-coverage/  -o coverage_test.info && \
 	genhtml -o report coverage_test.info
 	echo "GCOV SUCCESSFUL: report placed in src/$(BINPATH_TESTING)/report folder"
 
 
-research: | $(BUILDPATH)-research
+research: $(BUILDPATH)-research
 	cd $(BUILDPATH)-research && \
-	cmake -DCMAKE_BUILD_TYPE=Release -DRESEARCH=ON ../ -G "Unix Makefiles" && \
-	make -j4
+	cmake -DRESEARCH=ON ../ -G "Unix Makefiles" && \
+	cmake --build . --config=Release
 	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH) folder"
 
 
