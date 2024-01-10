@@ -8,9 +8,9 @@
 #include "../core/training/EmnistMLPTrainer.h"
 #include "../core/serializer/FileMLPSerializer.h"
 
-const std::string kDatasetPath = (std::filesystem::current_path() / "assets" / "emnist-sample.txt").string();
-const std::string kModelPath = (std::filesystem::current_path() / "assets" / "model-test.txt").string();
-const std::string kSmartModelPath = (std::filesystem::current_path() / "assets" / "smartmodel.txt").string();
+const std::string kDatasetPath = (std::filesystem::current_path() / "tests" / "assets" / "emnist-sample.txt").string();
+const std::string kModelPath = (std::filesystem::current_path() / "tests" / "assets" / "model-test.txt").string();
+const std::string kSmartModelPath = (std::filesystem::current_path() / "tests" / "assets" / "smartmodel.txt").string();
 
 void epoch_callback(size_t, double, double) {}
 void process_callback(size_t, s21::MLPTrainStages) {}

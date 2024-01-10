@@ -4,7 +4,7 @@
 #include "../core/serializer/FileMLPSerializer.h"
 #include "../core/matrix/MatrixModel.h"
 
-const std::string kTestModelFilename = (std::filesystem::current_path() / "assets" / "model-test.txt").string();
+const std::string kTestModelFilename = (std::filesystem::current_path() / "tests" / "assets" / "model-test.txt").string();
 
 TEST(FileMLPSerializer, SerializeMatrixModel) {
     std::unique_ptr<s21::MLPSerializer> serializer = std::make_unique<s21::FileMLPSerializer>();
