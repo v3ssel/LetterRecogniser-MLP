@@ -32,14 +32,16 @@ namespace s21 {
         double _learning_rate;
 
     private:
-        void summatoryFunction(GraphLayer &layer, GraphNode &output_node);
+        void summatoryFunction(std::shared_ptr<s21::GraphLayer> &layer);
         void activationFunction(std::vector<GraphNode> &nodes);
         double sigmoidFunction(double n);
 
         double sigmoidDerivative(double n);
-        void updateWeights(GraphLayer &layer, std::vector<double> &err_w);
-        void updateBias(GraphLayer &layer, std::vector<double> &err_x);
-
+        std::vector<double> derivativeOfY(std::shared_ptr<s21::GraphLayer> &layer, std::vector<double> &err_x);
+        std::vector<double> derivativeOfX(std::shared_ptr<s21::GraphLayer> &layer, std::vector<double> &err_y);
+        std::vector<double> derivativeOfW(std::shared_ptr<s21::GraphLayer> &layer, std::vector<double> &err_x);
+        void updateWeights(std::shared_ptr<s21::GraphLayer> &layer, std::vector<double> &err_w);
+        void updateBias(std::shared_ptr<s21::GraphLayer> &layer, std::vector<double> &err_x);
     };
 }
 
