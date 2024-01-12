@@ -4,7 +4,8 @@ project(MLPTests VERSION 0.1 LANGUAGES CXX)
 option(COVERAGE OFF)
 
 if (COVERAGE)
-    add_compile_options(--coverage -fno-elide-constructors)
+    add_compile_options(-fprofile-arcs -ftest-coverage -fno-elide-constructors)
+    add_link_options(-fprofile-arcs -ftest-coverage)
 endif()
 
 if (APPLE OR UNIX)
@@ -13,7 +14,7 @@ endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# add_compile_options(-Wall -Werror -Wextra)
+add_compile_options(-Wall -Werror -Wextra)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(GTest REQUIRED)

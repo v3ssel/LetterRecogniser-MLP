@@ -55,8 +55,8 @@ std::vector<double> GraphModel::feedForward(
 }
 
 void GraphModel::summatoryFunction(std::shared_ptr<s21::GraphLayer> &layer) {
-  for (auto i = 0; i < layer->getOutputLayer()->getSize(); i++) {
-    for (auto j = 0; j < layer->getSize(); j++) {
+  for (size_t i = 0; i < layer->getOutputLayer()->getSize(); i++) {
+    for (size_t j = 0; j < layer->getSize(); j++) {
       layer->getOutputLayer()->_nodes[i].value +=
           layer->_nodes[j].value * layer->_nodes[j].weights[i];
     }
@@ -66,7 +66,7 @@ void GraphModel::summatoryFunction(std::shared_ptr<s21::GraphLayer> &layer) {
 }
 
 void GraphModel::activationFunction(std::vector<GraphNode> &nodes) {
-  for (auto i = 0; i < nodes.size(); i++) {
+  for (size_t i = 0; i < nodes.size(); i++) {
     nodes[i].value = sigmoidFunction(nodes[i].value);
   }
 }
@@ -78,7 +78,7 @@ double GraphModel::sigmoidFunction(double n) {
 void GraphModel::backPropagation(const std::vector<double> &target) {
   std::vector<double> err_y;
 
-  for (auto i = 0; i < target.size(); i++) {
+  for (size_t i = 0; i < target.size(); i++) {
     err_y.push_back(_layers.back()->_nodes[i].value - target[i]);
   }
 
@@ -105,7 +105,7 @@ std::vector<double> GraphModel::derivativeOfY(
 
   for (auto &node : layer->_nodes) {
     double dy = 0;
-    for (auto i = 0; i < node.weights.size(); i++) {
+    for (size_t i = 0; i < node.weights.size(); i++) {
       dy += node.weights[i] * err_x[i];
     }
     err_y.push_back(dy);
@@ -117,9 +117,11 @@ std::vector<double> GraphModel::derivativeOfY(
 std::vector<double> GraphModel::derivativeOfX(
     std::shared_ptr<s21::GraphLayer> &layer, std::vector<double> &err_y) {
   std::vector<double> err_x;
-  for (auto i = 0; i < err_y.size(); i++) {
+
+  for (size_t i = 0; i < err_y.size(); i++) {
     err_x.push_back(sigmoidDerivative(layer->_nodes[i].value) * err_y[i]);
   }
+  
   return err_x;
 }
 
@@ -127,8 +129,8 @@ std::vector<double> GraphModel::derivativeOfW(
     std::shared_ptr<s21::GraphLayer> &layer, std::vector<double> &err_x) {
   std::vector<double> err_w;
 
-  for (auto i = 0; i < err_x.size(); i++) {
-    for (auto j = 0; j < layer->_nodes.size(); j++) {
+  for (size_t i = 0; i < err_x.size(); i++) {
+    for (size_t j = 0; j < layer->_nodes.size(); j++) {
       err_w.push_back(layer->_nodes[j].value * err_x[i]);
     }
   }
@@ -141,7 +143,7 @@ double GraphModel::sigmoidDerivative(double n) { return n * (1 - n); }
 void GraphModel::updateWeights(std::shared_ptr<s21::GraphLayer> &layer,
                                std::vector<double> &err_w) {
   for (auto &node : layer->_nodes) {
-    for (auto i = 0; i < node.weights.size(); i++) {
+    for (size_t i = 0; i < node.weights.size(); i++) {
       node.weights[i] -= getLearningRate() * err_w[i];
     }
   }
@@ -149,7 +151,7 @@ void GraphModel::updateWeights(std::shared_ptr<s21::GraphLayer> &layer,
 
 void GraphModel::updateBias(std::shared_ptr<s21::GraphLayer> &layer,
                             std::vector<double> &err_x) {
-  for (auto i = 0; i < layer->getSize(); i++) {
+  for (size_t i = 0; i < layer->getSize(); i++) {
     layer->_nodes[i].bias -= getLearningRate() * err_x[i];
   }
 }
@@ -171,9 +173,9 @@ std::vector<size_t> GraphModel::getLayersSize() const {
 }
 
 void GraphModel::setWeights(const std::vector<double> &weights) {
-  int need_weights = std::accumulate(
+  size_t need_weights = std::accumulate(
       _layers.begin(), _layers.end(), 0,
-      [](int sum, std::shared_ptr<GraphLayer> layer) -> int {
+      [](size_t sum, std::shared_ptr<GraphLayer> layer) -> size_t {
         if (!layer->getOutputLayer()) return sum;
         return sum + layer->getSize() * layer->getOutputLayer()->getSize();
       });
@@ -202,7 +204,7 @@ std::vector<double> GraphModel::getWeights() const {
 }
 
 void GraphModel::setBiases(const std::vector<double> &biases) {
-  int need_biases =
+  size_t need_biases =
       std::accumulate(_layers.begin() + 1, _layers.end(), 0,
                       [](int sum, std::shared_ptr<GraphLayer> &layer) -> int {
                         return sum + layer->getSize();

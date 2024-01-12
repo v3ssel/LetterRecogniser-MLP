@@ -15,7 +15,8 @@ add_library(MatrixLib STATIC
 
 if (COVERAGE)
     get_target_property(lib_flags MatrixLib COMPILE_OPTIONS)
-    list(REMOVE_ITEM lib_flags "--coverage")
+    list(REMOVE_ITEM lib_flags "-fprofile-arcs")
+    list(REMOVE_ITEM lib_flags "-ftest-coverage")
     list(REMOVE_ITEM lib_flags "-fno-elide-constructors")
     set_property(TARGET MatrixLib PROPERTY COMPILE_OPTIONS ${lib_flags})
 endif()

@@ -112,7 +112,7 @@ TEST(MatrixModel, SetWeights) {
                           [](double v) { return v == 0; }));
 
   std::vector<double> new_weights;
-  for (int i = 0; i < weights.size(); i++) new_weights.push_back(i);
+  for (size_t i = 0; i < weights.size(); i++) new_weights.push_back(i);
 
   model->setWeights(new_weights);
   weights = model->getWeights();
@@ -137,7 +137,7 @@ TEST(MatrixModel, SetBiases) {
                           [](double v) { return v == 0; }));
 
   std::vector<double> new_biases;
-  for (int i = 0; i < biases.size(); i++) new_biases.push_back(i);
+  for (size_t i = 0; i < biases.size(); i++) new_biases.push_back(i);
 
   model->setBiases(new_biases);
   biases = model->getBiases();
