@@ -5,10 +5,12 @@ BINPATH_TESTING = bin/Testing
 TEST_EXEC = MLPTests.exe
 DISTPATH = letter-recogniser-archive
 LINTER = ../materials/linters/.clang-format
+GCOVAPPLE =	
 MACCOMPILER = 
 
 ifeq ($(shell uname), Darwin)
 	MACCOMPILER = -DCMAKE_CXX_COMPILER="/usr/local/bin/g++"
+	GCOVAPPLE = --ignore-errors inconsistent,mismatch
 	TEST_EXEC = MLPTests
 endif
 
@@ -56,10 +58,11 @@ gcov_report: $(BUILDPATH)-coverage
 	cd $(BUILDPATH)-coverage && \
 	cmake -DTESTING=ON -DCOVERAGE=ON $(MACCOMPILER) ../ -G "Unix Makefiles" && \
 	cmake --build . --config=RelWithDebInfo
-	cd $(BINPATH_TESTING) && ./$(TEST_EXEC) && \
-	lcov --test-name "$(TEST_EXEC)" --capture --no-external --base-directory $(PROJECTDIR) --directory ../../$(BUILDPATH)-coverage/  -o coverage_test.info && \
-	genhtml -o report coverage_test.info
-	echo "GCOV SUCCESSFUL: report placed in src/$(BINPATH_TESTING)/report folder"
+	./$(BINPATH_TESTING)/$(TEST_EXEC) && \
+	lcov --test-name "$(TEST_EXEC)" --capture --no-external --base-directory $(PROJECTDIR) --directory $(BUILDPATH)-coverage/ $(GCOVAPPLE) -o coverage_test.info && \
+	genhtml -o report coverage_test.info $(GCOVAPPLE)
+	mv report $(BINPATH_TESTING)/report
+	echo "GCOV SUCCESSFUL: report placed in $(BINPATH_TESTING)/report folder"
 
 
 research: $(BUILDPATH)-research
