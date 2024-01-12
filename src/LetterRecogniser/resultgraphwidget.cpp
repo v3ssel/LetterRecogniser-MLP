@@ -54,14 +54,15 @@ void ResultGraphWidget::drawGraph(std::vector<double> data) {
 
   QList<QPoint> points;
   for (size_t x = distance_per_points, y = 0;
-       x < this->width() && y < data.size(); x += distance_per_points, y++) {
+       x < static_cast<size_t>(this->width()) && y < data.size();
+       x += distance_per_points, y++) {
     QPoint point(x, this->height() - normalize(data[y]));
     points.push_back(point);
     point_to_value[point] = data[y];
   }
 
   QList<QLine> lines;
-  for (size_t i = 0; i < points.size() - 1; i++) {
+  for (size_t i = 0; i < static_cast<size_t>(points.size()) - 1; i++) {
     lines.push_back(QLine(points[i], points[i + 1]));
   }
 

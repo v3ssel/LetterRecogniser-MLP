@@ -23,7 +23,7 @@ void DrawableWidget::mouseReleaseEvent(QMouseEvent *mouse) {
   emit predict(toMNIST());
 }
 
-void DrawableWidget::paintEvent(QPaintEvent *paint) {
+void DrawableWidget::paintEvent(QPaintEvent *) {
   QPainter painter(this);
 
   painter.drawImage(canvas_.rect(), canvas_);
