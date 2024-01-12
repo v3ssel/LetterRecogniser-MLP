@@ -74,9 +74,9 @@ research: $(BUILDPATH)-research
 
 check:
 	cp $(LINTER) .
-	clang-format --verbose -i */*.cpp */*.h
-	clang-format --verbose -i */*/*.cpp */*/*.h
-	clang-format --verbose -i */*/*/*.h
+	clang-format --verbose -n */*.cpp */*.h
+	clang-format --verbose -n */*/*.cpp */*/*.h
+	clang-format --verbose -n */*/*/*.h
 	rm -rf $(notdir $(LINTER))
 
 
