@@ -4,12 +4,12 @@
 #include <vector>
 
 namespace s21 {
-    struct EMNISTData {
-        EMNISTData();
+struct EMNISTData {
+  EMNISTData();
 
-        std::vector<double> image;
-        std::size_t result;
-    };
-}
+  std::vector<double> image;
+  std::size_t result;
+};
+}  // namespace s21
 
-#endif // _EMNISTDATA_H_
+#endif  // _EMNISTDATA_H_

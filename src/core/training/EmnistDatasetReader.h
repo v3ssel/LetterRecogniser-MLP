@@ -2,24 +2,25 @@
 #define _EMNISTDATASET_READER_H_
 
 #include <algorithm>
-#include <string>
 #include <fstream>
 #include <sstream>
+#include <string>
+
 #include "EmnistData.h"
 
 namespace s21 {
-    class EMNISTDatasetReader {
-       public:
-        void open(const std::string& filename);
-        EMNISTData readLine();
-        size_t getNumberOfLines();
-        void close();
+class EMNISTDatasetReader {
+ public:
+  void open(const std::string& filename);
+  EMNISTData readLine();
+  size_t getNumberOfLines();
+  void close();
 
-        bool is_open() const;
+  bool is_open() const;
 
-       private:
-        std::ifstream _file;
-    };
-}
+ private:
+  std::ifstream _file;
+};
+}  // namespace s21
 
-#endif // _EMNISTDATASET_READER_H_
+#endif  // _EMNISTDATASET_READER_H_

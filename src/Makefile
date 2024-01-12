@@ -4,7 +4,7 @@ BINPATH = bin/Release
 BINPATH_TESTING = bin/Testing
 TEST_EXEC = MLPTests.exe
 DISTPATH = letter-recogniser-archive
-LINTER = ../materials/linters/.clang-format
+LINTER = $(PROJECTDIR)/../materials/linters/.clang-format
 GCOVAPPLE =	
 MACCOMPILER = 
 
@@ -74,9 +74,9 @@ research: $(BUILDPATH)-research
 
 check:
 	cp $(LINTER) .
-	clang-format -n */*.cpp */*.h
-	clang-format -n */*/*.cpp */*/*.h
-	clang-format -n */*/*/*.cpp */*/*/*.h
+	clang-format --verbose -i */*.cpp */*.h
+	clang-format --verbose -i */*/*.cpp */*/*.h
+	clang-format --verbose -i */*/*/*.h
 	rm -rf $(notdir $(LINTER))
 
 

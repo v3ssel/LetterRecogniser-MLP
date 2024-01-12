@@ -10,35 +10,38 @@
 #include "TFMetrics.h"
 
 namespace s21 {
-    class EMNISTMLPTrainer : public MLPTrainer {
-       public:
-        using EpochCb = std::function<void(size_t, double, double)>;
-        using ProcessCb = std::function<void(size_t, MLPTrainStages)>;
+class EMNISTMLPTrainer : public MLPTrainer {
+ public:
+  using EpochCb = std::function<void(size_t, double, double)>;
+  using ProcessCb = std::function<void(size_t, MLPTrainStages)>;
 
-        EMNISTMLPTrainer(const EpochCb &epoch_callback,
-                         const ProcessCb &process_callback);
+  EMNISTMLPTrainer(const EpochCb& epoch_callback,
+                   const ProcessCb& process_callback);
 
-        std::vector<double> train(const std::unique_ptr<MLPModel>& model, 
-                                  const std::string& dataset_path,
-                                  const size_t epochs) override;
-                                  
-        std::vector<double> crossValidation(
-                                  const std::unique_ptr<MLPModel>& model,
-                                  const std::string &dataset_path,
-                                  const size_t k_groups) override;
-        
-        MLPTestMetrics test(const std::unique_ptr<MLPModel>& model, const std::string& dataset_path, const size_t percent) override;        
-        
-        void stop() override;
+  std::vector<double> train(const std::unique_ptr<MLPModel>& model,
+                            const std::string& dataset_path,
+                            const size_t epochs) override;
 
-       private:
-        bool _stop = false;
-        EpochCb _epoch_callback;
-        ProcessCb _process_callback;
-        
-        double calculateMSE(const std::vector<double> &expected, const std::vector<double> &actual);
-        void calculateMetrics(MLPTestMetrics& metrics, std::vector<TFMetrics>& submetrics);
-    };
-}
+  std::vector<double> crossValidation(const std::unique_ptr<MLPModel>& model,
+                                      const std::string& dataset_path,
+                                      const size_t k_groups) override;
 
-#endif // _EMNISTMLPTRAINER_H_
+  MLPTestMetrics test(const std::unique_ptr<MLPModel>& model,
+                      const std::string& dataset_path,
+                      const size_t percent) override;
+
+  void stop() override;
+
+ private:
+  bool _stop = false;
+  EpochCb _epoch_callback;
+  ProcessCb _process_callback;
+
+  double calculateMSE(const std::vector<double>& expected,
+                      const std::vector<double>& actual);
+  void calculateMetrics(MLPTestMetrics& metrics,
+                        std::vector<TFMetrics>& submetrics);
+};
+}  // namespace s21
+
+#endif  // _EMNISTMLPTRAINER_H_

@@ -2,12 +2,7 @@
 #define _MLPTRAINSTAGES_H_
 
 namespace s21 {
-    enum class MLPTrainStages {
-        STARTING,
-        TRAINING,
-        TESTING,
-        DONE
-    };
+enum class MLPTrainStages { STARTING, TRAINING, TESTING, DONE };
 }
 
-#endif // _MLPTRAINSTAGES_H_
+#endif  // _MLPTRAINSTAGES_H_
