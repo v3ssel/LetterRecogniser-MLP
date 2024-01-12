@@ -121,7 +121,7 @@ std::vector<double> GraphModel::derivativeOfX(
   for (size_t i = 0; i < err_y.size(); i++) {
     err_x.push_back(sigmoidDerivative(layer->_nodes[i].value) * err_y[i]);
   }
-  
+
   return err_x;
 }
 
