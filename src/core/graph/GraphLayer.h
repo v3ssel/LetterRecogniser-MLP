@@ -30,8 +30,8 @@ class GraphLayer {
   std::shared_ptr<GraphLayer> _input_layer;
   std::shared_ptr<GraphLayer> _output_layer;
 
-  std::vector<GraphNode> _nodes;
-  size_t _size;
+  std::vector<GraphNode> nodes_;
+  size_t size_;
 };
 }  // namespace s21
 

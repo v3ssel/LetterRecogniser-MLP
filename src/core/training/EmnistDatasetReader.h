@@ -19,7 +19,7 @@ class EMNISTDatasetReader {
   bool is_open() const;
 
  private:
-  std::ifstream _file;
+  std::ifstream file_;
 };
 }  // namespace s21
 

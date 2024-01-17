@@ -25,7 +25,7 @@ class LetterRecogniserWindow : public QMainWindow {
   LetterRecogniserWindow(QWidget *parent = nullptr);
   ~LetterRecogniserWindow();
 
-  void StartPrediction(QImage image);
+  void startPrediction(QImage image);
 
   void EpochCallback(size_t epoch, double mse, double accurancy);
   void ProcessCallback(size_t, s21::MLPTrainStages stage);
@@ -49,7 +49,7 @@ class LetterRecogniserWindow : public QMainWindow {
   void trainingResult();
 
  private:
-  Ui::LetterRecogniserWindow *ui;
+  Ui::LetterRecogniserWindow *ui_;
 
   QString prev_model_type_;
   int prev_layers_size_;

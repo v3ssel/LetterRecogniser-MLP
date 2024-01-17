@@ -33,9 +33,9 @@ class EMNISTMLPTrainer : public MLPTrainer {
   void stop() override;
 
  private:
-  bool _stop = false;
-  EpochCb _epoch_callback;
-  ProcessCb _process_callback;
+  bool stop_;
+  EpochCb epoch_callback_;
+  ProcessCb process_callback_;
 
   double calculateMSE(const std::vector<double>& expected,
                       const std::vector<double>& actual);

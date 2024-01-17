@@ -21,17 +21,17 @@ void ResultGraphWidget::paintEvent(QPaintEvent *event) {
 }
 
 void ResultGraphWidget::mouseMoveEvent(QMouseEvent *event) {
-  if (point_to_value.contains(event->pos())) {
+  if (point_to_value_.contains(event->pos())) {
     QPointF globpos = event->globalPosition();
     QWhatsThis::showText(QPoint(globpos.x(), globpos.y()),
-                         QString::number(point_to_value[event->pos()], 'g', 2));
+                         QString::number(point_to_value_[event->pos()], 'g', 2));
   }
 }
 
 void ResultGraphWidget::drawGraph(std::vector<double> data) {
   if (data.empty()) return;
 
-  point_to_value.clear();
+  point_to_value_.clear();
 
   QImage canvas(QSize(this->width(), this->height()), QImage::Format_ARGB32);
   canvas.fill(Qt::TransparentMode);
@@ -58,7 +58,7 @@ void ResultGraphWidget::drawGraph(std::vector<double> data) {
        x += distance_per_points, y++) {
     QPoint point(x, this->height() - normalize(data[y]));
     points.push_back(point);
-    point_to_value[point] = data[y];
+    point_to_value_[point] = data[y];
   }
 
   QList<QLine> lines;

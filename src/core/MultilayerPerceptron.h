@@ -38,9 +38,9 @@ class MultilayerPerceptron {
   double getLearningRate();
 
  private:
-  std::unique_ptr<MLPModel> _model;
-  std::unique_ptr<MLPTrainer> _trainer;
-  std::unique_ptr<MLPSerializer> _serializer;
+  std::unique_ptr<MLPModel> model_;
+  std::unique_ptr<MLPTrainer> trainer_;
+  std::unique_ptr<MLPSerializer> serializer_;
 };
 }  // namespace s21
 

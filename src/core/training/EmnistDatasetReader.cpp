@@ -2,11 +2,11 @@
 
 namespace s21 {
 void EMNISTDatasetReader::open(const std::string &filename) {
-  if (_file.is_open()) close();
+  if (file_.is_open()) close();
 
-  _file.open(filename);
+  file_.open(filename);
 
-  if (!_file.is_open()) {
+  if (!file_.is_open()) {
     throw std::invalid_argument(
         "EMNISTDatasetReader::open: Cannot open the file \"" + filename +
         "\".");
@@ -14,13 +14,13 @@ void EMNISTDatasetReader::open(const std::string &filename) {
 }
 
 EMNISTData EMNISTDatasetReader::readLine() {
-  if (!_file.is_open()) {
+  if (!file_.is_open()) {
     throw std::invalid_argument(
         "EMNISTDatasetReader::readLine: File is not open.");
   }
 
   std::string line;
-  if (!std::getline(_file, line)) {
+  if (!std::getline(file_, line)) {
     return EMNISTData();
   }
 
@@ -46,21 +46,21 @@ EMNISTData EMNISTDatasetReader::readLine() {
 }
 
 size_t EMNISTDatasetReader::getNumberOfLines() {
-  if (!_file.is_open()) {
+  if (!file_.is_open()) {
     throw std::invalid_argument(
         "EMNISTDatasetReader::getNumberOfLines: File is not open.");
   }
 
-  size_t lines = std::count(std::istreambuf_iterator<char>(_file),
+  size_t lines = std::count(std::istreambuf_iterator<char>(file_),
                             std::istreambuf_iterator<char>(), '\n');
 
-  _file.clear();
-  _file.seekg(0);
+  file_.clear();
+  file_.seekg(0);
 
   return lines;
 }
 
-void EMNISTDatasetReader::close() { _file.close(); }
+void EMNISTDatasetReader::close() { file_.close(); }
 
-bool EMNISTDatasetReader::is_open() const { return _file.is_open(); }
+bool EMNISTDatasetReader::is_open() const { return file_.is_open(); }
 }  // namespace s21

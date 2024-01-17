@@ -22,7 +22,7 @@ class ResultGraphWidget : public QWidget {
 
  private:
   QImage canvas_;
-  QHash<QPoint, double> point_to_value;
+  QHash<QPoint, double> point_to_value_;
 };
 
 #endif  // RESULTGRAPHWIDGET_H

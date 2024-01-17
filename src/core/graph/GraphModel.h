@@ -30,11 +30,10 @@ class GraphModel : public MLPModel {
   void setLearningRate(double rate) override;
   double getLearningRate() const override;
 
-  //    private:
-  std::vector<std::shared_ptr<GraphLayer>> _layers;
-  double _learning_rate;
-
  private:
+  std::vector<std::shared_ptr<GraphLayer>> layers_;
+  double learning_rate_;
+
   void summatoryFunction(std::shared_ptr<s21::GraphLayer> &layer);
   void activationFunction(std::vector<GraphNode> &nodes);
   double sigmoidFunction(double n);

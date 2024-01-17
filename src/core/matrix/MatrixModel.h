@@ -36,8 +36,8 @@ class MatrixModel : public MLPModel {
   double getLearningRate() const override;
 
  private:
-  std::vector<MatrixLayer> _layers;
-  double _learning_rate;
+  std::vector<MatrixLayer> layers_;
+  double learning_rate_;
 };
 }  // namespace s21
 
