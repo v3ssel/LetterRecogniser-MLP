@@ -23,8 +23,9 @@ void ResultGraphWidget::paintEvent(QPaintEvent *event) {
 void ResultGraphWidget::mouseMoveEvent(QMouseEvent *event) {
   if (point_to_value_.contains(event->pos())) {
     QPointF globpos = event->globalPosition();
-    QWhatsThis::showText(QPoint(globpos.x(), globpos.y()),
-                         QString::number(point_to_value_[event->pos()], 'g', 2));
+    QWhatsThis::showText(
+        QPoint(globpos.x(), globpos.y()),
+        QString::number(point_to_value_[event->pos()], 'g', 2));
   }
 }
 

@@ -301,7 +301,8 @@ void LetterRecogniserWindow::testingResults() {
   try {
     s21::MLPTestMetrics metrics = testing_future_watcher_->result();
 
-    ui_->avacur_value_label->setText(QString::number(metrics.accurancy, 'g', 2));
+    ui_->avacur_value_label->setText(
+        QString::number(metrics.accurancy, 'g', 2));
     ui_->avperc_value_label->setText(
         QString::number(metrics.accurancy_percent, 'g', 2));
     ui_->precision_value_label->setText(
@@ -347,7 +348,7 @@ void LetterRecogniserWindow::trainingResult() {
 
 s21::ModelType LetterRecogniserWindow::chooseModelType() {
   return ui_->model_comboBox->currentText() == "Matrix" ? s21::ModelType::Matrix
-                                                       : s21::ModelType::Graph;
+                                                        : s21::ModelType::Graph;
 }
 
 void LetterRecogniserWindow::blockButtons(bool unblock, bool testing) {

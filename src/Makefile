@@ -76,7 +76,6 @@ check:
 	cp $(LINTER) .
 	clang-format --verbose -n */*.cpp */*.h
 	clang-format --verbose -n */*/*.cpp */*/*.h
-	clang-format --verbose -n */*/*/*.h
 	rm -rf $(notdir $(LINTER))
 
 
