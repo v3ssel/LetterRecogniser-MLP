@@ -1,164 +1,164 @@
 # MultilayerPerceptron
 
-Данный проект представляет собой реализацию многослойного перцептрона для классификации рукописных букв латинского алфавита. С использованием этого приложения вы можете проводить обучение нейронной сети, анализировать результаты и взаимодействовать с графическим интерфейсом пользователя, разработанным на библиотеке Qt.
+This project is an implementation of a multilayer perceptron for classifying handwritten letters of the Latin alphabet. Using this application you can train the neural network, analyse the results and interact with the graphical user interface developed on the Qt library.
 
-## Основной функционал
+## Core functionality
 
-- **Классификация рукописных букв:** Распознавание рукописных букв латинского алфавита.
-- **Многослойность:** Возможность настройки от 2 до 5 скрытых слоев.
-- **Сигмоидальная функция активации:** Применение сигмоидальной функции в скрытых слоях.
-- **Обучение:** Применение метода обратного распространения ошибки.
-- **Работа с изображениями:** Загрузка и классификация BMP-изображений.
-- **Визуализация результатов:** Отображение результатов и графиков ошибки в реальном времени.
-- **Кросс-валидация:** Возможность кросс-валидации с выбором числа групп.
-- **Сохранение и загрузка модели:** Сохранение весов в файл и их загрузка.
-- **Рисование изображений:** Функция для рисования двухцветных квадратных изображений.
-- **Интерфейс на Qt:** Приятный и интуитивно понятный графический интерфейс.
+- **Classification of handwritten letters:** Recognition of handwritten letters of the Latin alphabet.
+- **Multilayering:** Possibility to customise from 2 to 5 hidden layers.
+- **Sigmoidal activation function:** Application of sigmoidal function in hidden layers.
+- **Training:** Application of the error back propagation method.
+- **Image handling:** Loading and categorising BMP images.
+- **Results visualisation:** Real-time display of results and error plots.
+- **Cross-validation:** Cross-validation capability with selectable number of groups.
+- **Saving and loading the model:** Saving weights to a file and loading them.
+- **Image drawing:**Function for drawing two-colour square images.
+- **Qt interface:** Nice and intuitive graphical interface.
 
-## Реализации модели
+## Model realisations
 
-Проект предлагает две реализации многослойного перцептрона:
+The project offers two implementations of a multilayer perceptron:
 
-- **Графовая модель:** Нейроны представлены в виде объектов узлов, связанных между собой.
-- **Матричная модель:** Все слои представлены в виде матриц весов для оптимизированной работы с данными.
+- **Graph model:** Neurons are represented as node objects connected to each other.
+- **Matrix model:** All layers are represented as weight matrices for optimised data handling.
 
-## Установка
+## Installation
 
-Для сборки и установки проекта выполните следующие шаги:
+Follow these steps to build and install the project:
 
-1. **Клонирование репозитория:**
+1. **Clone the repository:**
     ```
-    git clone [URL репозитория]
+    git clone [URL repository]
     ```
 
-2. **Переход в директорию проекта:**
+2. **Go to the project directory:**
     ```
     cd src
     ```
 
-3. **Установка проекта:**
+3. **Project installation:**
     ```
     make install
     ```
 
-После выполнения этих команд проект будет собран и установлен на вашей
-системе в папке `bin/Release`.
+After executing these commands, the project will be built and installed
+on your system in the folder`bin/Release`.
 
-## Сборка проекта целиком
+## Build the whole project
 
-Для сборки всего проекта, включая установку, тестирование, стилевую
-проверку кода, генерацию отчета о покрытии кода и создание архива,
-выполните следующие шаги:
+To build the entire project, including installation, testing, styling, code validation, code coverage report generation, and archive creation.
+code validation, code coverage report generation, and archive creation,
+perform the following steps:
 
-1. **Переход в директорию проекта:**
+1. **Go to the project directory:**
     ```
     cd src
     ```
 
-2. **Сборка проекта:**
+2. **Project assembly:**
     ```
     make all
     ```
 
-После выполнения этой команды будут выполнены все описанные шаги.
+After executing this command, all the steps described will be executed.
 
-## Удаление
+## Delete
 
-Для удаления установленного проекта выполните следующие шаги:
+To delete an installed project, perform the following steps:
 
-1. **Переход в директорию проекта:**
+1. **Go to the project directory:**
     ```
     cd src
     ```
 
-2. **Удаление проекта:**
+2. **Deleting a project:**
     ```
     make uninstall
     ```
 
-После выполнения этих команд проект будет удалён с вашей системы.
+After executing these commands the project will be removed from your system.
 
-#### P.S. Если установочные файлы были перенесены из /bin/ тогда удаления не произойдет, нужно удалить файлы вручную.
+#### P.S. If the installation files were moved from /bin/ then deletion will not occur, you need to delete the files manually.
 
 
-## Тестирование
+## Testing
 
-Для сборки и запуска тестов проекта выполните следующие шаги:
+Follow these steps to build and run tests on the project:
 
-1. **Переход в директорию проекта:**
+1. **Move to the project directory:**
     ```
     cd src
     ```
 
-2. **Сборка и запуск тестов:**
+2. **Build and run tests:**
     ```
     make tests
     ```
 
-После выполнения этих команд в папке `bin/Testing` будет создан исполняемый 
-файл, в котором содержатся все тесты проекта.
+After executing these commands, an executable file will be created in the `bin/Testing` folder, which contains all the tests of the project. 
+file containing all the tests of the project.
 
-## Отчет о покрытии кода
+## Code coverage report
 
-Для генерации отчета о покрытии кода тестами выполните следующие шаги:
+Perform the following steps to generate a code coverage report for tests:
 
-1. **Переход в директорию проекта:**
+1. **Go to the project directory:**
     ```
     cd src
     ```
 
-2. **Генерация отчета:**
+2. **Report generation:**
     ```
     make gcov_report
     ```
 
-После выполнения этих команд в папке `bin/Testing` будет сгенерирован отчет о покрытии кода.
+After executing these commands, a code coverage report will be generated in the `bin/Testing` folder.
 
-## Сборка архива проекта
+## Build project archive
 
-Для создания архива проекта выполните следующие шаги:
+Follow the steps below to build the project archive:
 
-1. **Переход в директорию проекта:**
+1. **Go to the project directory:**
     ```
     cd src
     ```
 
-2. **Сборка архива:**
+2. **Assembly of the archive:**
     ```
     make dist
     ```
 
-После выполнения этой команды в папке проекта будет создан архив,
-содержащий все необходимые файлы для сборки и работы проекта.
+After executing this command, an archive will be created in the project folder,
+containing all necessary files for building and running the project.
 
-## Стилевая проверка кода
+## Code Style Check
 
-Для проведения стилевой проверки кода согласно Google Style выполните следующие шаги:
+To perform code style checking according to Google Style, follow the steps below:
 
-1. **Переход в директорию проекта:**
+1. **Go to the project directory:**
     ```
     cd src
     ```
 
-2. **Запуск стилевой проверки:**
+2. **Start style check:**
     ```
     make check
     ```
 
-После выполнения этой команды будет проведена стилевая проверка всего кода проекта.
+After executing this command, the entire project code will be style-checked.
 
-## Очистка от сборочных файлов
+## Cleanup of build files
 
-Для удаления всех временных и сборочных файлов, созданных в процессе компиляции и тестирования, выполните следующие шаги:
+To remove all temporary and build files created during compilation and testing, follow these steps:
 
-1. **Переход в директорию проекта:**
+1. **Go to the project directory:**
     ```
     cd src
     ```
 
-2. **Очистка проекта:**
+2. **Clearing the project:**
     ```
     make clean
     ```
 
-После выполнения этой команды все временные и сборочные файлы будут удалены.
+After executing this command, all temporary and assembly files will be deleted.
