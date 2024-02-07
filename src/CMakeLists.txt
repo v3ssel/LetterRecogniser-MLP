@@ -7,7 +7,7 @@ option(COVERAGE OFF)
 option(RESEARCH OFF)
 
 if (INSTALLING)
-    add_subdirectory(LetterRecogniser)
+    add_subdirectory(gui)
 endif()
 
 if (TESTING AND (NOT COVERAGE))

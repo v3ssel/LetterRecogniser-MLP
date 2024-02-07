@@ -4,7 +4,6 @@ BINPATH = bin/Release
 BINPATH_TESTING = bin/Testing
 TEST_EXEC = MLPTests.exe
 DISTPATH = letter-recogniser-archive
-LINTER = $(PROJECTDIR)/../materials/linters/.clang-format
 GCOVAPPLE =	
 MACCOMPILER = 
 
@@ -33,14 +32,10 @@ uninstall: clean
 	rm -rf $(dir $(BINPATH))
 
 
-dvi:
-	open README.md
-
-
 dist: | $(DISTPATH)
 	cp -R core/* $(DISTPATH)/src
 	cp -R controller/* $(DISTPATH)/src
-	cp -R LetterRecogniser/* $(DISTPATH)/src
+	cp -R gui/* $(DISTPATH)/src
 	cp CMakeLists.txt $(DISTPATH)
 	tar -cf $(DISTPATH).tar $(DISTPATH)
 	gzip -9f $(DISTPATH).tar
@@ -65,18 +60,9 @@ gcov_report: $(BUILDPATH)-coverage
 	echo "GCOV SUCCESSFUL: report placed in $(BINPATH_TESTING)/report folder"
 
 
-research: $(BUILDPATH)-research
-	cd $(BUILDPATH)-research && \
-	cmake -DRESEARCH=ON ../ -G "Unix Makefiles" && \
-	cmake --build . --config=Release
-	echo "BUILD SUCCESSFUL: .exe placed in src/$(BINPATH) folder"
-
-
 check:
-	cp $(LINTER) .
 	clang-format --verbose -n */*.cpp */*.h
 	clang-format --verbose -n */*/*.cpp */*/*.h
-	rm -rf $(notdir $(LINTER))
 
 
 clean:
