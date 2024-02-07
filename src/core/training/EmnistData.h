@@ -5,10 +5,10 @@
 
 namespace s21 {
 struct EMNISTData {
-  EMNISTData();
+    EMNISTData();
 
-  std::vector<double> image;
-  std::size_t result;
+    std::vector<double> image;
+    std::size_t result;
 };
 }  // namespace s21
 

@@ -3,10 +3,10 @@
 #include "letterrecogniserwindow.h"
 
 int main(int argc, char *argv[]) {
-  QApplication a(argc, argv);
+    QApplication a(argc, argv);
 
-  LetterRecogniserWindow w;
-  w.show();
+    LetterRecogniserWindow w;
+    w.show();
 
-  return a.exec();
+    return a.exec();
 }

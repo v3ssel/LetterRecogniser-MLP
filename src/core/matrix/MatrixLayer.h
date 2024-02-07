@@ -7,15 +7,15 @@
 
 namespace s21 {
 class MatrixLayer {
- public:
-  MatrixLayer(size_t s);
-  MatrixLayer(Matrix w, Matrix b, size_t s);
+   public:
+    MatrixLayer(size_t s);
+    MatrixLayer(Matrix w, Matrix b, size_t s);
 
-  Matrix weights;
-  Matrix bias;
-  Matrix values;
+    Matrix weights;
+    Matrix bias;
+    Matrix values;
 
-  size_t size;
+    size_t size;
 };
 }  // namespace s21
 

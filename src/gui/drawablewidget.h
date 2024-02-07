@@ -7,33 +7,33 @@
 #include <QWidget>
 
 class DrawableWidget : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  explicit DrawableWidget(QWidget* parent = nullptr);
+   public:
+    explicit DrawableWidget(QWidget* parent = nullptr);
 
-  void mousePressEvent(QMouseEvent* mouse) override;
-  void mouseMoveEvent(QMouseEvent* mouse) override;
-  void mouseReleaseEvent(QMouseEvent* mouse) override;
+    void mousePressEvent(QMouseEvent* mouse) override;
+    void mouseMoveEvent(QMouseEvent* mouse) override;
+    void mouseReleaseEvent(QMouseEvent* mouse) override;
 
-  void paintEvent(QPaintEvent* paint) override;
+    void paintEvent(QPaintEvent* paint) override;
 
-  void loadImage(const QString& fileName);
-  void clear();
+    void loadImage(const QString& fileName);
+    void clear();
 
-  QImage toMNIST();
-  void setImage(const QImage& new_image);
+    QImage toMNIST();
+    void setImage(const QImage& new_image);
 
- signals:
-  void predict(const QImage& image);
+   signals:
+    void predict(const QImage& image);
 
- private:
-  bool moving_;
+   private:
+    bool moving_;
 
-  QImage canvas_;
-  QPoint start_point_;
+    QImage canvas_;
+    QPoint start_point_;
 
-  void drawLine(QPoint endPoint);
+    void drawLine(QPoint endPoint);
 };
 
 #endif  // DRAWABLEWIDGET_H

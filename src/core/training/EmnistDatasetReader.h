@@ -10,16 +10,16 @@
 
 namespace s21 {
 class EMNISTDatasetReader {
- public:
-  void open(const std::string& filename);
-  EMNISTData readLine();
-  size_t getNumberOfLines();
-  void close();
+   public:
+    void open(const std::string& filename);
+    EMNISTData readLine();
+    size_t getNumberOfLines();
+    void close();
 
-  bool is_open() const;
+    bool is_open() const;
 
- private:
-  std::ifstream file_;
+   private:
+    std::ifstream file_;
 };
 }  // namespace s21
 

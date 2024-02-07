@@ -11,36 +11,36 @@
 
 namespace s21 {
 class EMNISTMLPTrainer : public MLPTrainer {
- public:
-  using EpochCb = std::function<void(size_t, double, double)>;
-  using ProcessCb = std::function<void(size_t, MLPTrainStages)>;
+   public:
+    using EpochCb = std::function<void(size_t, double, double)>;
+    using ProcessCb = std::function<void(size_t, MLPTrainStages)>;
 
-  EMNISTMLPTrainer(const EpochCb& epoch_callback,
-                   const ProcessCb& process_callback);
+    EMNISTMLPTrainer(const EpochCb& epoch_callback,
+                     const ProcessCb& process_callback);
 
-  std::vector<double> train(const std::unique_ptr<MLPModel>& model,
-                            const std::string& dataset_path,
-                            const size_t epochs) override;
+    std::vector<double> train(const std::unique_ptr<MLPModel>& model,
+                              const std::string& dataset_path,
+                              const size_t epochs) override;
 
-  std::vector<double> crossValidation(const std::unique_ptr<MLPModel>& model,
-                                      const std::string& dataset_path,
-                                      const size_t k_groups) override;
+    std::vector<double> crossValidation(const std::unique_ptr<MLPModel>& model,
+                                        const std::string& dataset_path,
+                                        const size_t k_groups) override;
 
-  MLPTestMetrics test(const std::unique_ptr<MLPModel>& model,
-                      const std::string& dataset_path,
-                      const size_t percent) override;
+    MLPTestMetrics test(const std::unique_ptr<MLPModel>& model,
+                        const std::string& dataset_path,
+                        const size_t percent) override;
 
-  void stop() override;
+    void stop() override;
 
- private:
-  bool stop_;
-  EpochCb epoch_callback_;
-  ProcessCb process_callback_;
+   private:
+    bool stop_;
+    EpochCb epoch_callback_;
+    ProcessCb process_callback_;
 
-  double calculateMSE(const std::vector<double>& expected,
-                      const std::vector<double>& actual);
-  void calculateMetrics(MLPTestMetrics& metrics,
-                        std::vector<TFMetrics>& submetrics);
+    double calculateMSE(const std::vector<double>& expected,
+                        const std::vector<double>& actual);
+    void calculateMetrics(MLPTestMetrics& metrics,
+                          std::vector<TFMetrics>& submetrics);
 };
 }  // namespace s21
 

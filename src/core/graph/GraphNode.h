@@ -5,9 +5,9 @@
 
 namespace s21 {
 struct GraphNode {
-  double value = 0.0l;
-  double bias = 0.0l;
-  std::vector<double> weights;
+    double value = 0.0l;
+    double bias = 0.0l;
+    std::vector<double> weights;
 };
 }  // namespace s21
 
