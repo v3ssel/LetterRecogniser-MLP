@@ -162,3 +162,6 @@ To remove all temporary and build files created during compilation and testing, 
     ```
 
 After executing this command, all temporary and assembly files will be deleted.
+
+
+# Created by [stevenso](https://github.com/v3ssel) and [gabriela](https://github.com/TanyaPh) in 2024 in educational purpose.

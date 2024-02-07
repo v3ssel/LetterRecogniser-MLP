@@ -162,3 +162,6 @@
     ```
 
 После выполнения этой команды все временные и сборочные файлы будут удалены.
+
+# Created by [stevenso](https://github.com/v3ssel) and [gabriela](https://github.com/TanyaPh) in 2024 in educational purpose.
+
